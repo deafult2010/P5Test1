@@ -6,8 +6,12 @@ import sketch from './sketch';
 import { timesClicked } from './sketch';
 import { data } from './sketch';
 
-// const socket = io('http://localhost:5000');
-const socket = io();
+//local vs prod
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  var socket = io('http://localhost:5000');
+} else {
+  var socket = io();
+}
 
 function getCoords() {
   // console.log(arguments);
