@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
+const socket = require('socket.io');
 
 const app = express();
 
@@ -27,4 +28,21 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`Server started on port ${PORT}`)
+);
+
+// Conect Socket
+const io = socket(server);
+
+io.sockets.on('connection', newConnection);
+
+function newConnection(socket) {
+  console.log('new connection: ' + socket.id);
+
+  socket.on('mouse', mouseMsg);
+
+  function mouseMsg(data) {
+    console.log(data);
+  }
+}
