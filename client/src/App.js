@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import Blobs from './components/pages/Blobs';
 import './App.css';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/about' component={About} />
+            <Route exact path='/blobs' component={Blobs} />
           </Switch>
         </div>
       </Fragment>
@@ -23,26 +25,3 @@ const App = () => {
 };
 
 export default App;
-
-// function getCoords() {
-//   console.log(arguments);
-// }
-
-// class App extends Component {
-//   componentDidMount() {}
-//   render() {
-//     return (
-//       <div className='App'>
-//         <P5Wrapper sketch={sketch} getCoords={getCoords} />
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
-
-// document.body.onkeyup = function(e) {
-//   if (e.keyCode == 32) {
-//     console.log(timesClicked);
-//   }
-// };

@@ -45,4 +45,8 @@ function newConnection(socket) {
   function mouseMsg(data) {
     socket.broadcast.emit('mouse', data);
   }
+
+  socket.on('disconnect', function() {
+    console.log(socket.id + ' disconnected');
+  });
 }
