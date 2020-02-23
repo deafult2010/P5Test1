@@ -63,11 +63,6 @@ export default function sketch1(p) {
       })
     );
 
-    p.touchStarted = function() {
-      // prevent default
-      return false;
-    };
-
     p.noStroke();
     p.fill(255);
     p.ellipse(p.mouseX / scale, p.mouseY / scale, 20, 20);

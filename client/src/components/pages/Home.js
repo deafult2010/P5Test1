@@ -37,7 +37,7 @@ const Home = () => {
   });
 
   return (
-    <div>
+    <div className='notouch'>
       <h1>Draw Board</h1>
       <P5Wrapper
         sketch={sketch1}

@@ -47,6 +47,9 @@ img {
   overflow: hidden;
   padding: 0 2rem;
 }
+.notouch {
+  touch-action: none;
+}
 
 /* Text Styles*/
 .x-large {
