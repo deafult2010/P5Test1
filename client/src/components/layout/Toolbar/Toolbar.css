@@ -25,7 +25,11 @@
 }
 
 .toolbar__logo-min {
-  margin: 5rem;
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 
 .toolbar__logo-min a {
