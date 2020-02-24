@@ -24,8 +24,15 @@ const Home = () => {
     } else {
       socket = io();
     }
+    // prevent touchscroll
+    function handleTouchMove(e) {
+      e.preventDefault();
+    }
+    document.addEventListener('touchmove', handleTouchMove, false);
     return () => {
       socket.disconnect();
+      // enable touchscroll
+      document.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
 
@@ -37,7 +44,7 @@ const Home = () => {
   });
 
   return (
-    <div className='notouch'>
+    <div>
       <h1>Draw Board</h1>
       <P5Wrapper
         sketch={sketch1}
