@@ -28,11 +28,13 @@ const Home = () => {
     function handleTouchMove(e) {
       e.preventDefault();
     }
-    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
     return () => {
       socket.disconnect();
       // enable touchscroll
-      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true
+      });
     };
   }, []);
 
