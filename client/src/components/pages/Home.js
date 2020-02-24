@@ -10,8 +10,6 @@ var socket;
 
 function getCoords() {
   socket.emit('mouse', data);
-
-  console.log(data);
 }
 
 const Home = () => {
