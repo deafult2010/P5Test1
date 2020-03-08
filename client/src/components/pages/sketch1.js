@@ -5,16 +5,22 @@ export default function sketch1(p) {
   var scale;
 
   p.setScale = function() {
-    if (window.innerWidth < 400 || window.innerHeight < 480) {
+    if (window.innerWidth < 280 || window.innerHeight < 330) {
       p.resizeCanvas(160, 160);
       scale = 1;
-    } else if (window.innerWidth < 550 || window.innerHeight < 640) {
-      p.resizeCanvas(320, 320);
-      scale = 2;
-    } else if (window.innerWidth < 700 || window.innerHeight < 800) {
+    } else if (window.innerWidth < 320 || window.innerHeight < 390) {
+      p.resizeCanvas(210, 210);
+      scale = 1.3;
+    } else if (window.innerWidth < 410 || window.innerHeight < 470) {
+      p.resizeCanvas(270, 270);
+      scale = 1.7;
+    } else if (window.innerWidth < 550 || window.innerHeight < 600) {
+      p.resizeCanvas(350, 350);
+      scale = 2.2;
+    } else if (window.innerWidth < 700 || window.innerHeight < 770) {
       p.resizeCanvas(480, 480);
       scale = 3;
-    } else if (window.innerWidth < 850 || window.innerHeight < 950) {
+    } else if (window.innerWidth < 850 || window.innerHeight < 920) {
       p.resizeCanvas(640, 640);
       scale = 4;
     } else {

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import '../SideDrawer/DrawerToggleButton';
 import './Toolbar.css';
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
+// import SignedInLinks from './SignedInLinks';
+// import SignedOutLinks from './SignedOutLinks';
 
 const Toolbar = props => (
   <header className='toolbar'>
@@ -41,6 +43,8 @@ const Toolbar = props => (
             <Link to='/about'>About</Link>
           </li>
         </ul>
+        {/* <SignedInLinks /> */}
+        {/* <SignedOutLinks /> */}
       </div>
     </nav>
   </header>
