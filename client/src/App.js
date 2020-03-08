@@ -37,7 +37,8 @@ const App = () => {
         <SideDrawer show={sideDrawerOpen} click={backdropClickHandler} />
         {backdrop}
         <div className='container'>
-          <main style={{ marginTop: '64px' }}>
+          {/* <main style={{ marginTop: '64px' }}> */}
+          <main>
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/about' component={About} />
