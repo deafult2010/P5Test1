@@ -7,6 +7,71 @@ import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 // import SignedInLinks from './SignedInLinks';
 // import SignedOutLinks from './SignedOutLinks';
 
+var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+let Logo1;
+let Logo2;
+let Links;
+
+if (!isIE11) {
+  Logo1 = (
+    <Link to='/'>
+      <h1>
+        <i className='fas fa-comment' /> <i className='fas fa-gamepad' />{' '}
+        {'Chat Games'} <i className='fas fa-gamepad' />{' '}
+        <i className='fas fa-comment' />
+      </h1>
+    </Link>
+  );
+  Logo2 = (
+    <Link to='/'>
+      <h1>
+        <i className='fas fa-comment' />
+        {' CG '} <i className='fas fa-gamepad' />
+      </h1>
+    </Link>
+  );
+  Links = (
+    <ul>
+      <li>
+        <Link to='/'>Home</Link>
+      </li>
+      <li>
+        <Link to='/blobs'>Blobs</Link>
+      </li>
+      <li>
+        <Link to='/about'>About</Link>
+      </li>
+    </ul>
+  );
+} else {
+  Logo1 = (
+    <a href='/'>
+      <i className='fas fa-comment' /> <i className='fas fa-gamepad' />{' '}
+      {'Chat Games'} <i className='fas fa-gamepad' />{' '}
+      <i className='fas fa-comment' />
+    </a>
+  );
+  Logo2 = (
+    <a href='/'>
+      <i className='fas fa-comment' />
+      {' CG '} <i className='fas fa-gamepad' />
+    </a>
+  );
+  Links = (
+    <ul>
+      <li>
+        <a href='/'>Home</a>
+      </li>
+      <li>
+        <a href='/blobs'>Blobs</a>
+      </li>
+      <li>
+        <a href='/about'>About</a>
+      </li>
+    </ul>
+  );
+}
+
 const Toolbar = props => (
   <header className='toolbar'>
     <nav className='toolbar__navigation'>
@@ -14,25 +79,28 @@ const Toolbar = props => (
         <DrawerToggleButton click={props.drawerClickHandler} />
       </div>
       <div className='toolbar__logo'>
-        <Link to='/'>
+        {Logo1}
+        {/* <Link to='/'>
           <h1>
             <i className='fas fa-comment' /> <i className='fas fa-gamepad' />{' '}
             {'Chat Games'} <i className='fas fa-gamepad' />{' '}
             <i className='fas fa-comment' />
           </h1>
-        </Link>
+        </Link> */}
       </div>
       <div className='toolbar__logo-min'>
-        <Link to='/'>
+        {Logo2}
+        {/* <Link to='/'>
           <h1>
             <i className='fas fa-comment' />
             {' CG '} <i className='fas fa-gamepad' />
           </h1>
-        </Link>
+        </Link> */}
       </div>
       <div className='spacer' />
       <div className='toolbar_navigation-items'>
-        <ul>
+        {Links}
+        {/* <ul>
           <li>
             <Link to='/'>Home</Link>
           </li>
@@ -42,7 +110,7 @@ const Toolbar = props => (
           <li>
             <Link to='/about'>About</Link>
           </li>
-        </ul>
+        </ul> */}
         {/* <SignedInLinks /> */}
         {/* <SignedOutLinks /> */}
       </div>
