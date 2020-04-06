@@ -15,6 +15,8 @@ app.use(express.json({ extended: false }));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contacts', require('./routes/contacts'));
+app.use('/api/draw', require('./routes/draw'));
+app.use('/api/line', require('./routes/drawLine'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -46,7 +48,7 @@ function newConnection(socket) {
     socket.broadcast.emit('mouse', data);
   }
 
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function () {
     console.log(socket.id + ' disconnected');
   });
 }
