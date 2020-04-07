@@ -442,3 +442,22 @@ table th {
     justify-content: center;
   }
 }
+
+.save-btn,
+.open-btn,
+.new-btn,
+.cog-btn,
+.pal-btn,
+.brush-btn {
+  margin: 0.5rem;
+  float: left;
+}
+
+.dropdown-menu {
+  max-width: 50px !important;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: #fa923f !important;
+}

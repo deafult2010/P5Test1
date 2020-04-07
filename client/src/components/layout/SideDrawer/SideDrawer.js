@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './SideDrawer.css';
+import { Card } from 'reactstrap';
 
-const SideDrawer = props => {
+const SideDrawer = (props) => {
   let drawerClasses = 'side-drawer';
   if (props.show) {
     drawerClasses = 'side-drawer open';
@@ -12,17 +13,17 @@ const SideDrawer = props => {
       <ul>
         <li>
           <Link to='/' onClick={props.click}>
-            Home
+            <Card style={{ margin: '0px' }}>Home</Card>
           </Link>
         </li>
         <li>
           <Link to='/blobs' onClick={props.click}>
-            Blobs
+            <Card style={{ margin: '0px' }}>Blobs</Card>
           </Link>
         </li>
         <li>
           <Link to='/about' onClick={props.click}>
-            About
+            <Card style={{ margin: '0px' }}>About</Card>
           </Link>
         </li>
       </ul>

@@ -4,7 +4,7 @@ export let newDrawing = [];
 export default function sketch1(p) {
   var scale;
 
-  p.setScale = function() {
+  p.setScale = function () {
     if (window.innerWidth < 280 || window.innerHeight < 330) {
       p.resizeCanvas(160, 160);
       scale = 1;
@@ -29,7 +29,7 @@ export default function sketch1(p) {
     }
   };
 
-  p.myCustomRedrawAccordingToNewPropsHandler = function(newProps) {
+  p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
     if (newProps.getCoords) {
       p.sendCoords = newProps.getCoords;
     }
@@ -41,13 +41,13 @@ export default function sketch1(p) {
     }
   };
 
-  p.setup = function() {
+  p.setup = function () {
     p.createCanvas(p.windowWidth - 100, p.windowHeight - 200);
     p.setScale();
     p.background(0);
   };
 
-  p.draw = function() {
+  p.draw = function () {
     p.scale(scale);
     if (p.dataX && p.dataY) {
       p.noStroke();
@@ -56,21 +56,27 @@ export default function sketch1(p) {
     }
   };
 
-  p.windowResized = function() {
+  p.windowResized = function () {
     p.setScale();
     p.background(0);
   };
 
-  p.mouseDragged = function() {
-    p.sendCoords(
-      (data = {
-        x: p.mouseX / scale,
-        y: p.mouseY / scale
-      })
-    );
-
-    p.noStroke();
-    p.fill(255);
-    p.ellipse(p.mouseX / scale, p.mouseY / scale, 20, 20);
+  p.mouseDragged = function () {
+    if (
+      p.mouseX > -10 &&
+      p.mouseY > -10 &&
+      p.mouseX < p.width + 10 &&
+      p.mouseY < p.height + 10
+    ) {
+      p.sendCoords(
+        (data = {
+          x: p.mouseX / scale,
+          y: p.mouseY / scale,
+        })
+      );
+      p.noStroke();
+      p.fill(255);
+      p.ellipse(p.mouseX / scale, p.mouseY / scale, 20, 20);
+    }
   };
 }

@@ -9,14 +9,16 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Blobs from './components/pages/Blobs';
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const App = () => {
   let [sideDrawerOpen, setSideDrawerOpen] = useState(false);
 
   const drawerToggleClickHandler = () => {
-    setSideDrawerOpen(prevState => ({
+    setSideDrawerOpen((prevState) => ({
       // ...prevState,
-      sideDrawerOpen: !prevState.sideDrawerOpen
+      sideDrawerOpen: !prevState.sideDrawerOpen,
     }));
   };
 
@@ -30,24 +32,26 @@ const App = () => {
     backdrop = <Backdrop click={backdropClickHandler} />;
   }
   return (
-    <Router>
-      <Fragment>
-        {/* <Navbar /> */}
-        <Toolbar drawerClickHandler={drawerToggleClickHandler} />
-        <SideDrawer show={sideDrawerOpen} click={backdropClickHandler} />
-        {backdrop}
-        <div className='container'>
-          {/* <main style={{ marginTop: '64px' }}> */}
-          <main>
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/about' component={About} />
-              <Route exact path='/blobs' component={Blobs} />
-            </Switch>
-          </main>
-        </div>
-      </Fragment>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          {/* <Navbar /> */}
+          <Toolbar drawerClickHandler={drawerToggleClickHandler} />
+          <SideDrawer show={sideDrawerOpen} click={backdropClickHandler} />
+          {backdrop}
+          <div className='container'>
+            {/* <main style={{ marginTop: '64px' }}> */}
+            <main>
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/about' component={About} />
+                <Route exact path='/blobs' component={Blobs} />
+              </Switch>
+            </main>
+          </div>
+        </Fragment>
+      </Router>
+    </Provider>
   );
 };
 

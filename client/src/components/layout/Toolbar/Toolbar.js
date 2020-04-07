@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 import '../SideDrawer/DrawerToggleButton';
 import './Toolbar.css';
@@ -15,7 +16,12 @@ let Links;
 if (!isIE11) {
   Logo1 = (
     <Link to='/'>
-      <h1>
+      <h1
+        style={{
+          fontFamily: 'Rockwell',
+          fontWeight: 'bold',
+        }}
+      >
         <i className='fas fa-comment' /> <i className='fas fa-gamepad' />{' '}
         {'Chat Games'} <i className='fas fa-gamepad' />{' '}
         <i className='fas fa-comment' />
@@ -24,7 +30,12 @@ if (!isIE11) {
   );
   Logo2 = (
     <Link to='/'>
-      <h1>
+      <h1
+        style={{
+          fontFamily: 'Rockwell',
+          fontWeight: 'bold',
+        }}
+      >
         <i className='fas fa-comment' />
         {' CG '} <i className='fas fa-gamepad' />
       </h1>
@@ -33,13 +44,49 @@ if (!isIE11) {
   Links = (
     <ul>
       <li>
-        <Link to='/'>Home</Link>
+        <Link to='/'>
+          <Button
+            className='toolbar-btn'
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              border: '2px solid black',
+            }}
+            size='lg'
+          >
+            Home
+          </Button>
+        </Link>
       </li>
       <li>
-        <Link to='/blobs'>Blobs</Link>
+        <Link to='/blobs'>
+          <Button
+            className='toolbar-btn'
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              border: '2px solid black',
+            }}
+            size='lg'
+          >
+            Blobs
+          </Button>
+        </Link>
       </li>
       <li>
-        <Link to='/about'>About</Link>
+        <Link to='/about'>
+          <Button
+            className='toolbar-btn'
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              border: '2px solid black',
+            }}
+            size='lg'
+          >
+            About
+          </Button>
+        </Link>
       </li>
     </ul>
   );
@@ -72,7 +119,7 @@ if (!isIE11) {
   );
 }
 
-const Toolbar = props => (
+const Toolbar = (props) => (
   <header className='toolbar'>
     <nav className='toolbar__navigation'>
       <div className='toolbar__toggle-button'>

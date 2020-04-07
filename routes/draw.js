@@ -19,4 +19,10 @@ router.post('/', (req, res) => {
   newDraw.save().then((draw) => res.json(draw));
 });
 
+router.get('/', (req, res) => {
+  Draw.find()
+    .sort({ date: -1 })
+    .then((draw) => res.json(draw));
+});
+
 module.exports = router;
