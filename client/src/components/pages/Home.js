@@ -28,8 +28,10 @@ function getCoords() {
 const Home = ({ draw: { draws, loading }, getDraws }) => {
   let [dataX, setDataX] = useState();
   let [dataY, setDataY] = useState();
-  let [color, setColor] = useState();
-  let [stroke, setStroke] = useState();
+  let [dataC, setDataC] = useState();
+  let [dataS, setDataS] = useState();
+  let [colorX, setColorX] = useState('255,255,255');
+  let [strokeX, setStrokeX] = useState('4');
 
   useEffect(() => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -55,12 +57,22 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
     socket.on('mouse', function (data) {
       setDataX(data.x);
       setDataY(data.y);
+      setDataC(data.c);
+      setDataS(data.s);
     });
   });
 
   const onOpenClick = () => {
     getDraws();
     console.log('clicked');
+  };
+
+  const onColorClick = (x) => {
+    setColorX(x);
+  };
+
+  const onStrokeClick = (x) => {
+    setStrokeX(x);
   };
 
   useEffect(() => {
@@ -76,7 +88,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
   return (
     <div>
       <Row style={{ height: '50px' }}>
-        <Col xs='auto'>
+        <Col className='drawboard' xs='auto'>
           <strong style={{ fontSize: '30px' }}>Draw</strong>{' '}
         </Col>
         <Col style={{ size: 'auto' }}>
@@ -100,6 +112,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onStrokeClick('2')}
               >
                 <i class='fas fa-circle fa-sm' />
               </DropdownItem>
@@ -110,6 +123,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onStrokeClick('4')}
               >
                 <i class='fas fa-circle fa-lg' />
               </DropdownItem>
@@ -120,6 +134,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onStrokeClick('7')}
               >
                 <i class='fas fa-circle fa-2x' />
               </DropdownItem>
@@ -130,6 +145,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onStrokeClick('12')}
               >
                 <i class='fas fa-circle fa-3x' />
               </DropdownItem>
@@ -140,6 +156,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onStrokeClick('20')}
               >
                 <i class='fas fa-circle fa-5x' />
               </DropdownItem>
@@ -166,6 +183,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   borderTop: '1px solid black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('255,255,255')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -176,6 +194,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'red',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('255,0,0')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -186,6 +205,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'blue',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('0,0,255')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -193,9 +213,10 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 className='btn'
                 style={{
                   backgroundColor: 'pink',
-                  color: 'green',
+                  color: 'lime',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('0,255,0')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -206,6 +227,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'yellow',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('255,255,0')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -216,6 +238,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'cyan',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('0,255,255')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -226,6 +249,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'deeppink',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('255,0,255')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -236,6 +260,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   color: 'black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onColorClick('0,0,0')}
               >
                 <i class='fas fa-square' />
               </DropdownItem>
@@ -303,6 +328,10 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
         getCoords={getCoords}
         dataX={dataX}
         dataY={dataY}
+        dataC={dataC}
+        dataS={dataS}
+        colorX={colorX}
+        strokeX={strokeX}
       />
     </div>
   );

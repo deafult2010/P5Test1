@@ -39,6 +39,19 @@ export default function sketch1(p) {
     if (newProps.dataY) {
       p.dataY = newProps.dataY;
     }
+    if (newProps.dataC) {
+      p.dataC = p.color(`rgb(${newProps.dataC})`);
+    }
+    if (newProps.dataS) {
+      p.dataS = newProps.dataS;
+    }
+    if (newProps.colorX) {
+      p.colorX = p.color(`rgb(${newProps.colorX})`);
+      p.rbg = newProps.colorX;
+    }
+    if (newProps.strokeX) {
+      p.strokeX = newProps.strokeX;
+    }
   };
 
   p.setup = function () {
@@ -51,8 +64,8 @@ export default function sketch1(p) {
     p.scale(scale);
     if (p.dataX && p.dataY) {
       p.noStroke();
-      p.fill(255, 0, 100);
-      p.ellipse(p.dataX, p.dataY, 20, 20);
+      p.fill(p.dataC);
+      p.ellipse(p.dataX, p.dataY, p.dataS, p.dataS);
     }
   };
 
@@ -72,11 +85,14 @@ export default function sketch1(p) {
         (data = {
           x: p.mouseX / scale,
           y: p.mouseY / scale,
+          s: p.strokeX,
+          c: p.rbg,
         })
       );
       p.noStroke();
-      p.fill(255);
-      p.ellipse(p.mouseX / scale, p.mouseY / scale, 20, 20);
+      console.log(p.strokeX);
+      p.fill(p.colorX);
+      p.ellipse(p.mouseX / scale, p.mouseY / scale, p.strokeX, p.strokeX);
     }
   };
 }

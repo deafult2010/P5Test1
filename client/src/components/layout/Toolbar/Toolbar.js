@@ -11,6 +11,7 @@ import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 let Logo1;
 let Logo2;
+let Logo3;
 let Links;
 
 if (!isIE11) {
@@ -38,6 +39,18 @@ if (!isIE11) {
       >
         <i className='fas fa-comment' />
         {' CG '} <i className='fas fa-gamepad' />
+      </h1>
+    </Link>
+  );
+  Logo3 = (
+    <Link to='/'>
+      <h1
+        style={{
+          fontFamily: 'Rockwell',
+          fontWeight: 'bold',
+        }}
+      >
+        {' CG '}
       </h1>
     </Link>
   );
@@ -104,6 +117,7 @@ if (!isIE11) {
       {' CG '} <i className='fas fa-gamepad' />
     </a>
   );
+  Logo3 = <a href='/'>{' CG '}</a>;
   Links = (
     <ul>
       <li>
@@ -125,42 +139,11 @@ const Toolbar = (props) => (
       <div className='toolbar__toggle-button'>
         <DrawerToggleButton click={props.drawerClickHandler} />
       </div>
-      <div className='toolbar__logo'>
-        {Logo1}
-        {/* <Link to='/'>
-          <h1>
-            <i className='fas fa-comment' /> <i className='fas fa-gamepad' />{' '}
-            {'Chat Games'} <i className='fas fa-gamepad' />{' '}
-            <i className='fas fa-comment' />
-          </h1>
-        </Link> */}
-      </div>
-      <div className='toolbar__logo-min'>
-        {Logo2}
-        {/* <Link to='/'>
-          <h1>
-            <i className='fas fa-comment' />
-            {' CG '} <i className='fas fa-gamepad' />
-          </h1>
-        </Link> */}
-      </div>
+      <div className='toolbar__logo'>{Logo1}</div>
+      <div className='toolbar__logo-min'>{Logo2}</div>
+      <div className='toolbar__logo-min2'>{Logo3}</div>
       <div className='spacer' />
-      <div className='toolbar_navigation-items'>
-        {Links}
-        {/* <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            <Link to='/blobs'>Blobs</Link>
-          </li>
-          <li>
-            <Link to='/about'>About</Link>
-          </li>
-        </ul> */}
-        {/* <SignedInLinks /> */}
-        {/* <SignedOutLinks /> */}
-      </div>
+      <div className='toolbar_navigation-items'>{Links}</div>
     </nav>
   </header>
 );

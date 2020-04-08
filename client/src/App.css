@@ -461,3 +461,9 @@ table th {
 .btn:active {
   background-color: #fa923f !important;
 }
+
+@media (max-width: 410px) {
+  .drawboard {
+    display: none !important;
+  }
+}

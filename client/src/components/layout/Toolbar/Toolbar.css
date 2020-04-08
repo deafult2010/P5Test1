@@ -38,6 +38,20 @@
   font-size: 1.5rem;
 }
 
+.toolbar__logo-min2 {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.toolbar__logo-min2 a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
 .spacer {
   flex: 1;
 }
@@ -63,7 +77,9 @@
 .toolbar__logo a:hover,
 .toolbar__logo a:active,
 .toolbar__logo-min a:hover,
-.toolbar__logo-min a:active {
+.toolbar__logo-min a:active,
+.toolbar__logo-min2 a:hover,
+.toolbar__logo-min2 a:active {
   color: #fa923f;
 }
 .toolbar-btn:hover,
@@ -71,20 +87,26 @@
   background-color: #fa923f !important;
 }
 
-@media (max-width: 879px) {
-  .toolbar_navigation-items {
-    display: none;
-  }
+@media (max-width: 349px) {
+  .toolbar_navigation-items,
+  .toolbar__logo-min,
   .toolbar__logo {
     display: none;
   }
 }
 
-@media (min-width: 880px) {
-  .toolbar__toggle-button {
+@media (min-width: 350px) and (max-width: 879px) {
+  .toolbar_navigation-items,
+  .toolbar__logo,
+  .toolbar__logo-min2 {
     display: none;
   }
-  .toolbar__logo-min {
+}
+
+@media (min-width: 880px) {
+  .toolbar__toggle-button,
+  .toolbar__logo-min,
+  .toolbar__logo-min2 {
     display: none;
   }
 }
