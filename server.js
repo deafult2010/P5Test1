@@ -34,18 +34,48 @@ const server = app.listen(PORT, () =>
   console.log(`Server started on port ${PORT}`)
 );
 
+// misc functions for generating a random string and for capitalizing the first letter of a work
+const randomString = (n) => {
+  return [...Array(n)]
+    .map((i) => (~~(Math.random() * 36)).toString(36))
+    .join('');
+};
+
 // Conect Socket
 const io = socket(server);
+var drawing = { lines: [], name: '', date: '' };
 
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket) {
   console.log('new connection: ' + socket.id);
+  socket.emit('joined');
 
-  socket.on('mouse', mouseMsg);
+  socket.on('SLine', SLineMsg);
+  socket.on('STempLine', STempLineMsg);
+  socket.on('SNameId', SNameIdMsg);
 
-  function mouseMsg(data) {
-    socket.broadcast.emit('mouse', data);
+  function SLineMsg(line) {
+    // socket.broadcast.emit('mouse', data);
+    if (drawing.name === '') {
+      let nameId = randomString(15);
+      drawing = { lines: [], name: nameId, date: Date.now() };
+    }
+    drawing.lines.push(line);
+    io.emit('RLine', drawing);
+  }
+
+  function SNameIdMsg() {
+    // socket.broadcast.emit('mouse', data);
+    let nameId = randomString(15);
+    drawing = { lines: [], name: nameId, date: Date.now() };
+    console.log(drawing);
+    io.emit('RLine', drawing);
+  }
+
+  function STempLineMsg(tempLine) {
+    // socket.broadcast.emit('RTempLine', tempLine);
+    io.emit('RTempLine', tempLine);
   }
 
   socket.on('disconnect', function () {

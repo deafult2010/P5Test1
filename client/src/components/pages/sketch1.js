@@ -1,8 +1,10 @@
-export let timesClicked = 0;
-export let data = [];
-export let newDrawing = [];
+export let line = [];
+export let tempLine = { x: '', y: '', c: '', s: '' };
 export default function sketch1(p) {
   var scale;
+  var currentPath = [];
+  var canvas;
+  var isDrawing = false;
 
   p.setScale = function () {
     if (window.innerWidth < 280 || window.innerHeight < 330) {
@@ -30,69 +32,133 @@ export default function sketch1(p) {
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
-    if (newProps.getCoords) {
-      p.sendCoords = newProps.getCoords;
+    if (newProps.sendLine) {
+      p.sendLine = newProps.sendLine;
     }
-    if (newProps.dataX) {
-      p.dataX = newProps.dataX;
+    if (newProps.sendTempLine) {
+      p.sendTempLine = newProps.sendTempLine;
     }
-    if (newProps.dataY) {
-      p.dataY = newProps.dataY;
+    if (newProps.line) {
+      if (p.dataLine !== newProps.line) {
+        if (p.dataLine) {
+          if (p.dataLine.name !== newProps.line.name) {
+            p.setup();
+          }
+        }
+        p.dataLine = newProps.line;
+        drawX();
+      }
     }
-    if (newProps.dataC) {
-      p.dataC = p.color(`rgb(${newProps.dataC})`);
-    }
-    if (newProps.dataS) {
-      p.dataS = newProps.dataS;
+    if (newProps.tempLine) {
+      if (p.dataTempLine !== newProps.tempLine) {
+        p.dataTempLine = newProps.tempLine;
+        drawTempX();
+      }
     }
     if (newProps.colorX) {
       p.colorX = p.color(`rgb(${newProps.colorX})`);
-      p.rbg = newProps.colorX;
+      p.rgb = newProps.colorX;
     }
     if (newProps.strokeX) {
       p.strokeX = newProps.strokeX;
     }
+    if (newProps.newDraw) {
+      if (p.newDraw !== newProps.newDraw) {
+        p.newDraw = newProps.newDraw;
+
+        p.setup();
+      }
+    }
+    if (newProps.joined) {
+      if (p.joined !== newProps.joined) {
+        p.joined = newProps.joined;
+        console.log('joined');
+        setTimeout(function () {
+          currentPath = { c: p.rgb, s: p.strokeX, points: [] };
+          endPath();
+        }, 100);
+      }
+    }
+  };
+
+  const drawTempX = () => {
+    if (p.dataTempLine) {
+      p.fill(p.color(`rgb(${p.dataTempLine.c})`));
+      p.strokeWeight(p.dataTempLine.s);
+      p.noStroke();
+      p.ellipse(p.dataTempLine.x, p.dataTempLine.y, p.dataTempLine.s);
+    }
+  };
+
+  const drawX = () => {
+    if (p.dataLine) {
+      for (var i = 0; i < p.dataLine.lines.length; i++) {
+        var pathR = p.dataLine.lines[i];
+        p.stroke(p.color(`rgb(${pathR.c})`));
+        p.strokeWeight(pathR.s);
+        p.noFill();
+        p.beginShape();
+        for (var j = 0; j < pathR.points.length; j++) {
+          p.vertex(pathR.points[j].x, pathR.points[j].y);
+        }
+        p.endShape();
+      }
+    }
   };
 
   p.setup = function () {
-    p.createCanvas(p.windowWidth - 100, p.windowHeight - 200);
+    canvas = p.createCanvas(p.windowWidth - 100, p.windowHeight - 200);
+    canvas.touchStarted(startPath);
+    canvas.mousePressed(startPath);
+    canvas.mouseReleased(endPath);
+    canvas.touchEnded(endPath);
     p.setScale();
     p.background(0);
   };
 
+  function startPath() {
+    isDrawing = true;
+    currentPath = { c: p.rgb, s: p.strokeX, points: [] };
+  }
+
+  function endPath() {
+    isDrawing = false;
+    p.sendLine((line = currentPath));
+  }
+
   p.draw = function () {
     p.scale(scale);
-    if (p.dataX && p.dataY) {
-      p.noStroke();
-      p.fill(p.dataC);
-      p.ellipse(p.dataX, p.dataY, p.dataS, p.dataS);
+
+    if (isDrawing) {
+      var point = {
+        x: p.mouseX / scale,
+        y: p.mouseY / scale,
+      };
+      currentPath.points.push(point);
+      p.sendTempLine(
+        (tempLine = {
+          x: p.mouseX / scale,
+          y: p.mouseY / scale,
+          c: p.rgb,
+          s: p.strokeX,
+        })
+      );
+    }
+
+    if (
+      isDrawing &&
+      (p.mouseX < -10 ||
+        p.mouseY < -10 ||
+        p.mouseX > p.width + 10 ||
+        p.mouseY > p.height + 10)
+    ) {
+      endPath();
     }
   };
 
   p.windowResized = function () {
     p.setScale();
     p.background(0);
-  };
-
-  p.mouseDragged = function () {
-    if (
-      p.mouseX > -10 &&
-      p.mouseY > -10 &&
-      p.mouseX < p.width + 10 &&
-      p.mouseY < p.height + 10
-    ) {
-      p.sendCoords(
-        (data = {
-          x: p.mouseX / scale,
-          y: p.mouseY / scale,
-          s: p.strokeX,
-          c: p.rbg,
-        })
-      );
-      p.noStroke();
-      console.log(p.strokeX);
-      p.fill(p.colorX);
-      p.ellipse(p.mouseX / scale, p.mouseY / scale, p.strokeX, p.strokeX);
-    }
+    drawX();
   };
 }

@@ -14,24 +14,26 @@ import { getDraws, deleteDraw, updateDraw } from '../../actions/drawActions';
 import PropTypes from 'prop-types';
 
 import sketch1 from './sketch1';
-import { data } from './sketch1';
+import { line, tempLine } from './sketch1';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 //local vs prod
 var socket;
 
-function getCoords() {
-  socket.emit('mouse', data);
+function sendLine() {
+  socket.emit('SLine', line);
+}
+function sendTempLine() {
+  socket.emit('STempLine', tempLine);
 }
 
 const Home = ({ draw: { draws, loading }, getDraws }) => {
-  let [dataX, setDataX] = useState();
-  let [dataY, setDataY] = useState();
-  let [dataC, setDataC] = useState();
-  let [dataS, setDataS] = useState();
+  let [line, setLine] = useState();
+  let [tempLine, setTempLine] = useState();
   let [colorX, setColorX] = useState('255,255,255');
   let [strokeX, setStrokeX] = useState('4');
+  let [joined, setJoined] = useState();
 
   useEffect(() => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -54,13 +56,16 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
   }, []);
 
   useEffect(() => {
-    socket.on('mouse', function (data) {
-      setDataX(data.x);
-      setDataY(data.y);
-      setDataC(data.c);
-      setDataS(data.s);
+    socket.on('RTempLine', function (tempLine) {
+      setTempLine(tempLine);
     });
-  });
+    socket.on('RLine', function (line) {
+      setLine(line);
+    });
+    socket.on('joined', function () {
+      setJoined(true);
+    });
+  }, []);
 
   const onOpenClick = () => {
     getDraws();
@@ -73,6 +78,11 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
 
   const onStrokeClick = (x) => {
     setStrokeX(x);
+  };
+
+  const onNewDrawClick = (x) => {
+    // let SNameId = randomString(15)
+    socket.emit('SNameId');
   };
 
   useEffect(() => {
@@ -102,7 +112,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
               size='sm'
               // onClick={this.onDeleteClick.bind(this, _id)}
             >
-              <i class='fas fa-paint-brush fa-lg'></i>
+              <i className='fas fa-paint-brush fa-lg'></i>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
@@ -114,7 +124,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onStrokeClick('2')}
               >
-                <i class='fas fa-circle fa-sm' />
+                <i className='fas fa-circle fa-sm' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -125,7 +135,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onStrokeClick('4')}
               >
-                <i class='fas fa-circle fa-lg' />
+                <i className='fas fa-circle fa-lg' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -136,7 +146,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onStrokeClick('7')}
               >
-                <i class='fas fa-circle fa-2x' />
+                <i className='fas fa-circle fa-2x' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -147,7 +157,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onStrokeClick('12')}
               >
-                <i class='fas fa-circle fa-3x' />
+                <i className='fas fa-circle fa-3x' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -158,7 +168,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onStrokeClick('20')}
               >
-                <i class='fas fa-circle fa-5x' />
+                <i className='fas fa-circle fa-5x' />
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -172,7 +182,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
               size='sm'
               // onClick={this.onDeleteClick.bind(this, _id)}
             >
-              <i class='fas fa-palette fa-lg' />
+              <i className='fas fa-palette fa-lg' />
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
@@ -185,7 +195,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('255,255,255')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -196,7 +206,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('255,0,0')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -207,7 +217,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('0,0,255')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -218,7 +228,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('0,255,0')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -229,7 +239,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('255,255,0')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -240,7 +250,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('0,255,255')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -251,7 +261,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('255,0,255')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -262,7 +272,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onColorClick('0,0,0')}
               >
-                <i class='fas fa-square' />
+                <i className='fas fa-square' />
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -275,7 +285,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
               }}
               size='sm'
             >
-              <i class='fas fa-cog fa-lg'></i>
+              <i className='fas fa-cog fa-lg'></i>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
@@ -286,8 +296,9 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   borderTop: '1px solid black',
                   borderBottom: '1px solid black',
                 }}
+                onClick={() => onNewDrawClick()}
               >
-                <i class='fas fa-file fa-lg' />
+                <i className='fas fa-file fa-lg' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -298,7 +309,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                 }}
                 onClick={() => onOpenClick()}
               >
-                <i class='fas fa-folder-open fa-lg' />
+                <i className='fas fa-folder-open fa-lg' />
               </DropdownItem>
               <DropdownItem
                 className='btn'
@@ -308,7 +319,7 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
                   borderBottom: '1px solid black',
                 }}
               >
-                <i class='fas fa-save fa-lg' />
+                <i className='fas fa-save fa-lg' />
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -325,13 +336,13 @@ const Home = ({ draw: { draws, loading }, getDraws }) => {
       </Row>
       <P5Wrapper
         sketch={sketch1}
-        getCoords={getCoords}
-        dataX={dataX}
-        dataY={dataY}
-        dataC={dataC}
-        dataS={dataS}
+        sendLine={sendLine}
+        sendTempLine={sendTempLine}
+        line={line}
+        tempLine={tempLine}
         colorX={colorX}
         strokeX={strokeX}
+        joined={joined}
       />
     </div>
   );
