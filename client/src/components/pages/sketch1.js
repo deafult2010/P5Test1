@@ -41,7 +41,7 @@ export default function sketch1(p) {
     if (newProps.line) {
       if (p.dataLine !== newProps.line) {
         if (p.dataLine) {
-          if (p.dataLine.name !== newProps.line.name) {
+          if (p.dataLine.date !== newProps.line.date) {
             p.setup();
           }
         }
@@ -72,11 +72,10 @@ export default function sketch1(p) {
     if (newProps.joined) {
       if (p.joined !== newProps.joined) {
         p.joined = newProps.joined;
-        console.log('joined');
         setTimeout(function () {
           currentPath = { c: p.rgb, s: p.strokeX, points: [] };
           endPath();
-        }, 100);
+        }, 300);
       }
     }
   };

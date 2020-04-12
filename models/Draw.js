@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const DrawLineSchema = mongoose.Schema({
+var DrawSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -11,6 +11,22 @@ const DrawLineSchema = mongoose.Schema({
   user: {
     type: String,
   },
+  lines: [
+    {
+      c: { type: String },
+      s: { type: String },
+      points: [
+        {
+          x: {
+            type: Number,
+          },
+          y: {
+            type: Number,
+          },
+        },
+      ],
+    },
+  ],
   thumbnail: {
     type: String,
   },
@@ -20,4 +36,4 @@ const DrawLineSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('draw', DrawLineSchema);
+module.exports = mongoose.model('draw', DrawSchema);

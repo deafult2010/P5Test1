@@ -4,11 +4,14 @@ import {
   DELETE_DRAW,
   DRAWS_LOADING,
   UPDATE_DRAW,
+  OPEN_PIC,
 } from '../actions/types';
 
 const initialState = {
   draws: [],
   loading: false,
+  pics: [],
+  getPics: false,
 };
 
 export default function (state = initialState, action) {
@@ -22,24 +25,31 @@ export default function (state = initialState, action) {
     case DELETE_DRAW:
       return {
         ...state,
-        draw: state.draw.filter((item) => item._id !== action.payload),
+        draws: state.draws.filter((draw) => draw._id !== action.payload),
+        getPics: !state.getPics,
       };
     case UPDATE_DRAW:
       return {
         ...state,
-        draw: state.draw.map((item) =>
-          item._id === action.payload._id ? action.payload : item
+        draws: state.draws.map((draw) =>
+          draw._id === action.payload._id ? action.payload : draw
         ),
       };
     case ADD_DRAW:
       return {
         ...state,
-        draw: [action.payload, ...state.draw],
+        draws: [action.payload, ...state.draws],
+        getPics: !state.getPics,
       };
     case DRAWS_LOADING:
       return {
         ...state,
         loading: true,
+      };
+    case OPEN_PIC:
+      return {
+        ...state,
+        pics: action.payload,
       };
     default:
       return state;

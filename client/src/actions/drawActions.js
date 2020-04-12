@@ -5,6 +5,7 @@ import {
   DELETE_DRAW,
   UPDATE_DRAW,
   DRAWS_LOADING,
+  OPEN_PIC,
 } from './types';
 
 export const getDraws = () => (dispatch) => {
@@ -17,8 +18,8 @@ export const getDraws = () => (dispatch) => {
   );
 };
 
-export const addItem = (item) => (dispatch) => {
-  axios.post('/api/items', item).then((res) =>
+export const addDraw = (drawing) => (dispatch) => {
+  axios.post('/api/draw', drawing).then((res) =>
     dispatch({
       type: ADD_DRAW,
       payload: res.data,
@@ -26,16 +27,16 @@ export const addItem = (item) => (dispatch) => {
   );
 };
 
-export const updateDraw = (item) => (dispatch) => {
+export const updateDraw = (draw) => (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  console.log(item);
+  console.log(draw);
 
-  axios.put(`/api/items/${item.id}`, item, config).then((res) =>
+  axios.put(`/api/draw/${draw.id}`, draw, config).then((res) =>
     dispatch({
       type: UPDATE_DRAW,
       payload: res.data,
@@ -44,10 +45,21 @@ export const updateDraw = (item) => (dispatch) => {
 };
 
 export const deleteDraw = (id) => (dispatch) => {
-  axios.delete(`/api/items/${id}`).then((res) =>
+  axios.delete(`/api/draw/${id}`).then((res) =>
     dispatch({
       type: DELETE_DRAW,
       payload: res.data.id,
+    })
+  );
+};
+
+export const openPic = (id) => (dispatch) => {
+  console.log('openPic');
+  console.log(id);
+  axios.get(`/api/draw/${id}`).then((res) =>
+    dispatch({
+      type: OPEN_PIC,
+      payload: res.data,
     })
   );
 };

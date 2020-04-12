@@ -16,7 +16,6 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contacts', require('./routes/contacts'));
 app.use('/api/draw', require('./routes/draw'));
-app.use('/api/line', require('./routes/drawLine'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -54,12 +53,22 @@ function newConnection(socket) {
   socket.on('SLine', SLineMsg);
   socket.on('STempLine', STempLineMsg);
   socket.on('SNameId', SNameIdMsg);
+  socket.on('SOpenPic', SOpenMsg);
+  socket.on('SGetPics', SGetMsg);
 
   function SLineMsg(line) {
     // socket.broadcast.emit('mouse', data);
     if (drawing.name === '') {
       let nameId = randomString(15);
-      drawing = { lines: [], name: nameId, date: Date.now() };
+      // drawing = { lines: [], name: nameId, date: Date.now() };
+      drawing = {
+        name: nameId,
+        desc: '',
+        user: '',
+        lines: [],
+        thumbnail: '',
+        date: Date.now(),
+      };
     }
     drawing.lines.push(line);
     io.emit('RLine', drawing);
@@ -68,7 +77,15 @@ function newConnection(socket) {
   function SNameIdMsg() {
     // socket.broadcast.emit('mouse', data);
     let nameId = randomString(15);
-    drawing = { lines: [], name: nameId, date: Date.now() };
+    // drawing = { lines: [], name: nameId, date: Date.now() };
+    drawing = {
+      name: nameId,
+      desc: '',
+      user: '',
+      lines: [],
+      thumbnail: '',
+      date: Date.now(),
+    };
     console.log(drawing);
     io.emit('RLine', drawing);
   }
@@ -76,6 +93,19 @@ function newConnection(socket) {
   function STempLineMsg(tempLine) {
     // socket.broadcast.emit('RTempLine', tempLine);
     io.emit('RTempLine', tempLine);
+  }
+
+  function SGetMsg() {
+    io.emit('RGetPics');
+  }
+
+  function SOpenMsg(pic) {
+    drawing = pic;
+    drawing.date = Date.now();
+    io.emit('ROpenPic', drawing);
+    io.emit('joined');
+    console.log(drawing);
+    console.log('abcdefghijklmnopqrstuvwxyz');
   }
 
   socket.on('disconnect', function () {
