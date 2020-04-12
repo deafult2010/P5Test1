@@ -10,6 +10,9 @@ const About = () => {
       <p className='bg-dark p'>
         <strong>Version: </strong>1.0.0
       </p>
+      <a href='http://github.com/deafult2010/P5Test1'>
+        <span className='fab fa-github' /> Github
+      </a>
     </div>
   );
 };
