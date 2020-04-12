@@ -1,3 +1,3 @@
-# Contact Keeper
+# Draw App
 
-Contact manager app
+Draw App MERN stack using p5 processing through the react-p5-wrapper library.
