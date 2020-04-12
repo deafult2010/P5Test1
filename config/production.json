@@ -1,4 +1,4 @@
 {
-  "mongoURI": "process.env.MONGODB_URI",
+  "mongoURI": "mongodb+srv://root:Flagex2010@cluster0-8beqf.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "secret"
 }
