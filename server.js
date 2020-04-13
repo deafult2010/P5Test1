@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const path = require('path');
 const socket = require('socket.io');
@@ -10,10 +9,8 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(express.json({ extended: false }));
-// Express 4.0
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb' }));
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));
