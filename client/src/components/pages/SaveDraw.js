@@ -54,6 +54,24 @@ const SaveDraw = ({ saveToggle, draw, addDraw, line }) => {
     toggle();
   };
 
+  // prevent touchscroll
+  function handleTouchMove(e) {
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    if (modal) {
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+    }
+    if (!modal) {
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+    }
+  }, [modal]);
+
   return (
     <div>
       <i

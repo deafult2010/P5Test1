@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 var DrawSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true,
   },
   desc: {
     type: String,

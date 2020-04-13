@@ -49,6 +49,24 @@ const OpenDraw = ({ openToggle, draw, deleteDraw, openPic }) => {
 
   const { draws } = draw;
 
+  // prevent touchscroll
+  function handleTouchMove(e) {
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    if (modal) {
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+    }
+    if (!modal) {
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+    }
+  }, [modal]);
+
   return (
     <div>
       <i
