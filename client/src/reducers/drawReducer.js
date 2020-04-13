@@ -5,6 +5,7 @@ import {
   DRAWS_LOADING,
   UPDATE_DRAW,
   OPEN_PIC,
+  TOGGLE_MODAL,
 } from '../actions/types';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   loading: false,
   pics: [],
   getPics: false,
+  modalOpen: false,
 };
 
 export default function (state = initialState, action) {
@@ -50,6 +52,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         pics: action.payload,
+      };
+    case TOGGLE_MODAL:
+      return {
+        ...state,
+        modalOpen: !state.modalOpen,
       };
     default:
       return state;

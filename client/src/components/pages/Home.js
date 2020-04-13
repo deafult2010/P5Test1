@@ -36,9 +36,8 @@ function sendTempLine() {
 }
 
 const Home = ({
-  draw: { draws, loading, pics, getPics },
+  draw: { draws, loading, pics, getPics, modalOpen },
   getDraws,
-  addDraw,
 }) => {
   let [line, setLine] = useState();
   let [tempLine, setTempLine] = useState();
@@ -57,11 +56,6 @@ const Home = ({
       socket = io('http://localhost:5000');
     } else {
       socket = io();
-    }
-
-    // prevent touchscroll
-    function handleTouchMove(e) {
-      e.preventDefault();
     }
 
     // Socket Listeners
@@ -84,16 +78,35 @@ const Home = ({
     // GetDrawings
     getDraws();
 
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
     return () => {
       socket.disconnect();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    // prevent touchscroll
+    function handleTouchMove(e) {
+      e.preventDefault();
+    }
+    if (!modalOpen) {
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+    }
+    if (modalOpen) {
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+    }
+    return () => {
       // enable touchscroll
       document.removeEventListener('touchmove', handleTouchMove, {
         passive: true,
       });
     };
     // eslint-disable-next-line
-  }, []);
+  }, [modalOpen]);
 
   const onOpenClick = () => {
     setOpenToggle(!openToggle);
@@ -101,7 +114,6 @@ const Home = ({
 
   const onSaveClick = () => {
     setSaveToggle(!saveToggle);
-    addDraw();
   };
 
   const onColorClick = (x) => {

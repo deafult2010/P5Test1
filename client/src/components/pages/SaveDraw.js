@@ -13,9 +13,9 @@ import {
 import { connect } from 'react-redux';
 
 // import { connect } from 'react-redux';
-import { addDraw } from '../../actions/drawActions';
+import { addDraw, toggleModal } from '../../actions/drawActions';
 
-const SaveDraw = ({ saveToggle, draw, addDraw, line }) => {
+const SaveDraw = ({ saveToggle, draw, addDraw, line, toggleModal }) => {
   let [modal, setModal] = useState();
   let [name, setName] = useState();
   let [desc, setDesc] = useState();
@@ -32,11 +32,13 @@ const SaveDraw = ({ saveToggle, draw, addDraw, line }) => {
       // eslint-disable-next-line
       toggleX = saveToggle;
       setModal(true);
+      toggleModal();
     }
   }, [saveToggle]);
 
   const toggle = () => {
     setModal(!modal);
+    toggleModal();
   };
 
   const onSubmit = (e) => {
@@ -53,24 +55,6 @@ const SaveDraw = ({ saveToggle, draw, addDraw, line }) => {
     // Close modal
     toggle();
   };
-
-  // prevent touchscroll
-  function handleTouchMove(e) {
-    e.preventDefault();
-  }
-
-  useEffect(() => {
-    if (modal) {
-      document.removeEventListener('touchmove', handleTouchMove, {
-        passive: true,
-      });
-    }
-    if (!modal) {
-      document.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      });
-    }
-  }, [modal]);
 
   return (
     <div>
@@ -131,6 +115,7 @@ SaveDraw.propTypes = {
   draw: PropTypes.object.isRequired,
   line: PropTypes.object.isRequired,
   addDraw: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -138,4 +123,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default connect(mapStateToProps, { deleteDraw, openPic })(OpenDraw);
-export default connect(mapStateToProps, { addDraw })(SaveDraw);
+export default connect(mapStateToProps, { addDraw, toggleModal })(SaveDraw);
