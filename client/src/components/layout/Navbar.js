@@ -17,6 +17,9 @@ const Navbar = ({ title, icon1, icon2 }) => {
           <Link to='/blobs'>Blobs</Link>
         </li>
         <li>
+          <Link to='/gol'>GoL</Link>
+        </li>
+        <li>
           <Link to='/about'>About</Link>
         </li>
       </ul>
@@ -26,13 +29,13 @@ const Navbar = ({ title, icon1, icon2 }) => {
 
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.string
+  icon: PropTypes.string,
 };
 
 Navbar.defaultProps = {
   title: 'Chat Games',
   icon2: 'fas fa-gamepad',
-  icon1: 'fas fa-comment'
+  icon1: 'fas fa-comment',
 };
 
 export default Navbar;

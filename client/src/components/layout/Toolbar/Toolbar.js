@@ -87,6 +87,21 @@ if (!isIE11) {
         </Link>
       </li>
       <li>
+        <Link to='/gol'>
+          <Button
+            className='toolbar-btn'
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              border: '2px solid black',
+            }}
+            size='lg'
+          >
+            GoL
+          </Button>
+        </Link>
+      </li>
+      <li>
         <Link to='/about'>
           <Button
             className='toolbar-btn'
@@ -125,6 +140,9 @@ if (!isIE11) {
       </li>
       <li>
         <a href='/blobs'>Blobs</a>
+      </li>
+      <li>
+        <a href='/gol'>GoL</a>
       </li>
       <li>
         <a href='/about'>About</a>
