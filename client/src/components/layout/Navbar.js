@@ -20,6 +20,9 @@ const Navbar = ({ title, icon1, icon2 }) => {
           <Link to='/gol'>GoL</Link>
         </li>
         <li>
+          <Link to='/covid'>COVID</Link>
+        </li>
+        <li>
           <Link to='/about'>About</Link>
         </li>
       </ul>

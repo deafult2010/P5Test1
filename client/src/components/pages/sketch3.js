@@ -1,4 +1,4 @@
-export default function sketch1(p) {
+export default function sketch3(p) {
   function make2DArray(cols, rows) {
     let arr = new Array(cols);
     for (let i = 0; i < arr.length; i++) {
@@ -32,7 +32,7 @@ export default function sketch1(p) {
       for (let j = 0; j < rows; j++) {
         let x = i * resolution;
         let y = j * resolution;
-        if (grid[i][j] == 1) {
+        if (grid[i][j] === 1) {
           p.fill(255);
           p.stroke(0);
           p.rect(x, y, resolution - 1, resolution - 1);
@@ -47,12 +47,11 @@ export default function sketch1(p) {
       for (let j = 0; j < rows; j++) {
         let state = grid[i][j];
         // Count live neighbors!
-        let sum = 0;
         let neighbors = countNeighbors(grid, i, j);
 
-        if (state == 0 && neighbors == 3) {
+        if (state === 0 && neighbors === 3) {
           next[i][j] = 1;
-        } else if (state == 1 && (neighbors < 2 || neighbors > 3)) {
+        } else if (state === 1 && (neighbors < 2 || neighbors > 3)) {
           next[i][j] = 0;
         } else {
           next[i][j] = state;
