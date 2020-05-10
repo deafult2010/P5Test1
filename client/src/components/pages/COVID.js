@@ -14,6 +14,7 @@ const COVID = () => {
         Game of Life
       </a>{' '} */}
       <h1>COVID SIR Model</h1>
+      <h4>Population against Time(weeks)</h4>
       <P5Wrapper sketch={sketch4} />
     </div>
   );

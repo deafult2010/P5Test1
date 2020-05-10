@@ -24,10 +24,10 @@
 export default function sketch4(p) {
   p.sliderT = p.createSlider(0, 50, 32);
   p.sliderT.style('width', '80px');
-  p.sliderT.position(50, 470);
+  p.sliderT.position(50, 495);
   p.sliderR = p.createSlider(0, 50, 23);
   p.sliderR.style('width', '80px');
-  p.sliderR.position(50, 500);
+  p.sliderR.position(50, 525);
 
   var abc;
   var def;
@@ -69,16 +69,36 @@ export default function sketch4(p) {
     graphAxis();
     // equation(p.select('#eq').value());
     drawSIR();
-    sliders();
+    sliderTextKey();
   };
 
-  function sliders() {
+  function sliderTextKey() {
     p.stroke(0);
     p.strokeWeight(1);
     p.textAlign(p.LEFT);
     //Position relative to translate
-    p.text('Transmition Rate', 110, 45);
-    p.text('Recovery Rate', 110, 75);
+    p.text('Transmition Rate: dT  =', 110, 35);
+    p.text('Recovery Rate:    dR  =', 110, 65);
+    p.text('R-Value =', 110, 95);
+    p.text('dT', 170, 88);
+    p.line(170, 91, 185, 91);
+    p.text('dR', 170, 102);
+    p.text(':      R  =', 190, 95);
+    p.text('0', 222, 101);
+    p.text(Math.round(abc * 10) / 10, 240, 35);
+    p.text(Math.round(def * 10) / 10, 240, 65);
+    p.text(Math.round((abc * 10) / def) / 10, 240, 95);
+    p.line(295, 28, 295, 90);
+    p.line(295, 28, 365, 28);
+    p.line(365, 28, 365, 90);
+    p.line(365, 90, 295, 90);
+    p.text('Key', 300, 40);
+    p.stroke(0, 0, 255);
+    p.text('Suseptible', 300, 55);
+    p.stroke(255, 0, 0);
+    p.text('Infected', 300, 70);
+    p.stroke(0, 255, 0);
+    p.text('Recovered', 300, 85);
   }
 
   function graphAxis() {
