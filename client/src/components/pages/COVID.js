@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const COVID = () => {
   return (
-    <div id='myTargetDiv' style={{ position: 'relative' }}>
+    <div>
       {/* <a
         style={{ fontSize: '30px' }}
         href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'
@@ -15,7 +15,9 @@ const COVID = () => {
       </a>{' '} */}
       <h1>COVID SIR Model</h1>
       <h4>Population against Time(weeks)</h4>
-      <P5Wrapper sketch={sketch4} />
+      <div id='myTargetDiv' style={{ position: 'relative' }}>
+        <P5Wrapper sketch={sketch4} />
+      </div>
     </div>
   );
 };

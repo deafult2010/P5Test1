@@ -10,6 +10,7 @@ import About from './components/pages/About';
 import Blobs from './components/pages/Blobs';
 import GoL from './components/pages/GoL';
 import COVID from './components/pages/COVID';
+import Game1 from './components/pages/Game1';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -50,6 +51,7 @@ const App = () => {
                 <Route exact path='/blobs' component={Blobs} />
                 <Route exact path='/gol' component={GoL} />
                 <Route exact path='/covid' component={COVID} />
+                <Route exact path='/game1' component={Game1} />
               </Switch>
             </main>
           </div>

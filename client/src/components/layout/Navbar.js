@@ -23,6 +23,9 @@ const Navbar = ({ title, icon1, icon2 }) => {
           <Link to='/covid'>COVID</Link>
         </li>
         <li>
+          <Link to='/game1'>Game 1</Link>
+        </li>
+        <li>
           <Link to='/about'>About</Link>
         </li>
       </ul>

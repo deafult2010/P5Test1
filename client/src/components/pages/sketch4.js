@@ -24,10 +24,10 @@
 export default function sketch4(p) {
   p.sliderT = p.createSlider(0, 50, 32);
   p.sliderT.style('width', '80px');
-  p.sliderT.position(50, 495);
+  p.sliderT.position(50, 405);
   p.sliderR = p.createSlider(0, 50, 23);
   p.sliderR.style('width', '80px');
-  p.sliderR.position(50, 525);
+  p.sliderR.position(50, 435);
 
   var abc;
   var def;
