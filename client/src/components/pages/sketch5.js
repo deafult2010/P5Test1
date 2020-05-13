@@ -1,17 +1,17 @@
 export default function sketch5(p) {
   let spritesheet;
   let spritedata;
-  let image;
+  let imageX;
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.image) {
-      image = props.image;
+      imageX = props.image;
     }
   };
 
   p.preload = function () {
     // spritedata = p.loadJSON('sprites/sitck.json');
-    spritesheet = p.loadImage(image, 0, 0);
+    spritesheet = p.loadImage(imageX);
   };
 
   p.setup = function () {
