@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const myImage = require('./sprites/Stick.png');
 const myImage2 = require('./sprites/StickHeadShot.png');
 const myJSON = require('./sprites/stick.json');
+const mySound = require('./sounds/shot.mp3');
 
 const Game1 = () => {
   return (
@@ -16,6 +17,7 @@ const Game1 = () => {
         image={myImage}
         image2={myImage2}
         json={myJSON}
+        sound={mySound}
       />
     </div>
   );

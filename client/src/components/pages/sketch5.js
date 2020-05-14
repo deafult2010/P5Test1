@@ -1,3 +1,6 @@
+import 'p5/lib/p5.js';
+import 'p5/lib/addons/p5.sound.js';
+
 export default function sketch5(p) {
   let spritesheet;
   let spritesheet2;
@@ -11,6 +14,8 @@ export default function sketch5(p) {
   let check2 = true;
   let click = false;
   let click2 = false;
+  let song;
+  let tune;
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.image) {
@@ -23,8 +28,14 @@ export default function sketch5(p) {
     if (props.json) {
       spritedata = props.json;
     }
+    if (props.sound) {
+      song = props.sound;
+    }
+    console.log(song);
     spritesheet = p.loadImage(imageX);
     spritesheet2 = p.loadImage(imageY);
+    tune = p.loadSound(song, loaded);
+
     // No need to use p.loadJSON since I can pass json through props.
     // spritedata = p.loadJSON(jsonX);
   };
@@ -35,7 +46,12 @@ export default function sketch5(p) {
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
+    // tune = p.loadSound(song, loaded);
   };
+
+  function loaded() {
+    console.log('loaded song');
+  }
 
   p.draw = function () {
     p.background(0);
@@ -60,9 +76,17 @@ export default function sketch5(p) {
             stick.show();
             stick.animate();
             stick.clicked();
-            if ((p.mouseIsPressed || p.touchStarted) && !click) {
+            if (
+              (p.mouseIsPressed || p.touchStarted) &&
+              !click &&
+              p.mouseX > 0 &&
+              p.mouseX < 400 &&
+              p.mouseY > 0 &&
+              p.mouseY < 400
+            ) {
               click = true;
               click2 = true;
+              tune.play();
               setTimeout(function () {
                 click2 = false;
               }, 50);
@@ -76,6 +100,11 @@ export default function sketch5(p) {
           }
         }
       }
+    }
+    if (click2) {
+      console.log('true');
+      p.stroke(255, 255, 0);
+      p.line(500, 200, p.mouseX, p.mouseY);
     }
   };
 
