@@ -16,6 +16,7 @@ export default function sketch5(p) {
   let click2 = false;
   let song;
   let tune;
+  let played = false;
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.image) {
@@ -41,12 +42,13 @@ export default function sketch5(p) {
   };
 
   p.setup = function () {
+    // Suspend audio until first user interaction (required for chrome and ios)
+    p.getAudioContext().suspend();
+
     p.createCanvas(400, 400);
-    //disables "context menu" on right click for the canvas
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
-    // tune = p.loadSound(song, loaded);
   };
 
   function loaded() {
@@ -56,6 +58,7 @@ export default function sketch5(p) {
   p.draw = function () {
     p.background(0);
     drawSprites();
+
     if (spritesheet && spritedata) {
       if (!check) {
         if (check2) {
@@ -84,6 +87,10 @@ export default function sketch5(p) {
               p.mouseY > 0 &&
               p.mouseY < 400
             ) {
+              if (!played) {
+                p.userStartAudio();
+                played = false;
+              }
               click = true;
               click2 = true;
               tune.play();
