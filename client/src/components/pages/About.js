@@ -1,8 +1,10 @@
 import React from 'react';
+import Navbar from '../layout/Navbar';
 
 const About = () => {
   return (
-    <div>
+    <div className='container'>
+      <Navbar />
       <h1>About This App</h1>
       <p className='my-1'>
         This is a full stack react app for chat games made by Tom J.

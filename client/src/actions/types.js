@@ -4,4 +4,5 @@ export const DELETE_DRAW = 'DELETE_ITEM';
 export const UPDATE_DRAW = 'UPDATE_ITEM';
 export const DRAWS_LOADING = 'DRAWS_LOADING';
 export const OPEN_PIC = 'OPEN_PIC';
-export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const TOGGLE_DRAW_MODAL = 'TOGGLE_DRAW_MODAL';
+export const TOGGLE_MENU_MODAL = 'TOGGLE_MENU_MODAL';

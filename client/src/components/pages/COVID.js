@@ -1,12 +1,14 @@
 import React from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch4 from './sketch4';
+import Navbar from '../layout/Navbar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const COVID = () => {
   return (
-    <div>
+    <div className='container'>
+      <Navbar />
       {/* <a
         style={{ fontSize: '30px' }}
         href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'

@@ -6,7 +6,7 @@ import {
   UPDATE_DRAW,
   DRAWS_LOADING,
   OPEN_PIC,
-  TOGGLE_MODAL,
+  TOGGLE_DRAW_MODAL,
 } from './types';
 
 export const getDraws = () => (dispatch) => {
@@ -71,8 +71,8 @@ export const setDrawsLoading = () => {
   };
 };
 
-export const toggleModal = () => {
+export const toggleDrawModal = () => {
   return {
-    type: TOGGLE_MODAL,
+    type: TOGGLE_DRAW_MODAL,
   };
 };

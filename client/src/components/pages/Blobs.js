@@ -7,6 +7,7 @@ import { Nfoods } from './sketch2';
 import { data } from './sketch2';
 import { eatFood } from './sketch2';
 import { eatBlob } from './sketch2';
+import Navbar from '../layout/Navbar';
 
 //local vs prod
 var socket;
@@ -16,7 +17,7 @@ function newFoods() {
     var dataF = {
       x: Nfoods[i].pos.x,
       y: Nfoods[i].pos.y,
-      r: Nfoods[i].r
+      r: Nfoods[i].r,
     };
     socket.emit('initFood', dataF);
   }
@@ -44,21 +45,22 @@ const Blobs = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('mouse', function(data) {
+    socket.on('mouse', function (data) {
       setDataX(data.x);
       setDataY(data.y);
     });
   });
 
   useEffect(() => {
-    socket.on('mouse', function(data) {
+    socket.on('mouse', function (data) {
       setDataX(data.x);
       setDataY(data.y);
     });
   });
 
   return (
-    <div>
+    <div className='container'>
+      <Navbar />
       <h1>Blobs</h1>
       <P5Wrapper
         sketch={sketch2}

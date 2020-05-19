@@ -13,9 +13,9 @@ import {
 import { connect } from 'react-redux';
 
 // import { connect } from 'react-redux';
-import { addDraw, toggleModal } from '../../actions/drawActions';
+import { addDraw, toggleDrawModal } from '../../actions/drawActions';
 
-const SaveDraw = ({ saveToggle, draw, addDraw, line, toggleModal }) => {
+const SaveDraw = ({ saveToggle, draw, addDraw, line, toggleDrawModal }) => {
   let [modal, setModal] = useState();
   let [name, setName] = useState();
   let [desc, setDesc] = useState();
@@ -32,13 +32,13 @@ const SaveDraw = ({ saveToggle, draw, addDraw, line, toggleModal }) => {
       // eslint-disable-next-line
       toggleX = saveToggle;
       setModal(true);
-      toggleModal();
+      toggleDrawModal();
     }
   }, [saveToggle]);
 
   const toggle = () => {
     setModal(!modal);
-    toggleModal();
+    toggleDrawModal();
   };
 
   const onSubmit = (e) => {
@@ -115,7 +115,7 @@ SaveDraw.propTypes = {
   draw: PropTypes.object.isRequired,
   line: PropTypes.object.isRequired,
   addDraw: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
+  toggleDrawModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -123,4 +123,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default connect(mapStateToProps, { deleteDraw, openPic })(OpenDraw);
-export default connect(mapStateToProps, { addDraw, toggleModal })(SaveDraw);
+export default connect(mapStateToProps, { addDraw, toggleDrawModal })(SaveDraw);

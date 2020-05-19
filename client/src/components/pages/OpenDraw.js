@@ -13,11 +13,21 @@ import {
 import { connect } from 'react-redux';
 
 // import { connect } from 'react-redux';
-import { deleteDraw, openPic, toggleModal } from '../../actions/drawActions';
+import {
+  deleteDraw,
+  openPic,
+  toggleDrawModal,
+} from '../../actions/drawActions';
 
 export let drawing = [];
 
-const OpenDraw = ({ openToggle, draw, deleteDraw, openPic, toggleModal }) => {
+const OpenDraw = ({
+  openToggle,
+  draw,
+  deleteDraw,
+  openPic,
+  toggleDrawModal,
+}) => {
   let [modal, setModal] = useState();
   let toggleX;
 
@@ -31,13 +41,13 @@ const OpenDraw = ({ openToggle, draw, deleteDraw, openPic, toggleModal }) => {
       // eslint-disable-next-line
       toggleX = openToggle;
       setModal(true);
-      toggleModal();
+      toggleDrawModal();
     }
   }, [openToggle]);
 
   const toggle = () => {
     setModal(!modal);
-    toggleModal();
+    toggleDrawModal();
   };
 
   const onDeleteClick = (id) => {
@@ -104,13 +114,15 @@ OpenDraw.propTypes = {
   draw: PropTypes.object.isRequired,
   deleteDraw: PropTypes.func.isRequired,
   openPic: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
+  toggleDrawModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   draw: state.draw,
 });
 
-export default connect(mapStateToProps, { deleteDraw, openPic, toggleModal })(
-  OpenDraw
-);
+export default connect(mapStateToProps, {
+  deleteDraw,
+  openPic,
+  toggleDrawModal,
+})(OpenDraw);

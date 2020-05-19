@@ -10,18 +10,19 @@ import {
 import P5Wrapper from 'react-p5-wrapper';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import {
   addDraw,
   getDraws,
   deleteDraw,
   updateDraw,
 } from '../../actions/drawActions';
-import PropTypes from 'prop-types';
-
 import OpenDraw from './OpenDraw';
 import SaveDraw from './SaveDraw';
 import sketch1 from './sketch1';
 import { line, tempLine } from './sketch1';
+import Navbar from '../layout/Navbar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,7 +37,7 @@ function sendTempLine() {
 }
 
 const Home = ({
-  draw: { draws, loading, pics, getPics, modalOpen },
+  draw: { draws, loading, pics, getPics, drawModalOpen },
   getDraws,
 }) => {
   let [line, setLine] = useState();
@@ -89,12 +90,12 @@ const Home = ({
     function handleTouchMove(e) {
       e.preventDefault();
     }
-    if (!modalOpen) {
+    if (!drawModalOpen) {
       document.addEventListener('touchmove', handleTouchMove, {
         passive: false,
       });
     }
-    if (modalOpen) {
+    if (drawModalOpen) {
       document.removeEventListener('touchmove', handleTouchMove, {
         passive: true,
       });
@@ -106,7 +107,7 @@ const Home = ({
       });
     };
     // eslint-disable-next-line
-  }, [modalOpen]);
+  }, [drawModalOpen]);
 
   const onOpenClick = () => {
     setOpenToggle(!openToggle);
@@ -154,7 +155,8 @@ const Home = ({
   }, [pics]);
 
   return (
-    <div>
+    <div className='container'>
+      <Navbar />
       <Row style={{ height: '50px' }}>
         <Col className='drawboard' xs='auto'>
           <strong style={{ fontSize: '30px' }}>Draw</strong>{' '}
