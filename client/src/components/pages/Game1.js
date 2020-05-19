@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +16,24 @@ const Game1 = () => {
   const menu = () => {
     setOpenToggle(!openToggle);
   };
+
+  useEffect(() => {
+    // prevent touchscroll
+    function handleTouchMove(e) {
+      e.preventDefault();
+    }
+    document.addEventListener('touchmove', handleTouchMove, {
+      passive: false,
+    });
+    return () => {
+      // enable touchscroll
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+    };
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <P5Wrapper

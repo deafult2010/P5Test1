@@ -31,13 +31,6 @@ const OpenMenu = ({ openToggle, menu }) => {
 
   return (
     <div>
-      <i
-        className='fas fa-folder-open fa-lg'
-        color='success'
-        size='sm'
-        // onClick={toggle}
-      />
-
       <Modal isOpen={modal} toggle={toggle} scrollable>
         <ModalHeader
           toggle={toggle}
