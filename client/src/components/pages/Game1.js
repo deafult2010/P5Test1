@@ -22,6 +22,21 @@ const Game1 = () => {
     function handleTouchMove(e) {
       e.preventDefault();
     }
+    window.addEventListener('orientationchange', doOnOrientationChange);
+    doOnOrientationChange(); // Initial execution if needed
+
+    function doOnOrientationChange() {
+      switch (window.orientation) {
+        case -90:
+        case 90:
+          window.scrollTo(0, 100); // Hide the address bar in lanndscape mode!
+          break;
+        default:
+          // portrait
+          break;
+      }
+    }
+
     document.addEventListener('touchmove', handleTouchMove, {
       passive: false,
     });
