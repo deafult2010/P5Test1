@@ -26,6 +26,7 @@ const Game1 = () => {
     document.addEventListener('touchmove', handleTouchMove, {
       passive: false,
     });
+
     return () => {
       // enable touchscroll
       document.removeEventListener('touchmove', handleTouchMove, {
@@ -40,10 +41,10 @@ const Game1 = () => {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
+        // position: 'fixed',
+        // left: '50%',
+        // top: '50%',
+        // transform: 'translate(-50%, -50%)',
       }}
     >
       <P5Wrapper

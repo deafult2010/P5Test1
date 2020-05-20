@@ -147,8 +147,8 @@ export default function sketch5(p) {
     // Allow for resize
     p.scale(scale);
     p.background(0);
-
-    setTimeout(window.scrollTo(0, 100), 30);
+    window.scrollTo(0, 1);
+    window.scrollTo(0, 100);
 
     //Draw Top Menu
     p.fill(82, 23, 81);
