@@ -125,7 +125,7 @@ export default function sketch5(p) {
     p.setScale();
     menuBtn = new Btn(
       0.8 * (p.width / scale),
-      0.025 * (p.height / scale),
+      0.075 * (p.height / scale),
       0.15 * (p.width / scale),
       0.05 * (p.height / scale),
       function () {
@@ -135,7 +135,7 @@ export default function sketch5(p) {
     );
     gunBtn = new Btn(
       0.05 * (p.width / scale),
-      0.025 * (p.height / scale),
+      0.075 * (p.height / scale),
       0.15 * (p.width / scale),
       0.05 * (p.height / scale),
       currentGun,
@@ -147,41 +147,21 @@ export default function sketch5(p) {
     // Allow for resize
     p.scale(scale);
     p.background(0);
+
+    // Should addressbar be activated move canvas down a little
     window.scrollTo(0, 1);
-    window.scrollTo(0, 100);
 
-    //Draw Top Menu
-    p.fill(82, 23, 81);
-    p.noStroke();
-    p.rect(0, 0, p.width / scale, (p.height / scale) * 0.1);
-
-    //Draw sky & ground
-    p.fill(19, 142, 191);
-    p.noStroke();
-    p.rect(
-      0,
-      (p.height / scale) * 0.1,
-      p.width / scale,
-      (p.height / scale) * 0.6
-    );
-    p.fill(12, 163, 7);
-    p.noStroke();
-    p.rect(0, (p.height / scale) * 0.6, p.width / scale, p.height / scale);
+    // Draw BG
+    drawBG();
 
     // Load Sprites for game
     drawSprites();
 
-    // btns
-    menuBtn.show();
-    menuBtn.clicked();
-    gunBtn.show();
-    gunBtn.clicked();
-
     // Game Logic
 
-    //If done loading:
+    // If done loading:
     if (!loadImgs) {
-      //Draw sprites onto canvas
+      // Draw sprites onto canvas
       if (initDraw) {
         for (let i = 0; i < 10; i++) {
           sticks[i] = new Sprite(
@@ -249,13 +229,56 @@ export default function sketch5(p) {
         }
       }
     }
-    if (click) {
-    }
 
-    // On initial click
-    if (click2) {
-    }
+    // Draw UI
+    drawUI();
   };
+
+  function drawBG() {
+    // Draw sky & ground
+    p.fill(19, 142, 191);
+    p.noStroke();
+    p.rect(
+      0,
+      (p.height / scale) * 0.1,
+      p.width / scale,
+      (p.height / scale) * 0.6
+    );
+    p.fill(12, 163, 7);
+    p.noStroke();
+    p.rect(
+      0,
+      (p.height / scale) * 0.6,
+      p.width / scale,
+      (p.height * 0.95) / scale
+    );
+  }
+
+  function drawUI() {
+    // Draw Top Menu
+    p.fill(255, 222, 173);
+    p.noStroke();
+    p.rect(0, 0, p.width / scale, (p.height / scale) * 0.05);
+    p.fill(82, 23, 81);
+    p.noStroke();
+    p.rect(
+      0,
+      (p.height / scale) * 0.05,
+      p.width / scale,
+      (p.height / scale) * 0.1
+    );
+
+    // Draw Footer
+    p.fill(255, 222, 173);
+    p.noStroke();
+    p.rect(0, (p.height / scale) * 0.95, p.width / scale, p.height / scale);
+
+    // btns
+    menuBtn.show();
+    menuBtn.clicked();
+    gunBtn.show();
+    gunBtn.clicked();
+  }
 
   function drawSprites() {
     if (
