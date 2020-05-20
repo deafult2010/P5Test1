@@ -148,6 +148,8 @@ export default function sketch5(p) {
     p.scale(scale);
     p.background(0);
 
+    setTimeout(window.scrollTo(0, 1), 30);
+
     //Draw Top Menu
     p.fill(82, 23, 81);
     p.noStroke();
