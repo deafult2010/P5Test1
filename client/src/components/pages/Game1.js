@@ -36,7 +36,16 @@ const Game1 = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <P5Wrapper
         sketch={sketch5}
         menu={menu}

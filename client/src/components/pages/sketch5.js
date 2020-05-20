@@ -148,7 +148,7 @@ export default function sketch5(p) {
     p.scale(scale);
     p.background(0);
 
-    setTimeout(window.scrollTo(0, 1), 30);
+    setTimeout(window.scrollTo(0, 100), 30);
 
     //Draw Top Menu
     p.fill(82, 23, 81);
@@ -297,8 +297,8 @@ export default function sketch5(p) {
   };
 
   p.setScale = function () {
-    scale = Math.min(window.innerWidth / 720, window.innerHeight / 480);
-    p.resizeCanvas(scale * 720, scale * 480);
+    scale = Math.min(window.innerWidth / 800, window.innerHeight / 480);
+    p.resizeCanvas(scale * 800, scale * 480);
   };
 
   class Sprite {
