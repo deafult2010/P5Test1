@@ -1,3 +1,4 @@
+const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
@@ -7,6 +8,9 @@ const app = express();
 
 // Connect Database
 connectDB();
+
+// Redirect to https
+app.use(sslRedirect());
 
 // Init Middleware
 app.use(express.json({ limit: '5mb' }));
@@ -22,13 +26,6 @@ app.use('/api/draw', require('./routes/draw'));
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'));
-
-  app.get('*', (req, res, next) => {
-    if (req.headers['x-forwarded-proto'] != 'https')
-      res.redirect('https://' + req.headers.host + req.url);
-    else next();
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
 
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
