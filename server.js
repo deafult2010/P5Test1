@@ -23,8 +23,14 @@ if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'));
 
+  app.get('*', (req, res, next) => {
+    if (req.headers['x-forwarded-proto'] != 'https')
+      res.redirect('https://' + req.headers.host + req.url);
+    else next();
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
   app.get('*', (req, res) => {
-    res.redirect('https://' + req.headers.host + req.url);
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
