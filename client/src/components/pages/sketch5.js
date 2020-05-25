@@ -1,5 +1,6 @@
 import 'p5/lib/p5.js';
 import 'p5/lib/addons/p5.sound.js';
+import * as p5 from 'p5/lib/p5.js';
 
 export default function sketch5(p) {
   // Allow for resizing
@@ -38,11 +39,22 @@ export default function sketch5(p) {
   //Game
   // array of enemy stickmen
   let sticks = [];
+  //Bullets
+  let bullet;
+  let abcdefg;
   // menu button
   let menuBtn;
   let openToggle;
   let gunBtn;
   let gun = ['rifle', 'auto'];
+
+  // Mouse to Player Vector
+  let Mouse;
+  let Player;
+  let MtP;
+  let bulletEndPoint;
+  let amount = 0;
+  let step = 0.01;
 
   // Functions
 
@@ -141,9 +153,42 @@ export default function sketch5(p) {
       currentGun,
       nextGun
     );
+    abcdefg = new Bubble(p.width / 2 / scale, p.height / 2 / scale);
   };
 
+  function Bubble(x, y) {
+    this.x = x;
+    this.y = y;
+    this.r = 25;
+    this.col = p.color(255);
+
+    this.changeColor = function () {
+      this.col = p.color(p.random(255), p.random(255), p.random(255));
+    };
+    this.show = function () {
+      p.stroke(255);
+      p.fill(this.col);
+      p.ellipse(this.x, this.y, this.r * 2, this.r * 2);
+    };
+
+    this.intersects = function (other) {
+      var d = p.dist(this.x, this.y, other.x, other.y);
+      if (d < this.r + other.r) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+  }
+
   p.draw = function () {
+    // Player and Mouse position vectors
+    Player = p.createVector(p.width / scale, (p.height * 0.8) / scale);
+    Mouse = p.createVector(p.mouseX / scale, p.mouseY / scale);
+    MtP = p5.Vector.sub(Mouse, Player);
+    bulletEndPoint = p5.Vector.sub(Mouse, Player);
+    bulletEndPoint.normalize().mult(Player.x * 1.1);
+
     // Allow for resize
     p.scale(scale);
     p.background(0);
@@ -202,9 +247,12 @@ export default function sketch5(p) {
               p.mouseY > 0 &&
               p.mouseY < p.height
             ) {
-              if (p.mouseY > 0.1 * p.height && !openToggle) {
+              if (p.mouseY > 0.15 * p.height && !openToggle) {
                 if (gun[0] === 'rifle') {
                   tune.play();
+                  if (Player) {
+                    bullet = new Bullet(Player, bulletEndPoint);
+                  }
                 } else if (gun[0] === 'auto') {
                   tune.play();
                   ResClick();
@@ -212,10 +260,10 @@ export default function sketch5(p) {
                 // Draw bullet while click2 is true (for 50ms)
                 p.stroke(255, 255, 0);
                 p.line(
-                  (p.width + p.width / 2) / scale,
-                  (p.height * 0.8) / scale,
-                  p.mouseX / scale,
-                  p.mouseY / scale
+                  Player.x,
+                  Player.y,
+                  Player.x + bulletEndPoint.x,
+                  Player.y + bulletEndPoint.y
                 );
               }
               // Use click2 for initial mouse down - allow this to last for 50ms
@@ -232,7 +280,54 @@ export default function sketch5(p) {
 
     // Draw UI
     drawUI();
+
+    // bubbleCheck();
+
+    // p.background(240);
+    // let v0 = p.createVector(0, 0);
+
+    // let v1 = p.createVector(p.mouseX, p.mouseY);
+    // drawArrow(v0, v1, 'red');
+
+    // let v2 = p.createVector(90, 90);
+    // drawArrow(v0, v2, 'blue');
+
+    // if (amount > 1 || amount < 0) {
+    //   step *= -1;
+    // }
+    // amount += step;
+    // let v3 = p5.Vector.lerp(v1, v2, amount);
+    // console.log(v3);
+
+    // drawArrow(v0, v3, 'purple');
   };
+
+  // draw an arrow for a vector at a given base position
+  // function drawArrow(base, vec, myColor) {
+  //   p.push();
+  //   p.stroke(myColor);
+  //   p.strokeWeight(3);
+  //   p.fill(myColor);
+  //   p.translate(base.x, base.y);
+  //   p.line(0, 0, vec.x, vec.y);
+  //   p.rotate(vec.heading());
+  //   let arrowSize = 7;
+  //   p.translate(vec.mag() - arrowSize, 0);
+  //   p.triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  //   p.pop();
+  // }
+
+  // const bubbleCheck = function () {
+  //   abcdefg.show();
+  //   for (let i = 0; i < 50; i++) {
+  //     amount += step;
+  //     if (amount > 1) {
+  //       amount = 1;
+  //     }
+  //     let hitVec = p5.Vector.lerp(Player, MtP, amount);
+  //     // console.log(hitVec);
+  //   }
+  // };
 
   function drawBG() {
     // Draw sky & ground
@@ -255,10 +350,12 @@ export default function sketch5(p) {
   }
 
   function drawUI() {
-    // Draw Top Menu
+    // Draw Top Margin
     p.fill(255, 222, 173);
     p.noStroke();
     p.rect(0, 0, p.width / scale, (p.height / scale) * 0.05);
+
+    // Draw Top Menu
     p.fill(82, 23, 81);
     p.noStroke();
     p.rect(
@@ -268,7 +365,7 @@ export default function sketch5(p) {
       (p.height / scale) * 0.1
     );
 
-    // Draw Footer
+    // Draw Bottom Margin
     p.fill(255, 222, 173);
     p.noStroke();
     p.rect(0, (p.height / scale) * 0.95, p.width / scale, p.height / scale);
@@ -390,6 +487,13 @@ export default function sketch5(p) {
         }
       }
     }
+  }
+
+  function Bullet(Player, end) {
+    this.x1 = Player.x;
+    this.y1 = Player.y;
+    this.x2 = end.x;
+    this.y2 = end.y;
   }
 
   function Btn(x, y, w, h, text, callback) {
