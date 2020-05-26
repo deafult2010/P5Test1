@@ -184,6 +184,8 @@ export default function sketch5(p) {
   }
 
   p.draw = function () {
+    p.background(0);
+
     // Player and Mouse position vectors
     Player = p.createVector(p.width / scale, (p.height * 0.8) / scale);
     Mouse = p.createVector(p.mouseX / scale, p.mouseY / scale);
@@ -193,7 +195,6 @@ export default function sketch5(p) {
 
     // Allow for resize
     p.scale(scale);
-
     devOrient =
       window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
     console.log(devOrient);
@@ -201,8 +202,6 @@ export default function sketch5(p) {
       p.setScale();
       prevDevOrient = devOrient;
     }
-
-    p.background(0);
 
     // Should addressbar be activated move canvas down a little
     window.scrollTo(0, 1);
