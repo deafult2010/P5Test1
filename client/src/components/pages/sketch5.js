@@ -198,9 +198,10 @@ export default function sketch5(p) {
     window.scrollTo(0, 1);
 
     // Check for orientation change
-    if (orientation !== p.deviceOrientation) {
-      p.setScale();
-      console.log(orientation);
+    if (orientation != p.deviceOrientation) {
+      setTimeout(function () {
+        p.setScale();
+      }, 100);
       orientation = p.deviceOrientation;
     }
 
