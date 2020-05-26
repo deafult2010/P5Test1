@@ -91,7 +91,6 @@ export default function sketch5(p) {
   };
 
   // Weapons
-
   const nextGun = function () {
     gun.splice(gun.length, 0, gun.splice(0, 1)[0]);
   };
@@ -100,11 +99,21 @@ export default function sketch5(p) {
   };
 
   // Menu
-
   function openMenu() {
     p.menu();
   }
 
+  // orientation
+  p.orientation = function () {
+    devOrient =
+      window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
+    if (devOrient !== prevDevOrient) {
+      p.setScale();
+      prevDevOrient = devOrient;
+    }
+  };
+
+  // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.image) {
       imageX = props.image;
@@ -415,15 +424,6 @@ export default function sketch5(p) {
       loadImgs = false;
     }
   }
-
-  p.orientation = function () {
-    devOrient =
-      window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
-    if (devOrient !== prevDevOrient) {
-      p.setScale();
-      prevDevOrient = devOrient;
-    }
-  };
 
   p.windowResized = function () {
     p.setScale();
