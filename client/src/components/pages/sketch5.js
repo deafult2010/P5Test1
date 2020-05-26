@@ -112,6 +112,13 @@ export default function sketch5(p) {
       prevDevOrient = devOrient;
     }
   };
+  p.windowResized = function () {
+    p.setScale();
+  };
+  p.setScale = function () {
+    scale = Math.min(window.innerWidth / 800, window.innerHeight / 480);
+    p.resizeCanvas(scale * 800, scale * 480);
+  };
 
   // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
@@ -424,15 +431,6 @@ export default function sketch5(p) {
       loadImgs = false;
     }
   }
-
-  p.windowResized = function () {
-    p.setScale();
-  };
-
-  p.setScale = function () {
-    scale = Math.min(window.innerWidth / 800, window.innerHeight / 480);
-    p.resizeCanvas(scale * 800, scale * 480);
-  };
 
   class Sprite {
     constructor(animation, animation2, x, y, speed, alive) {
