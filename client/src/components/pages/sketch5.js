@@ -5,6 +5,8 @@ import * as p5 from 'p5/lib/p5.js';
 export default function sketch5(p) {
   // Allow for resizing
   let scale;
+  let devOrient;
+  let prevDevOrient;
 
   // Images
   // Directory paths (passed in as props due to file hashing)
@@ -134,6 +136,7 @@ export default function sketch5(p) {
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
+    p.setScale();
     menuBtn = new Btn(
       0.8 * (p.width / scale),
       0.075 * (p.height / scale),
@@ -181,8 +184,6 @@ export default function sketch5(p) {
   }
 
   p.draw = function () {
-    p.background(0);
-
     // Player and Mouse position vectors
     Player = p.createVector(p.width / scale, (p.height * 0.8) / scale);
     Mouse = p.createVector(p.mouseX / scale, p.mouseY / scale);
@@ -191,8 +192,17 @@ export default function sketch5(p) {
     bulletEndPoint.normalize().mult(Player.x * 1.1);
 
     // Allow for resize
-    p.setScale();
     p.scale(scale);
+
+    devOrient =
+      window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
+    console.log(devOrient);
+    if (devOrient !== prevDevOrient) {
+      p.setScale();
+      prevDevOrient = devOrient;
+    }
+
+    p.background(0);
 
     // Should addressbar be activated move canvas down a little
     window.scrollTo(0, 1);
@@ -410,6 +420,10 @@ export default function sketch5(p) {
       loadImgs = false;
     }
   }
+
+  p.windowResized = function () {
+    p.setScale();
+  };
 
   p.setScale = function () {
     scale = Math.min(window.innerWidth / 800, window.innerHeight / 480);
