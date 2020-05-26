@@ -42,8 +42,8 @@ export default function sketch5(p) {
   // array of enemy stickmen
   let sticks = [];
   //Bullets
-  let bullet;
-  let abcdefg;
+  // let bullet;
+  // let abcdefg;
   // menu button
   let menuBtn;
   let openToggle;
@@ -53,10 +53,10 @@ export default function sketch5(p) {
   // Mouse to Player Vector
   let Mouse;
   let Player;
-  let MtP;
+  // let MtP;
   let bulletEndPoint;
-  let amount = 0;
-  let step = 0.01;
+  // let amount = 0;
+  // let step = 0.01;
 
   // Functions
 
@@ -155,33 +155,33 @@ export default function sketch5(p) {
       currentGun,
       nextGun
     );
-    abcdefg = new Bubble(p.width / 2 / scale, p.height / 2 / scale);
+    // abcdefg = new Bubble(p.width / 2 / scale, p.height / 2 / scale);
   };
 
-  function Bubble(x, y) {
-    this.x = x;
-    this.y = y;
-    this.r = 25;
-    this.col = p.color(255);
+  // function Bubble(x, y) {
+  //   this.x = x;
+  //   this.y = y;
+  //   this.r = 25;
+  //   this.col = p.color(255);
 
-    this.changeColor = function () {
-      this.col = p.color(p.random(255), p.random(255), p.random(255));
-    };
-    this.show = function () {
-      p.stroke(255);
-      p.fill(this.col);
-      p.ellipse(this.x, this.y, this.r * 2, this.r * 2);
-    };
+  //   this.changeColor = function () {
+  //     this.col = p.color(p.random(255), p.random(255), p.random(255));
+  //   };
+  //   this.show = function () {
+  //     p.stroke(255);
+  //     p.fill(this.col);
+  //     p.ellipse(this.x, this.y, this.r * 2, this.r * 2);
+  //   };
 
-    this.intersects = function (other) {
-      var d = p.dist(this.x, this.y, other.x, other.y);
-      if (d < this.r + other.r) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-  }
+  //   this.intersects = function (other) {
+  //     var d = p.dist(this.x, this.y, other.x, other.y);
+  //     if (d < this.r + other.r) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   };
+  // }
 
   p.draw = function () {
     p.background(0);
@@ -189,19 +189,15 @@ export default function sketch5(p) {
     // Player and Mouse position vectors
     Player = p.createVector(p.width / scale, (p.height * 0.8) / scale);
     Mouse = p.createVector(p.mouseX / scale, p.mouseY / scale);
-    MtP = p5.Vector.sub(Mouse, Player);
+    // MtP = p5.Vector.sub(Mouse, Player);
     bulletEndPoint = p5.Vector.sub(Mouse, Player);
     bulletEndPoint.normalize().mult(Player.x * 1.1);
 
     // Allow for resize
     p.scale(scale);
-    devOrient =
-      window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
-    console.log(devOrient);
-    if (devOrient !== prevDevOrient) {
-      p.setScale();
-      prevDevOrient = devOrient;
-    }
+
+    // Allow for orientation
+    p.orientation();
 
     // Should addressbar be activated move canvas down a little
     window.scrollTo(0, 1);
@@ -260,9 +256,9 @@ export default function sketch5(p) {
               if (p.mouseY > 0.15 * p.height && !openToggle) {
                 if (gun[0] === 'rifle') {
                   tune.play();
-                  if (Player) {
-                    bullet = new Bullet(Player, bulletEndPoint);
-                  }
+                  // if (Player) {
+                  //   bullet = new Bullet(Player, bulletEndPoint);
+                  // }
                 } else if (gun[0] === 'auto') {
                   tune.play();
                   ResClick();
@@ -420,6 +416,15 @@ export default function sketch5(p) {
     }
   }
 
+  p.orientation = function () {
+    devOrient =
+      window.innerWidth / window.innerHeight > 1.0 ? 'landscape' : 'portrait';
+    if (devOrient !== prevDevOrient) {
+      p.setScale();
+      prevDevOrient = devOrient;
+    }
+  };
+
   p.windowResized = function () {
     p.setScale();
   };
@@ -497,12 +502,12 @@ export default function sketch5(p) {
     }
   }
 
-  function Bullet(Player, end) {
-    this.x1 = Player.x;
-    this.y1 = Player.y;
-    this.x2 = end.x;
-    this.y2 = end.y;
-  }
+  // function Bullet(Player, end) {
+  //   this.x1 = Player.x;
+  //   this.y1 = Player.y;
+  //   this.x2 = end.x;
+  //   this.y2 = end.y;
+  // }
 
   function Btn(x, y, w, h, text, callback) {
     this.x = x;
