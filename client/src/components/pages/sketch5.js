@@ -5,6 +5,7 @@ import * as p5 from 'p5/lib/p5.js';
 export default function sketch5(p) {
   // Allow for resizing
   let scale;
+  let orientation = p.orientation;
 
   // Images
   // Directory paths (passed in as props due to file hashing)
@@ -195,6 +196,13 @@ export default function sketch5(p) {
 
     // Should addressbar be activated move canvas down a little
     window.scrollTo(0, 1);
+
+    // Check for orientation change
+    if (orientation !== p.deviceOrientation) {
+      p.setScale();
+      console.log(orientation);
+      orientation = p.deviceOrientation;
+    }
 
     // Draw BG
     drawBG();
