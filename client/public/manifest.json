@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "CG",
+  "name": "Chat Games",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,9 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#FFE1AC",
+  "background_color": "#521751",
+  "description": "Play you're favorite chat games here!",
+  "lang": "en-US",
+  "orientation": "any"
 }
