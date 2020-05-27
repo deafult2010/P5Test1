@@ -4,7 +4,9 @@ import Navbar from '../layout/Navbar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import sketch5 from './sketch5';
+import stickmenGame from './stickmenGame';
+// import stickmenUI from './stickmenUI';
+
 import OpenMenu from './OpenMenu';
 
 const myImage = require('./sprites/Stick.png');
@@ -14,7 +16,7 @@ const mySound = require('./sounds/shot.mp3');
 const rotateGif = require('./sprites/RotateGif.gif');
 
 const Game1 = () => {
-  let [openToggle, setOpenToggle] = useState(true);
+  let [openToggle, setOpenToggle] = useState(false);
   let game;
   const menu = () => {
     setOpenToggle(!openToggle);
@@ -44,15 +46,18 @@ const Game1 = () => {
   // prompt landscape
   if (size.width / size.height > 1.0) {
     game = (
-      <P5Wrapper
-        sketch={sketch5}
-        menu={menu}
-        openToggle={openToggle}
-        image={myImage}
-        image2={myImage2}
-        json={myJSON}
-        sound={mySound}
-      />
+      <>
+        <P5Wrapper
+          sketch={stickmenGame}
+          menu={menu}
+          openToggle={openToggle}
+          image={myImage}
+          image2={myImage2}
+          json={myJSON}
+          sound={mySound}
+        />
+        {/* <P5Wrapper sketch={stickmenUI} menu={menu} openToggle={openToggle} /> */}
+      </>
     );
   } else {
     game = (
@@ -103,6 +108,7 @@ function useWindowSize() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize;

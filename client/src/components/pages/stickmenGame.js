@@ -116,8 +116,8 @@ export default function sketch5(p) {
     p.setScale();
   };
   p.setScale = function () {
-    scale = Math.min(window.innerWidth / 800, window.innerHeight / 480);
-    p.resizeCanvas(scale * 800, scale * 480);
+    scale = Math.min(window.innerWidth / 850, window.innerHeight / 480);
+    p.resizeCanvas(scale * 850, scale * 480);
   };
 
   // props
