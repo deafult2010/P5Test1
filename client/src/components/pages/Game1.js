@@ -16,7 +16,32 @@ const mySound = require('./sounds/shot.mp3');
 const rotateGif = require('./sprites/RotateGif.gif');
 
 const Game1 = () => {
-  let [openToggle, setOpenToggle] = useState(false);
+  const isClient = typeof window === 'object';
+
+  const [openToggle, setOpenToggle] = useState(false);
+  const [windowSize, setWindowSize] = useState(getSize);
+
+  function getSize() {
+    return {
+      width: isClient ? window.innerWidth : undefined,
+      height: isClient ? window.innerHeight : undefined,
+    };
+  }
+
+  useEffect(() => {
+    if (!isClient) {
+      return false;
+    }
+
+    function handleResize() {
+      setWindowSize(getSize());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line
+  }, []); // Empty array ensures that effect is only run on mount and unmount
+
   let game;
   const menu = () => {
     setOpenToggle(!openToggle);
@@ -41,10 +66,8 @@ const Game1 = () => {
     // eslint-disable-next-line
   }, []);
 
-  const size = useWindowSize();
-
   // prompt landscape
-  if (size.width / size.height > 1.0) {
+  if (windowSize.width / windowSize.height > 1.0) {
     game = (
       <>
         <P5Wrapper
@@ -59,7 +82,7 @@ const Game1 = () => {
         {/* <P5Wrapper sketch={stickmenUI} menu={menu} openToggle={openToggle} /> */}
       </>
     );
-  } else {
+  } else if (windowSize.width / windowSize.height < 1.0) {
     game = (
       <div className='container'>
         <Navbar /> <img src={rotateGif} alt='loading...' />
@@ -83,35 +106,5 @@ const Game1 = () => {
     </div>
   );
 };
-
-// Hook
-function useWindowSize() {
-  const isClient = typeof window === 'object';
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined,
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
-}
 
 export default Game1;
