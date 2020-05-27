@@ -1,13 +1,19 @@
 const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express');
-const connectDB = require('./config/db');
 const path = require('path');
 const socket = require('socket.io');
 
 const app = express();
 
+const { ApolloServer, PubSub } = require('apollo-server-express');
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
+const connectDB = require('./config/db');
+
 // Connect Database
 connectDB();
+
+const pubsub = new PubSub();
 
 // Redirect to https
 app.use(sslRedirect());
@@ -34,9 +40,21 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () =>
-  console.log(`Server started on port ${PORT}`)
-);
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({ req, pubsub }),
+});
+
+apolloServer.applyMiddleware({ app });
+
+const server = app.listen({ port: PORT }, () => {
+  console.log(`Server ready at ${apolloServer.graphqlPath}`);
+});
+
+// const server = app.listen(PORT, () =>
+//   console.log(`Server started on port ${PORT}`)
+// );
 
 // misc functions for generating a random string and for capitalizing the first letter of a work
 const randomString = (n) => {
