@@ -5,8 +5,6 @@ import { Button } from 'reactstrap';
 import '../SideDrawer/DrawerToggleButton';
 import './Toolbar.css';
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
-// import SignedInLinks from './SignedInLinks';
-// import SignedOutLinks from './SignedOutLinks';
 
 var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 let Logo1;
@@ -68,6 +66,21 @@ if (!isIE11) {
             size='lg'
           >
             Home
+          </Button>
+        </Link>
+      </li>
+      <li>
+        <Link to='/draw'>
+          <Button
+            className='toolbar-btn'
+            style={{
+              backgroundColor: 'purple',
+              color: 'white',
+              border: '2px solid black',
+            }}
+            size='lg'
+          >
+            Draw
           </Button>
         </Link>
       </li>
@@ -167,6 +180,9 @@ if (!isIE11) {
     <ul>
       <li>
         <a href='/'>Home</a>
+      </li>
+      <li>
+        <a href='/draw'>Draw</a>
       </li>
       <li>
         <a href='/blobs'>Blobs</a>

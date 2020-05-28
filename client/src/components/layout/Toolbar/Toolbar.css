@@ -1,10 +1,11 @@
 .toolbar {
   position: fixed;
-  top: 0;
+  top: 30px;
   left: 0;
   width: 100%;
   background: #521751;
   height: 56px;
+  z-index: 10;
 }
 
 .toolbar__navigation {
@@ -15,6 +16,7 @@
 }
 
 .toolbar__logo {
+  top: 30px;
   margin-left: 1rem;
 }
 
@@ -26,7 +28,7 @@
 
 .toolbar__logo-min {
   position: fixed;
-  top: 30px;
+  top: 60px;
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
@@ -40,7 +42,7 @@
 
 .toolbar__logo-min2 {
   position: fixed;
-  top: 30px;
+  top: 60px;
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);

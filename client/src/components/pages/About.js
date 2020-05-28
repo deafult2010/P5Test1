@@ -1,9 +1,11 @@
 import React from 'react';
 import Navbar from '../layout/Navbar';
+import MenuBar from './blog/MenuBar';
 
 const About = () => {
   return (
     <div className='container'>
+      <MenuBar />
       <Navbar />
       <h1>About This App</h1>
       <p className='my-1'>

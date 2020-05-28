@@ -17,6 +17,11 @@ const SideDrawer = (props) => {
           </Link>
         </li>
         <li>
+          <Link to='/draw' onClick={props.click}>
+            <Card style={{ margin: '0px' }}>Draw</Card>
+          </Link>
+        </li>
+        <li>
           <Link to='/blobs' onClick={props.click}>
             <Card style={{ margin: '0px' }}>Blobs</Card>
           </Link>

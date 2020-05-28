@@ -2,12 +2,14 @@ import React from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import sketch4 from './sketch4';
 import Navbar from '../layout/Navbar';
+import MenuBar from './blog/MenuBar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const COVID = () => {
   return (
     <div className='container'>
+      <MenuBar />
       <Navbar />
       {/* <a
         style={{ fontSize: '30px' }}

@@ -8,6 +8,7 @@ import { data } from './sketch2';
 import { eatFood } from './sketch2';
 import { eatBlob } from './sketch2';
 import Navbar from '../layout/Navbar';
+import MenuBar from './blog/MenuBar';
 
 //local vs prod
 var socket;
@@ -60,6 +61,7 @@ const Blobs = () => {
 
   return (
     <div className='container'>
+      <MenuBar />
       <Navbar />
       <h1>Blobs</h1>
       <P5Wrapper

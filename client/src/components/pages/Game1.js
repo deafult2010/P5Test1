@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
 import Navbar from '../layout/Navbar';
+import MenuBar from './blog/MenuBar';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -85,6 +86,7 @@ const Game1 = () => {
   } else if (windowSize.width / windowSize.height < 1.0) {
     game = (
       <div className='container'>
+        <MenuBar />
         <Navbar /> <img src={rotateGif} alt='loading...' />
       </div>
     );
