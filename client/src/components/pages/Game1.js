@@ -54,9 +54,16 @@ const Game1 = () => {
       e.preventDefault();
     }
 
-    document.addEventListener('touchmove', handleTouchMove, {
-      passive: false,
-    });
+    if (windowSize.width / windowSize.height > 1.0) {
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+    } else if (windowSize.width / windowSize.height < 1.0) {
+      // enable touchscroll
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
+    }
 
     return () => {
       // enable touchscroll
@@ -65,7 +72,7 @@ const Game1 = () => {
       });
     };
     // eslint-disable-next-line
-  }, []);
+  }, [windowSize]);
 
   // prompt landscape
   if (windowSize.width / windowSize.height > 1.0) {
