@@ -155,7 +155,7 @@ export default function sketch5(p) {
     p.setScale();
     menuBtn = new Btn(
       0.8 * (p.width / scale),
-      0.075 * (p.height / scale),
+      0.025 * (p.height / scale),
       0.15 * (p.width / scale),
       0.05 * (p.height / scale),
       function () {
@@ -165,7 +165,7 @@ export default function sketch5(p) {
     );
     gunBtn = new Btn(
       0.05 * (p.width / scale),
-      0.075 * (p.height / scale),
+      0.025 * (p.height / scale),
       0.15 * (p.width / scale),
       0.05 * (p.height / scale),
       currentGun,
@@ -253,10 +253,12 @@ export default function sketch5(p) {
 
           // determine if mouse is being clicked
           if (
-            ((p.mouseIsPressed && p.mouseButton === p.LEFT) ||
-              p.touchStarted) &&
+            p.mouseIsPressed &&
+            p.mouseButton !== p.RIGHT &&
+            p.mouseButton !== p.CENTER &&
             !click
           ) {
+            console.log('click');
             // play audio on first user interaction (required for chrome and ios)
             if (!played) {
               // Play music
@@ -355,42 +357,17 @@ export default function sketch5(p) {
     // Draw sky & ground
     p.fill(19, 142, 191);
     p.noStroke();
-    p.rect(
-      0,
-      (p.height / scale) * 0.1,
-      p.width / scale,
-      (p.height / scale) * 0.6
-    );
+    p.rect(0, 0, p.width / scale, (p.height / scale) * 0.6);
     p.fill(12, 163, 7);
     p.noStroke();
-    p.rect(
-      0,
-      (p.height / scale) * 0.6,
-      p.width / scale,
-      (p.height * 0.95) / scale
-    );
+    p.rect(0, (p.height / scale) * 0.6, p.width / scale, p.height / scale);
   }
 
   function drawUI() {
-    // Draw Top Margin
-    p.fill(255, 222, 173);
-    p.noStroke();
-    p.rect(0, 0, p.width / scale, (p.height / scale) * 0.05);
-
     // Draw Top Menu
     p.fill(82, 23, 81);
     p.noStroke();
-    p.rect(
-      0,
-      (p.height / scale) * 0.05,
-      p.width / scale,
-      (p.height / scale) * 0.1
-    );
-
-    // Draw Bottom Margin
-    p.fill(255, 222, 173);
-    p.noStroke();
-    p.rect(0, (p.height / scale) * 0.95, p.width / scale, p.height / scale);
+    p.rect(0, 0, p.width / scale, (p.height / scale) * 0.1);
 
     // btns
     menuBtn.show();

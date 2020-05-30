@@ -60,6 +60,9 @@ const Draw = ({
       socket = io();
     }
 
+    // Scroll to top.
+    window.scrollTo(0, 1);
+
     // Socket Listeners
     socket.on('RTempLine', function (tempLine) {
       setTempLine(tempLine);

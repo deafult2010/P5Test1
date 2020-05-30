@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { Button, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './MenuBar.css';
@@ -11,6 +11,7 @@ export default function MenuBar() {
   const menuBar = user ? (
     <Row>
       <Col
+        className='menubar_shortname'
         xs='auto'
         style={{
           margin: '0px',
@@ -27,7 +28,22 @@ export default function MenuBar() {
           : user.username}
       </Col>
       <Col
-        className='text-right text-md-right'
+        className='menubar_username'
+        xs='auto'
+        style={{
+          margin: '0px',
+          marginLeft: '20px',
+          marginTop: '3px',
+          float: 'right',
+          color: '#FFFFFF',
+          fontSize: '16px',
+          padding: '0px',
+        }}
+      >
+        {user.username}
+      </Col>
+      <Col
+        className='text-right text-md-right menubar__online'
         style={{
           float: 'right',
           color: '#FFFFFF',
@@ -36,6 +52,21 @@ export default function MenuBar() {
         }}
       >
         <>5 Online</>{' '}
+        <Link to='/'>
+          <Button
+            style={{
+              margin: '3px',
+              backgroundColor: 'purple',
+              color: '#FFFFFF',
+              border: '2px solid black',
+              padding: '10px',
+              paddingTop: '0px',
+              paddingBottom: '0px',
+            }}
+          >
+            Support
+          </Button>
+        </Link>
         <Link to='/'>
           <Button
             style={{

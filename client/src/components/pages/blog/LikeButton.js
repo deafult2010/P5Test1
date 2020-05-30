@@ -4,11 +4,8 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button, Icon, Label, Popup } from 'semantic-ui-react';
 
-import { MenuContext } from '../../../context/menu';
-
 export default function LikeButton({ user, post: { id, likeCount, likes } }) {
   const [liked, setLiked] = useState(false);
-  const { setActiveItem } = useContext(MenuContext);
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
@@ -33,13 +30,7 @@ export default function LikeButton({ user, post: { id, likeCount, likes } }) {
       </Button>
     )
   ) : (
-    <Button
-      as={Link}
-      to='/login'
-      color='teal'
-      basic
-      onClick={(e) => setActiveItem('login')}
-    >
+    <Button as={Link} to='/login' color='teal' basic>
       <Icon name='heart' />
     </Button>
   );

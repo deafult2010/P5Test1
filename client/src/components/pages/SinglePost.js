@@ -16,7 +16,6 @@ import {
 import moment from 'moment';
 
 import { AuthContext } from '../../context/auth';
-import { MenuContext } from '../../context/menu';
 import LikeButton from './blog/LikeButton';
 import DeleteButton from './blog/DeleteButton';
 import Navbar from '../layout/Navbar';
@@ -25,7 +24,6 @@ import MenuBar from './blog/MenuBar';
 export default function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
-  const { setActiveItem } = useContext(MenuContext);
   const commentInputRef = useRef(null);
   console.log(postId);
 
@@ -72,14 +70,14 @@ export default function SinglePost(props) {
         <MenuBar />
         <Navbar />
         <Row>
-          <Col width={2}>
+          <Col xs='auto'>
             <Image
               src='https://react.semantic-ui.com/images/avatar/large/molly.png'
               size='small'
               float='right'
             />
           </Col>
-          <Col width={10}>
+          <Col>
             <Card fluid>
               <Card.Content>
                 <Card.Header>{username}</Card.Header>
@@ -107,12 +105,7 @@ export default function SinglePost(props) {
                         </Label>
                       </Button>
                     ) : (
-                      <Button
-                        as={Link}
-                        to='/login'
-                        labelPosition='right'
-                        onClick={(e) => setActiveItem('login')}
-                      >
+                      <Button as={Link} to='/login' labelPosition='right'>
                         <Button basic color='blue'>
                           <Icon name='comments' />
                         </Button>

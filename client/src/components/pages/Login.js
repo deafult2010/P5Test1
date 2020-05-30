@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { Form, Button, Input, Label, FormGroup } from 'reactstrap';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../context/auth';
-import { MenuContext } from '../../context/menu';
 import { useForm } from '../../util/hooks';
 
 import Navbar from '../layout/Navbar';
@@ -13,7 +12,6 @@ import MenuBar from './blog/MenuBar';
 
 export default function Login(props) {
   const context = useContext(AuthContext);
-  const { setActiveItem } = useContext(MenuContext);
   const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
@@ -41,41 +39,38 @@ export default function Login(props) {
       <MenuBar />
       <Navbar />
       <div className='form-container'>
-        <Form
-          onSubmit={onSubmit}
-          noValidate
-          className={loading ? 'loading' : ''}
-        >
+        <Form onSubmit={onSubmit} className={loading ? 'loading' : ''}>
           <h1>Login</h1>
-          <Form.Input
-            label='Username'
-            placeholder='Username...'
-            name='username'
-            type='text'
-            value={values.username}
-            error={errors.username ? true : false}
-            onChange={onChange}
-          />
-          <Form.Input
-            label='Password'
-            placeholder='Password...'
-            name='password'
-            type='password'
-            value={values.password}
-            error={errors.password ? true : false}
-            onChange={onChange}
-          />
-          <Button type='submit' primary>
+          <FormGroup>
+            <Label for='username'>Username</Label>
+            <Input
+              id='username'
+              placeholder='Username...'
+              name='username'
+              type='text'
+              value={values.username}
+              error={errors.username ? true : false}
+              onChange={onChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for='password'>Password</Label>
+            <Input
+              id='password'
+              placeholder='Password...'
+              name='password'
+              type='password'
+              value={values.password}
+              error={errors.password ? true : false}
+              onChange={onChange}
+            />
+          </FormGroup>
+          <Button type='submit' color='primary'>
             Login
           </Button>
-          <Button
-            as={Link}
-            to='/register'
-            primary
-            onClick={(e) => setActiveItem('register')}
-          >
-            Sign Up
-          </Button>
+          <Link to='/register'>
+            <Button color='primary'>Sign Up</Button>
+          </Link>
         </Form>
         {Object.keys(errors).length > 0 && (
           <div className='ui error message'>

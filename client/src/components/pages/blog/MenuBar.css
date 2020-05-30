@@ -7,3 +7,22 @@
   height: 30px;
   z-index: 10;
 }
+
+@media (max-width: 399px) {
+  .menubar_username,
+  .menubar_shortname {
+    display: none;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 549px) {
+  .menubar_username {
+    display: none;
+  }
+}
+
+@media (min-width: 550px) {
+  .menubar_shortname {
+    display: none;
+  }
+}

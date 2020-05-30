@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { AuthProvider } from './context/auth';
-import { MenuProvider } from './context/menu';
+// import { MenuProvider } from './context/menu';
 import AuthRoute from './util/AuthRoute';
 
 import Home from './components/pages/Home';
@@ -24,28 +24,26 @@ const App = () => {
   return (
     <Provider store={store}>
       <AuthProvider>
-        <MenuProvider>
-          <Router>
-            <Fragment>
-              <div>
-                <main>
-                  <Switch>
-                    <Route exact path='/' component={Home} />
-                    <AuthRoute exact path='/login' component={Login} />
-                    <AuthRoute exact path='/register' component={Register} />
-                    <Route exact path='/posts/:postId' component={SinglePost} />
-                    <Route exact path='/draw' component={Draw} />
-                    <Route exact path='/about' component={About} />
-                    <Route exact path='/blobs' component={Blobs} />
-                    <Route exact path='/gol' component={GoL} />
-                    <Route exact path='/covid' component={COVID} />
-                    <Route exact path='/game1' component={Game1} />
-                  </Switch>
-                </main>
-              </div>
-            </Fragment>
-          </Router>
-        </MenuProvider>
+        <Router>
+          <Fragment>
+            <div>
+              <main>
+                <Switch>
+                  <Route exact path='/' component={Home} />
+                  <AuthRoute exact path='/login' component={Login} />
+                  <AuthRoute exact path='/register' component={Register} />
+                  <Route exact path='/posts/:postId' component={SinglePost} />
+                  <Route exact path='/draw' component={Draw} />
+                  <Route exact path='/about' component={About} />
+                  <Route exact path='/blobs' component={Blobs} />
+                  <Route exact path='/gol' component={GoL} />
+                  <Route exact path='/covid' component={COVID} />
+                  <Route exact path='/game1' component={Game1} />
+                </Switch>
+              </main>
+            </div>
+          </Fragment>
+        </Router>
       </AuthProvider>
     </Provider>
   );

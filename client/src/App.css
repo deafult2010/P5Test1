@@ -459,7 +459,8 @@ table th {
 
 .btn:hover,
 .btn:active {
-  background-color: #fa923f !important;
+  /* background-color: #fa923f !important; */
+  background-color: #fa923f;
 }
 
 @media (max-width: 410px) {
