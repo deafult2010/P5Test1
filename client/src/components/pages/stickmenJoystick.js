@@ -4,8 +4,12 @@ import 'p5/lib/p5.js';
 export default function sketch5(p) {
   // Images
   // Directory paths (passed in as props due to file hashing)
-  let UIImage;
-  let UIImageX;
+  let keysImage;
+  let leftImage;
+  let altImage;
+  let keysImageX;
+  let leftImageX;
+  let altImageX;
 
   // Allow for resizing
   let scale;
@@ -28,19 +32,27 @@ export default function sketch5(p) {
   };
   p.setScale = function () {
     scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    p.resizeCanvas(scale * 400, scale * 520);
+    p.resizeCanvas(scale * 200, scale * 200);
   };
 
   // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
-    if (props.UIImage) {
-      UIImage = props.UIImage;
-      UIImageX = p.loadImage(UIImage);
+    if (props.keysImage) {
+      keysImage = props.keysImage;
+      keysImageX = p.loadImage(keysImage);
+    }
+    if (props.leftImage) {
+      leftImage = props.leftImage;
+      leftImageX = p.loadImage(leftImage);
+    }
+    if (props.altImage) {
+      altImage = props.altImage;
+      altImageX = p.loadImage(altImage);
     }
   };
 
   p.setup = function () {
-    p.createCanvas(400, 520);
+    p.createCanvas(200, 200);
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
@@ -50,8 +62,14 @@ export default function sketch5(p) {
     p.setScale();
     p.scale(scale);
     p.background(0);
-    if (UIImageX) {
-      p.image(UIImageX, 0, 0);
+    if (keysImageX) {
+      p.image(keysImageX, 0, 0);
+    }
+    if (leftImageX) {
+      p.image(leftImageX, 0, 0);
+    }
+    if (altImageX) {
+      p.image(altImageX, 0, 0);
     }
   };
 }

@@ -6,12 +6,18 @@ import MenuBar from './blog/MenuBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import stickmenGame from './stickmenGame';
-// import stickmenUI from './stickmenUI';
+import stickmenJoystick from './stickmenJoystick';
+import stickmenChat from './stickmenChat';
+import stickmenUI from './stickmenUI';
 
 import OpenMenu from './OpenMenu';
 
 const myImage = require('./sprites/Stick.png');
 const myImage2 = require('./sprites/StickHeadShot.png');
+const keysImage = require('./sprites/Keys.png');
+const leftImage = require('./sprites/LeftClick.png');
+const altImage = require('./sprites/AltClick.png');
+const UIImage = require('./sprites/UI.png');
 const myJSON = require('./sprites/stick.json');
 const mySound = require('./sounds/shot.mp3');
 const rotateGif = require('./sprites/RotateGif.gif');
@@ -77,18 +83,133 @@ const Game1 = () => {
   // prompt landscape
   if (windowSize.width / windowSize.height > 1.0) {
     game = (
-      <>
-        <P5Wrapper
-          sketch={stickmenGame}
-          menu={menu}
-          openToggle={openToggle}
-          image={myImage}
-          image2={myImage2}
-          json={myJSON}
-          sound={mySound}
-        />
-        {/* <P5Wrapper sketch={stickmenUI} menu={menu} openToggle={openToggle} /> */}
-      </>
+      <div>
+        {/* Game */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '0',
+            top: '0',
+          }}
+        >
+          <P5Wrapper
+            sketch={stickmenGame}
+            menu={menu}
+            openToggle={openToggle}
+            image={myImage}
+            image2={myImage2}
+            json={myJSON}
+            sound={mySound}
+          />
+        </div>
+
+        {/* UI */}
+        <div
+          style={{
+            position: 'absolute',
+            left: Math.min(
+              windowSize.width * (1 - 400 / 1280),
+              (windowSize.height * 16 * (1 - 400 / 1280)) / 9
+            ),
+            top: Math.min(
+              windowSize.height * (1 - 720 / 720),
+              (windowSize.width * 9 * (1 - 720 / 720)) / 16
+            ),
+          }}
+        >
+          <P5Wrapper sketch={stickmenUI} UIImage={UIImage} />
+        </div>
+
+        {/* Joysticks */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '0',
+            top: Math.min(
+              windowSize.height * (1 - 200 / 720),
+              (windowSize.width * 9 * (1 - 200 / 720)) / 16
+            ),
+          }}
+        >
+          <P5Wrapper sketch={stickmenJoystick} keysImage={keysImage} />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: Math.min(
+              windowSize.width * (1 - 400 / 1280),
+              (windowSize.height * 16 * (1 - 400 / 1280)) / 9
+            ),
+            top: Math.min(
+              windowSize.height * (1 - 200 / 720),
+              (windowSize.width * 9 * (1 - 200 / 720)) / 16
+            ),
+          }}
+        >
+          <P5Wrapper sketch={stickmenJoystick} altImage={altImage} />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: Math.min(
+              windowSize.width * (1 - 200 / 1280),
+              (windowSize.height * 16 * (1 - 200 / 1280)) / 9
+            ),
+            top: Math.min(
+              windowSize.height * (1 - 200 / 720),
+              (windowSize.width * 9 * (1 - 200 / 720)) / 16
+            ),
+          }}
+        >
+          <P5Wrapper sketch={stickmenJoystick} leftImage={leftImage} />
+        </div>
+
+        {/* Chat */}
+        <div
+          style={{
+            position: 'absolute',
+            left: Math.min(
+              windowSize.width * (1 - 1080 / 1280),
+              (windowSize.height * 16 * (1 - 1080 / 1280)) / 9
+            ),
+            top: Math.min(
+              windowSize.height * (1 - 200 / 720),
+              (windowSize.width * 9 * (1 - 200 / 720)) / 16
+            ),
+          }}
+        >
+          <P5Wrapper sketch={stickmenChat} />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: Math.min(
+              windowSize.width * (1 - 1066 / 1280),
+              (windowSize.height * 16 * (1 - 1066 / 1280)) / 9
+            ),
+            top: Math.min(
+              windowSize.height * (1 - 35 / 720),
+              (windowSize.width * 9 * (1 - 35 / 720)) / 16
+            ),
+            fontSize: Math.min(
+              (windowSize.width * 14) / 1280,
+              (windowSize.height * 14) / 720
+            ),
+            width: Math.min(
+              windowSize.width * (1 - 702 / 1280),
+              (windowSize.height * 16 * (1 - 702 / 1280)) / 9
+            ),
+          }}
+        >
+          <input
+            style={{
+              backgroundColor: '#FFE4B2',
+              borderStyle: 'none',
+              width: '100%',
+            }}
+          ></input>
+        </div>
+      </div>
     );
   } else if (windowSize.width / windowSize.height < 1.0) {
     game = (
@@ -99,13 +220,19 @@ const Game1 = () => {
     );
   }
 
+  console.log((windowSize.width * 14) / 1280);
+
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
+        // display: 'flex',
+        // justifyContent: 'center',
+        position: 'relative',
         // position: 'fixed',
-        // left: '50%',
+        left: Math.max(
+          (windowSize.width - (windowSize.height * 16) / 9) / 2,
+          0
+        ),
         // top: '50%',
         // transform: 'translate(-50%, -50%)',
       }}

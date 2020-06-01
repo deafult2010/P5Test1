@@ -116,8 +116,8 @@ export default function sketch5(p) {
     p.setScale();
   };
   p.setScale = function () {
-    scale = Math.min(window.innerWidth / 850, window.innerHeight / 480);
-    p.resizeCanvas(scale * 850, scale * 480);
+    scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    p.resizeCanvas(scale * 880, scale * 520);
   };
 
   // props
@@ -126,7 +126,6 @@ export default function sketch5(p) {
       imageX = props.image;
     }
     if (props.image2) {
-      imageX = props.image;
       imageY = props.image2;
     }
     if (props.json) {
@@ -148,7 +147,7 @@ export default function sketch5(p) {
   p.setup = function () {
     // Suspend audio until first user interaction (required for chrome and ios)
     p.getAudioContext().suspend();
-    p.createCanvas(400, 400);
+    p.createCanvas(1280, 720);
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
@@ -224,8 +223,6 @@ export default function sketch5(p) {
     // Load Sprites for game
     drawSprites();
 
-    // Game Logic
-
     // If done loading:
     if (!loadImgs) {
       // Draw sprites onto canvas
@@ -250,56 +247,55 @@ export default function sketch5(p) {
           stick.show();
           stick.animate();
           stick.clicked();
-
-          // determine if mouse is being clicked
-          if (
-            p.mouseIsPressed &&
-            p.mouseButton !== p.RIGHT &&
-            p.mouseButton !== p.CENTER &&
-            !click
-          ) {
-            console.log('click');
-            // play audio on first user interaction (required for chrome and ios)
-            if (!played) {
-              // Play music
-              p.userStartAudio();
-              played = true;
-            }
-            if (
-              p.mouseX > 0 &&
-              p.mouseX < p.width &&
-              p.mouseY > 0 &&
-              p.mouseY < p.height
-            ) {
-              if (p.mouseY > 0.15 * p.height && !openToggle) {
-                if (gun[0] === 'rifle') {
-                  tune.play();
-                  // if (Player) {
-                  //   bullet = new Bullet(Player, bulletEndPoint);
-                  // }
-                } else if (gun[0] === 'auto') {
-                  tune.play();
-                  ResClick();
-                }
-                // Draw bullet while click2 is true (for 50ms)
-                p.stroke(255, 255, 0);
-                p.line(
-                  Player.x,
-                  Player.y,
-                  Player.x + bulletEndPoint.x,
-                  Player.y + bulletEndPoint.y
-                );
-              }
-              // Use click2 for initial mouse down - allow this to last for 50ms
-              click2 = true;
-              ResClick2();
-            }
-
-            // Use click for if mouse is held down - set back to false on release
-            click = true;
-          }
         }
       }
+    }
+
+    // Mouse events
+    if (
+      p.mouseIsPressed &&
+      p.mouseButton !== p.RIGHT &&
+      p.mouseButton !== p.CENTER &&
+      !click
+    ) {
+      // play audio on first user interaction (required for chrome and ios)
+      if (!played) {
+        // Play music
+        p.userStartAudio();
+        played = true;
+      }
+      if (
+        p.mouseX > 0 &&
+        p.mouseX < p.width &&
+        p.mouseY > 0 &&
+        p.mouseY < p.height
+      ) {
+        if (p.mouseY > 0.15 * p.height && !openToggle) {
+          if (gun[0] === 'rifle') {
+            tune.play();
+            // if (Player) {
+            //   bullet = new Bullet(Player, bulletEndPoint);
+            // }
+          } else if (gun[0] === 'auto') {
+            tune.play();
+            ResClick();
+          }
+          // Draw bullet while click2 is true (for 50ms)
+          p.stroke(255, 255, 0);
+          p.line(
+            Player.x,
+            Player.y,
+            Player.x + bulletEndPoint.x,
+            Player.y + bulletEndPoint.y
+          );
+        }
+        // Use click2 for initial mouse down - allow this to last for 50ms
+        click2 = true;
+        ResClick2();
+      }
+
+      // Use click for if mouse is held down - set back to false on release
+      click = true;
     }
 
     // Draw UI
