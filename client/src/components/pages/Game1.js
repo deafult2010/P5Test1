@@ -216,6 +216,7 @@ const Game1 = () => {
               backgroundColor: '#FFE4B2',
               borderStyle: 'none',
               width: '100%',
+              margin: '0px',
             }}
           ></input>
         </div>
