@@ -38,16 +38,22 @@ export default function sketch5(p) {
   // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.keysImage) {
-      keysImage = props.keysImage;
-      keysImageX = p.loadImage(keysImage);
+      if (keysImage != props.keysImage) {
+        keysImage = props.keysImage;
+        keysImageX = p.loadImage(keysImage);
+      }
     }
     if (props.leftImage) {
-      leftImage = props.leftImage;
-      leftImageX = p.loadImage(leftImage);
+      if (leftImage != props.leftImage) {
+        leftImage = props.leftImage;
+        leftImageX = p.loadImage(leftImage);
+      }
     }
     if (props.altImage) {
-      altImage = props.altImage;
-      altImageX = p.loadImage(altImage);
+      if (altImage != props.altImage) {
+        altImage = props.altImage;
+        altImageX = p.loadImage(altImage);
+      }
     }
   };
 

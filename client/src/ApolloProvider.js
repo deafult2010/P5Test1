@@ -7,8 +7,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:5000',
-  uri: 'https://merngblog.herokuapp.com/graphql',
+  // uri: 'http://localhost:5000/graphql',
+  uri: 'https://p5test.herokuapp.com/graphql',
 });
 
 const authLink = setContext((request, previousContext) => {

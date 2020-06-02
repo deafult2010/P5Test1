@@ -27,6 +27,7 @@ const Game1 = () => {
 
   const [openToggle, setOpenToggle] = useState(false);
   const [windowSize, setWindowSize] = useState(getSize);
+  const [chat, setChat] = useState('');
 
   function getSize() {
     return {
@@ -34,6 +35,13 @@ const Game1 = () => {
       height: isClient ? window.innerHeight : undefined,
     };
   }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(chat);
+    setChat('');
+  };
 
   useEffect(() => {
     if (!isClient) {
@@ -199,8 +207,8 @@ const Game1 = () => {
               (windowSize.width * 9 * (1 - 34 / 720)) / 16
             ),
             fontSize: Math.min(
-              (windowSize.width * 14) / 1280,
-              (windowSize.height * 14) / 720
+              (windowSize.width * 16) / 1280,
+              (windowSize.height * 16) / 720
             ),
             width: Math.min(
               windowSize.width * (1 - 702 / 1280),
@@ -208,17 +216,46 @@ const Game1 = () => {
             ),
           }}
         >
-          <input
+          <form
+            onSubmit={onSubmit}
             style={{
               position: 'absolute',
               left: 0,
               top: 0,
+              fontWeight: 'bold',
+              color: '#0000FF',
               backgroundColor: '#FFE4B2',
               borderStyle: 'none',
               width: '100%',
               margin: '0px',
+              fontSize: Math.min(
+                (windowSize.width * 16) / 1280,
+                (windowSize.height * 16) / 720
+              ),
             }}
-          ></input>
+          >
+            <input
+              type='text'
+              name='chatbox'
+              value={chat}
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                fontWeight: 'bold',
+                color: '#0000FF',
+                backgroundColor: '#FFE4B2',
+                borderStyle: 'none',
+                width: '100%',
+                margin: '0px',
+                fontSize: Math.min(
+                  (windowSize.width * 16) / 1280,
+                  (windowSize.height * 16) / 720
+                ),
+              }}
+              onChange={(e) => setChat(e.target.value)}
+            ></input>
+          </form>
         </div>
       </div>
     );

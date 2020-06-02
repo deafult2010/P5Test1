@@ -123,16 +123,24 @@ export default function sketch5(p) {
   // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.image) {
-      imageX = props.image;
+      if (imageX != props.image) {
+        imageX = props.image;
+      }
     }
     if (props.image2) {
-      imageY = props.image2;
+      if (imageY != props.image2) {
+        imageY = props.image2;
+      }
     }
     if (props.json) {
-      spritedata = props.json;
+      if (spritedata != props.json) {
+        spritedata = props.json;
+      }
     }
     if (props.sound) {
-      song = props.sound;
+      if (song != props.sound) {
+        song = props.sound;
+      }
     }
     p.menu = props.menu;
     openToggle = props.openToggle;

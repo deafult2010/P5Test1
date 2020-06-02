@@ -2,6 +2,7 @@ const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express');
 const path = require('path');
 const socket = require('socket.io');
+const cors = require('cors');
 
 const app = express();
 
@@ -17,6 +18,9 @@ const pubsub = new PubSub();
 
 // Redirect to https
 app.use(sslRedirect());
+
+// CORS
+app.use(cors());
 
 // Init Middleware
 app.use(express.json({ limit: '5mb' }));
