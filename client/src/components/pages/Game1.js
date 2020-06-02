@@ -70,6 +70,13 @@ const Game1 = () => {
         passive: true,
       });
     }
+    console.log(windowSize.height);
+    console.log(
+      Math.min(
+        windowSize.height * (1 - 33 / 720),
+        (windowSize.width * 9 * (1 - 33 / 720)) / 16
+      )
+    );
 
     return () => {
       // enable touchscroll
@@ -188,8 +195,8 @@ const Game1 = () => {
               (windowSize.height * 16 * (1 - 1066 / 1280)) / 9
             ),
             top: Math.min(
-              windowSize.height * (1 - 35 / 720),
-              (windowSize.width * 9 * (1 - 35 / 720)) / 16
+              windowSize.height * (1 - 34 / 720),
+              (windowSize.width * 9 * (1 - 34 / 720)) / 16
             ),
             fontSize: Math.min(
               (windowSize.width * 14) / 1280,
@@ -203,6 +210,9 @@ const Game1 = () => {
         >
           <input
             style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
               backgroundColor: '#FFE4B2',
               borderStyle: 'none',
               width: '100%',
@@ -219,8 +229,6 @@ const Game1 = () => {
       </div>
     );
   }
-
-  console.log((windowSize.width * 14) / 1280);
 
   return (
     <div
