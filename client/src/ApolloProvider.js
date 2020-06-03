@@ -18,7 +18,7 @@ const httpLink = createHttpLink({
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
   // uri: `ws://localhost:5000/graphql`,
-  uri: 'ws://p5test.herokuapp.com/graphql',
+  uri: 'wss://p5test.herokuapp.com/graphql',
   options: {
     reconnect: true,
     lazy: true,
