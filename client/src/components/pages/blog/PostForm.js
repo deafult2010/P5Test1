@@ -97,6 +97,9 @@ const CREATE_POST_MUTATION = gql`
       }
       commentCount
       user {
+        id
+        email
+        token
         username
         createdAt
       }

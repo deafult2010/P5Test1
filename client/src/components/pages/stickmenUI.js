@@ -34,7 +34,7 @@ export default function sketch5(p) {
   // props
   p.myCustomRedrawAccordingToNewPropsHandler = function (props) {
     if (props.UIImage) {
-      if (UIImage != props.UIImage) {
+      if (UIImage !== props.UIImage) {
         UIImage = props.UIImage;
         UIImageX = p.loadImage(UIImage);
       }

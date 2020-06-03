@@ -1,6 +1,7 @@
 const sslRedirect = require('heroku-ssl-redirect');
 const express = require('express');
 const path = require('path');
+const http = require('http');
 const socket = require('socket.io');
 const cors = require('cors');
 
@@ -49,9 +50,22 @@ const apolloServer = new ApolloServer({
 
 apolloServer.applyMiddleware({ app });
 
-const server = app.listen({ port: PORT }, () => {
-  console.log(`Server ready at ${apolloServer.graphqlPath}`);
+const httpServer = http.createServer(app);
+apolloServer.installSubscriptionHandlers(httpServer);
+
+const server = httpServer.listen(PORT, () => {
+  console.log(
+    `🚀 Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`
+  );
+  console.log(
+    `🚀 Subscriptions ready at ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
+  );
 });
+
+// const server = app.listen({ port: PORT }, () => {
+//   console.log(`Server ready at ${apolloServer.graphqlPath}`);
+//   console.log(`Subscriptions ready at ${apolloServer.subscriptionsPath}`);
+// });
 
 // const server = app.listen(PORT, () =>
 //   console.log(`Server started on port ${PORT}`)

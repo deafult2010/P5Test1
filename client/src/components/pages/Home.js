@@ -1,26 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Col, Row } from 'reactstrap';
 
 import { AuthContext } from '../../context/auth';
 import PostCard from './blog/PostCard';
 import PostForm from './blog/PostForm';
-import { FETCH_POSTS_QUERY } from '../../util/graphql';
+import { FETCH_POSTS_QUERY, SUB_POSTS } from '../../util/graphql';
 import Navbar from '../layout/Navbar';
 import MenuBar from './blog/MenuBar';
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
-
   let posts = '';
 
-  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+  const { subscribeToMore, ...result } = useQuery(FETCH_POSTS_QUERY);
+  const { user } = useContext(AuthContext);
 
-  console.log(`Loading: ${loading}`);
-  console.log(data);
+  useEffect(() => {
+    subscribeToMore({
+      document: SUB_POSTS,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newFeed = subscriptionData.data.newPost;
+        console.log(newFeed);
+        console.log(prev);
+        console.log(user);
+        if (user == null || newFeed.user.id !== user.id) {
+          return Object.assign({}, prev, {
+            getPosts: [newFeed, ...prev.getPosts],
+          });
+        }
+        return Object.assign({}, prev, {
+          getPosts: [...prev.getPosts],
+        });
+      },
+    });
+  }, []);
 
-  if (data) {
-    posts = { data: data.getPosts };
+  console.log(`Loading: ${result.loading}`);
+  console.log(result.data);
+
+  if (result.data) {
+    posts = { data: result.data.getPosts };
   }
 
   return (
@@ -38,7 +58,7 @@ export default function Home() {
               <PostForm />
             </Col>
           )}
-          {loading ? (
+          {result.loading ? (
             <h1>Loading Posts...</h1>
           ) : (
             <>

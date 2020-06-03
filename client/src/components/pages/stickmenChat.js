@@ -334,76 +334,76 @@ export default function sketch5(p) {
     };
   }
 
-  function HScrollbar(xp, yp, sw, sh, l) {
-    this.swidth = sw; // width and height of bar
-    this.sheight = sh;
-    var widthtoheight = sw - sh;
-    this.ratio = sw / widthtoheight;
-    this.xpos = xp; // x and y position of bar
-    this.ypos = yp - this.sheight / 2;
-    this.spos = this.xpos + this.swidth / 2 - this.sheight / 2; // x position of slider
-    this.newspos = this.spos;
-    this.sposMin = this.xpos; // max and min values of slider
-    this.sposMax = this.xpos + this.swidth - this.sheight;
-    this.loose = l; // how loose/heavy
-    this.over = false; // is the mouse over the slider?
-    this.locked = false;
+  // function HScrollbar(xp, yp, sw, sh, l) {
+  //   this.swidth = sw; // width and height of bar
+  //   this.sheight = sh;
+  //   var widthtoheight = sw - sh;
+  //   this.ratio = sw / widthtoheight;
+  //   this.xpos = xp; // x and y position of bar
+  //   this.ypos = yp - this.sheight / 2;
+  //   this.spos = this.xpos + this.swidth / 2 - this.sheight / 2; // x position of slider
+  //   this.newspos = this.spos;
+  //   this.sposMin = this.xpos; // max and min values of slider
+  //   this.sposMax = this.xpos + this.swidth - this.sheight;
+  //   this.loose = l; // how loose/heavy
+  //   this.over = false; // is the mouse over the slider?
+  //   this.locked = false;
 
-    this.update = function () {
-      this.newspos = p.constrain(mwdH, this.sposMin, this.sposMax);
-      if (this.overEvent()) {
-        this.over = true;
-      } else {
-        this.over = false;
-      }
-      if (p.mouseIsPressed && this.over) {
-        this.locked = true;
-      }
-      if (!p.mouseIsPressed) {
-        this.locked = false;
-      }
-      if (this.locked) {
-        this.newspos = p.constrain(
-          p.mouseX / scale - this.sheight / 2,
-          this.sposMin,
-          this.sposMax
-        );
-        mwdH = this.newspos;
-      }
-      if (p.abs(this.newspos - this.spos) > 1) {
-        this.spos = this.spos + (this.newspos - this.spos) / this.loose;
-      }
-    };
+  //   this.update = function () {
+  //     this.newspos = p.constrain(mwdH, this.sposMin, this.sposMax);
+  //     if (this.overEvent()) {
+  //       this.over = true;
+  //     } else {
+  //       this.over = false;
+  //     }
+  //     if (p.mouseIsPressed && this.over) {
+  //       this.locked = true;
+  //     }
+  //     if (!p.mouseIsPressed) {
+  //       this.locked = false;
+  //     }
+  //     if (this.locked) {
+  //       this.newspos = p.constrain(
+  //         p.mouseX / scale - this.sheight / 2,
+  //         this.sposMin,
+  //         this.sposMax
+  //       );
+  //       mwdH = this.newspos;
+  //     }
+  //     if (p.abs(this.newspos - this.spos) > 1) {
+  //       this.spos = this.spos + (this.newspos - this.spos) / this.loose;
+  //     }
+  //   };
 
-    this.overEvent = function () {
-      if (
-        p.mouseX / scale > this.xpos &&
-        p.mouseX / scale < this.xpos + this.swidth &&
-        p.mouseY / scale > this.ypos &&
-        p.mouseY / scale < this.ypos + this.sheight
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+  //   this.overEvent = function () {
+  //     if (
+  //       p.mouseX / scale > this.xpos &&
+  //       p.mouseX / scale < this.xpos + this.swidth &&
+  //       p.mouseY / scale > this.ypos &&
+  //       p.mouseY / scale < this.ypos + this.sheight
+  //     ) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   };
 
-    this.display = function () {
-      p.noStroke();
-      p.fill(204);
-      p.rect(this.xpos, this.ypos, this.swidth, this.sheight);
-      if (this.over || this.locked) {
-        p.fill(0, 0, 0);
-      } else {
-        p.fill(102, 102, 102);
-      }
-      p.rect(this.spos, this.ypos, this.sheight, this.sheight);
-    };
+  //   this.display = function () {
+  //     p.noStroke();
+  //     p.fill(204);
+  //     p.rect(this.xpos, this.ypos, this.swidth, this.sheight);
+  //     if (this.over || this.locked) {
+  //       p.fill(0, 0, 0);
+  //     } else {
+  //       p.fill(102, 102, 102);
+  //     }
+  //     p.rect(this.spos, this.ypos, this.sheight, this.sheight);
+  //   };
 
-    this.getPos = function () {
-      // Convert spos to be values between
-      // 0 and the total width of the scrollbar
-      return this.spos * this.ratio;
-    };
-  }
+  //   this.getPos = function () {
+  //     // Convert spos to be values between
+  //     // 0 and the total width of the scrollbar
+  //     return this.spos * this.ratio;
+  //   };
+  // }
 }

@@ -15,6 +15,7 @@ import Blobs from './components/pages/Blobs';
 import GoL from './components/pages/GoL';
 import COVID from './components/pages/COVID';
 import Game1 from './components/pages/Game1';
+import testSub from './components/pages/testSub';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Provider } from 'react-redux';
@@ -39,6 +40,7 @@ const App = () => {
                   <Route exact path='/gol' component={GoL} />
                   <Route exact path='/covid' component={COVID} />
                   <Route exact path='/game1' component={Game1} />
+                  <Route exact path='/testsub' component={testSub} />
                 </Switch>
               </main>
             </div>

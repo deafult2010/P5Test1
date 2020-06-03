@@ -19,6 +19,40 @@ export const FETCH_POSTS_QUERY = gql`
         body
       }
       user {
+        id
+        email
+        token
+        username
+        createdAt
+      }
+    }
+  }
+`;
+
+export const SUB_POSTS = gql`
+  subscription onPostAdded {
+    newPost {
+      id
+      body
+      createdAt
+      username
+      comments {
+        id
+        createdAt
+        username
+        body
+      }
+      likes {
+        id
+        createdAt
+        username
+      }
+      likeCount
+      commentCount
+      user {
+        id
+        email
+        token
         username
         createdAt
       }
