@@ -21,17 +21,7 @@ export default function PostForm() {
         proxy.writeQuery({
           query: FETCH_POSTS_QUERY,
           data: {
-            getPosts: [
-              // {
-              result.data.createPost,
-              // user: {
-              //   createdAt: '1',
-              //   username: '1',
-              //   __typename: 'User',
-              //   // },
-              // },
-              ...data.getPosts,
-            ],
+            getPosts: [result.data.createPost, ...data.getPosts],
           },
         });
         values.body = '';

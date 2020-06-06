@@ -53,5 +53,10 @@ module.exports = gql`
   }
   type Subscription {
     newPost: Post!
+    delPost: Post!
+    likePost: Post!
+    newComment: Post!
+    delComment: Post!
+    countComment: Post!
   }
 `;

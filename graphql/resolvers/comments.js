@@ -24,6 +24,15 @@ module.exports = {
           createdAt: new Date().toISOString(),
         });
         await post.save();
+
+        context.pubsub.publish('NEW_COMMENT', {
+          newComment: post,
+        });
+        // Update comment count on Home Page in real time
+        context.pubsub.publish('COUNT_COMMENT', {
+          countComment: post,
+        });
+
         return post;
       } else throw new UserInputError('Post not found');
     },
@@ -39,6 +48,15 @@ module.exports = {
         if (post.comments[commentIndex].username === username) {
           post.comments.splice(commentIndex, 1);
           await post.save();
+
+          context.pubsub.publish('DEL_COMMENT', {
+            delComment: post,
+          });
+          // Update comment count on Home Page in real time
+          context.pubsub.publish('COUNT_COMMENT', {
+            countComment: post,
+          });
+
           return post;
         } else {
           throw new AuthenticationError('Action not allowed');
@@ -46,6 +64,20 @@ module.exports = {
       } else {
         throw new UserInputError('Post not found');
       }
+    },
+  },
+  Subscription: {
+    newComment: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator('NEW_COMMENT'),
+    },
+    delComment: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator('DEL_COMMENT'),
+    },
+    countComment: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator('COUNT_COMMENT'),
     },
   },
 };

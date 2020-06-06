@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { SUB_POSTS, FETCH_POSTS_QUERY } from '../../util/graphql';
+import { SUB_POST_ADDED, FETCH_POSTS_QUERY } from '../../util/graphql';
 
 export default function TestSub() {
   const { subscribeToMore, ...result } = useQuery(FETCH_POSTS_QUERY);
@@ -10,7 +10,7 @@ export default function TestSub() {
       {...result}
       subscribeToNewComments={() =>
         subscribeToMore({
-          document: SUB_POSTS,
+          document: SUB_POST_ADDED,
           updateQuery: (prev, { subscriptionData }) => {
             if (!subscriptionData.data) return prev;
             const newFeed = subscriptionData.data.newPost;

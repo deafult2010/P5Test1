@@ -46,6 +46,18 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => ({ req, pubsub }),
+  // subscriptions: {
+  //   onConnect: (connectionParams, webSocket, context) => {
+  //     console.log(
+  //       `New GraphQL socket opened: ${webSocket.upgradeReq.headers['sec-websocket-key']}`
+  //     );
+  //   },
+  //   onDisconnect: (webSocket, context) => {
+  //     console.log(
+  //       `GraphQL socket closed: ${webSocket.upgradeReq.headers['sec-websocket-key']}`
+  //     );
+  //   },
+  // },
 });
 
 apolloServer.applyMiddleware({ app });

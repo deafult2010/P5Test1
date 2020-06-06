@@ -1,7 +1,12 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
+import {
+  SUB_NEW_COMMENT,
+  SUB_DEL_COMMENT,
+  SUB_POST_LIKE,
+} from '../../util/graphql';
 // import { FETCH_POST_QUERY } from '../util/graphql';
 import { Col, Row } from 'reactstrap';
 import {
@@ -25,15 +30,33 @@ export default function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
   const commentInputRef = useRef(null);
-  console.log(postId);
 
   const [comment, setComment] = useState('');
 
-  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
-    variables: {
-      postId,
-    },
-  });
+  const { data: { getPost } = {}, subscribeToMore, ...result } = useQuery(
+    FETCH_POST_QUERY,
+    {
+      variables: {
+        postId,
+      },
+    }
+  );
+
+  useEffect(() => {
+    // Update prev getPosts array by adding the subscriptionData to front of array
+    // Store updated automatically in all cases -  no need for an updateQuery
+    subscribeToMore({
+      document: SUB_NEW_COMMENT,
+    });
+
+    subscribeToMore({
+      document: SUB_DEL_COMMENT,
+    });
+
+    subscribeToMore({
+      document: SUB_POST_LIKE,
+    });
+  }, []);
 
   const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
     update() {

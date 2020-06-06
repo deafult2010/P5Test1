@@ -58,6 +58,11 @@ module.exports = {
         const post = await Post.findById(postId);
         if (user.username === post.username) {
           await post.delete();
+
+          context.pubsub.publish('DEL_POST', {
+            delPost: post,
+          });
+
           return 'Post deleted successfully';
         } else {
           throw new AuthenticationError('Action not allowed');
@@ -82,6 +87,11 @@ module.exports = {
           });
         }
         await post.save();
+
+        context.pubsub.publish('LIKE_POST', {
+          likePost: post,
+        });
+
         return post;
       } else throw new UserInputError('Post not found');
     },
@@ -89,6 +99,13 @@ module.exports = {
   Subscription: {
     newPost: {
       subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('NEW_POST'),
+    },
+    delPost: {
+      subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('DEL_POST'),
+    },
+    likePost: {
+      subscribe: (parent, args, { pubsub }) =>
+        pubsub.asyncIterator('LIKE_POST'),
     },
   },
 };
