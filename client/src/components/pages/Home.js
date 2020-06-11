@@ -69,6 +69,7 @@ export default function Home() {
       document: SUB_COUNT_COMMENT,
       // Store updated automatically -  no need for an updateQuery
     });
+    // eslint-disable-next-line
   }, []);
 
   if (result.data) {

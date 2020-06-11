@@ -12,12 +12,12 @@ export const FETCH_POSTS_QUERY = gql`
         username
       }
       commentCount
-      comments {
-        id
-        username
-        createdAt
-        body
-      }
+      # comments {
+      #   id
+      #   username
+      #   createdAt
+      #   body
+      # }
       user {
         id
         email

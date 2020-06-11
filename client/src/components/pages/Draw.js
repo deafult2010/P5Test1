@@ -81,7 +81,7 @@ const Draw = ({
     });
 
     // GetDrawings
-    getDraws();
+    // getDraws();
 
     return () => {
       socket.disconnect();
@@ -115,6 +115,7 @@ const Draw = ({
 
   const onOpenClick = () => {
     setOpenToggle(!openToggle);
+    getDraws();
   };
 
   const onSaveClick = () => {
@@ -389,15 +390,6 @@ const Draw = ({
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-          {/* <EditModal name={name} id={_id} />
-        <Button
-          className='remove-btn'
-          color='danger'
-          size='sm'
-          onClick={this.onDeleteClick.bind(this, _id)}
-        >
-          &times;
-        </Button> */}
         </Col>
       </Row>
       <P5Wrapper
@@ -409,7 +401,6 @@ const Draw = ({
         colorX={colorX}
         strokeX={strokeX}
         joined={joined}
-        // draw={draw}
       />
     </div>
   );
@@ -421,12 +412,10 @@ Draw.propTypes = {
   deleteDraw: PropTypes.func.isRequired,
   updateDraw: PropTypes.func.isRequired,
   draw: PropTypes.object.isRequired,
-  name: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   draw: state.draw,
-  name: state.name,
 });
 
 export default connect(mapStateToProps, {

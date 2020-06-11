@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Confirm, Popup } from 'semantic-ui-react';
-import { Button, Modal } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 import { FETCH_POSTS_QUERY } from '../../../util/graphql';
 

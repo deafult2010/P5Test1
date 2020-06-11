@@ -81,6 +81,7 @@ const OpenDraw = ({
           <ListGroup>
             {draws.map(({ _id, name }) => (
               <ListGroupItem
+                key={_id}
                 style={{ backgroundColor: 'pink', color: 'white' }}
               >
                 <Row>
@@ -110,7 +111,7 @@ const OpenDraw = ({
 };
 
 OpenDraw.propTypes = {
-  openToggle: PropTypes.object.isRequired,
+  openToggle: PropTypes.bool.isRequired,
   draw: PropTypes.object.isRequired,
   deleteDraw: PropTypes.func.isRequired,
   openPic: PropTypes.func.isRequired,

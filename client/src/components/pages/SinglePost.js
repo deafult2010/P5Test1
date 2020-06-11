@@ -33,7 +33,7 @@ export default function SinglePost(props) {
 
   const [comment, setComment] = useState('');
 
-  const { data: { getPost } = {}, subscribeToMore, ...result } = useQuery(
+  const { data: { getPost } = {}, subscribeToMore } = useQuery(
     FETCH_POST_QUERY,
     {
       variables: {
@@ -56,6 +56,7 @@ export default function SinglePost(props) {
     subscribeToMore({
       document: SUB_POST_LIKE,
     });
+    // eslint-disable-next-line
   }, []);
 
   const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {

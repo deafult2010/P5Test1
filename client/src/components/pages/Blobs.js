@@ -3,36 +3,20 @@ import P5Wrapper from 'react-p5-wrapper';
 import io from 'socket.io-client';
 
 import sketch2 from './sketch2';
-import { Nfoods } from './sketch2';
-import { data } from './sketch2';
-import { eatFood } from './sketch2';
-import { eatBlob } from './sketch2';
 import Navbar from '../layout/Navbar';
 import MenuBar from './blog/MenuBar';
 
 //local vs prod
 var socket;
 
-function newFoods() {
-  for (var i = 0; i < 10; i++) {
-    var dataF = {
-      x: Nfoods[i].pos.x,
-      y: Nfoods[i].pos.y,
-      r: Nfoods[i].r,
-    };
-    socket.emit('initFood', dataF);
-  }
-}
-
-function start() {
-  socket.emit('start', data);
-  console.log(data);
-  console.log('emmitting start');
+function dataEmit(name, data1, data2) {
+  socket.emit(name, data1, data2);
 }
 
 const Blobs = () => {
-  let [dataX, setDataX] = useState();
-  let [dataY, setDataY] = useState();
+  let [blobsSub, setBlobsSub] = useState();
+  let [foodsSub, setFoodsSub] = useState();
+  let [socketID, setsocketID] = useState();
 
   useEffect(() => {
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
@@ -46,16 +30,10 @@ const Blobs = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('mouse', function (data) {
-      setDataX(data.x);
-      setDataY(data.y);
-    });
-  });
-
-  useEffect(() => {
-    socket.on('mouse', function (data) {
-      setDataX(data.x);
-      setDataY(data.y);
+    socket.on('gameTick', function (newBlobsSub, newFoodsSub) {
+      setBlobsSub(newBlobsSub);
+      setFoodsSub(newFoodsSub);
+      setsocketID(socket.id);
     });
   });
 
@@ -66,10 +44,10 @@ const Blobs = () => {
       <h1>Blobs</h1>
       <P5Wrapper
         sketch={sketch2}
-        newFoods={newFoods}
-        dataX={dataX}
-        dataY={dataY}
-        start={start}
+        blobsSub={blobsSub}
+        foodsSub={foodsSub}
+        socketID={socketID}
+        dataEmit={dataEmit}
       />
     </div>
   );

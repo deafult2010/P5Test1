@@ -111,9 +111,9 @@ const SaveDraw = ({ saveToggle, draw, addDraw, line, toggleDrawModal }) => {
 };
 
 SaveDraw.propTypes = {
-  saveToggle: PropTypes.object.isRequired,
+  saveToggle: PropTypes.bool.isRequired,
   draw: PropTypes.object.isRequired,
-  line: PropTypes.object.isRequired,
+  line: PropTypes.object,
   addDraw: PropTypes.func.isRequired,
   toggleDrawModal: PropTypes.func.isRequired,
 };

@@ -10,9 +10,9 @@ const app = express();
 const { ApolloServer, PubSub } = require('apollo-server-express');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
-const connectDB = require('./config/db');
 
 // Connect Database
+const connectDB = require('./config/db');
 connectDB();
 
 const pubsub = new PubSub();
@@ -92,7 +92,74 @@ const randomString = (n) => {
 
 // Conect Socket
 const io = socket(server);
-var drawing = { lines: [], name: '', date: '' };
+let drawing = { lines: [], name: '', date: '' };
+
+// Blobs Game
+let width = 400;
+let height = 400;
+let foods = [];
+for (var i = 0; i < 50; i++) {
+  foods.push(
+    new Food(
+      Math.random() * width * 2 - width,
+      Math.random() * height * 2 - height,
+      10
+    )
+  );
+}
+console.log(foods);
+let blobs = [];
+
+function Blob(id, x, y, r) {
+  this.id = id;
+  this.x = x;
+  this.y = y;
+  this.r = r;
+  this.velx = 0;
+  this.vely = 0;
+  this.update = function (blobData) {
+    this.x += blobData.x;
+    this.y += blobData.y;
+  };
+  this.eats = function (other) {
+    let d = Math.sqrt(
+      Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2)
+    );
+    if (d < this.r + other.r && this.r > other.r) {
+      var sum = Math.PI * this.r * this.r + Math.PI * other.r * other.r;
+      this.r = Math.sqrt(sum / Math.PI);
+      return true;
+    } else {
+      return false;
+    }
+  };
+  this.constrain = function () {
+    if (this.x > width) {
+      this.x = width;
+    } else if (this.x < -width) {
+      this.x = -width;
+    }
+    if (this.y > height) {
+      this.y = height;
+    } else if (this.y < -height) {
+      this.y = -height;
+    }
+  };
+  this.counter = function () {
+    return Math.round(this.r);
+  };
+}
+
+function Food(x, y, r) {
+  this.x = x;
+  this.y = y;
+  this.r = r;
+}
+
+setInterval(gameTick, 40);
+function gameTick() {
+  io.emit('gameTick', blobs, foods);
+}
 
 io.sockets.on('connection', newConnection);
 
@@ -100,6 +167,8 @@ function newConnection(socket) {
   console.log('new connection: ' + socket.id);
   socket.emit('joined');
 
+  // -------------------------------------------------------------------
+  //Drawing app:
   socket.on('SLine', SLineMsg);
   socket.on('STempLine', STempLineMsg);
   socket.on('SNameId', SNameIdMsg);
@@ -158,7 +227,88 @@ function newConnection(socket) {
     console.log('abcdefghijklmnopqrstuvwxyz');
   }
 
+  // -------------------------------------------------------------------
+  // Blobs Game
+
+  socket.on('start', startGame);
+  socket.on('update', updateGame);
+
+  function startGame() {
+    // width and height defined above. Blob radius between 15 and 24
+    let blob = new Blob(
+      socket.id,
+      Math.floor(Math.random() * width * 2 - width),
+      Math.floor(Math.random() * height * 2 - height),
+      Math.floor(Math.random() * (24 - 15 + 1)) + 15
+    );
+    blobs.push(blob);
+  }
+
+  function updateGame(blobData) {
+    // --------- Set variable blob equal to the blob --------
+    // --------- of the client sending the update. ----------
+    let blobIndex = blobs
+      .map(function (x) {
+        return x.id;
+      })
+      .indexOf(socket.id);
+
+    blob = blobs[blobIndex];
+    console.log(blob);
+    // // -------- Alternate code for same purpose ------------------
+    // for (var i = blobs.length - 1; i >= 0; i--) {
+    //   if (socket.id == blobs[i].id) {
+    //     blob = blobs[i];
+    //   }
+    // }
+
+    // Update blob's position
+    try {
+      blob.update(blobData);
+      blob.constrain();
+      console.log(blobData);
+
+      // Loop through all blobs checking if blob eats another blob:
+      for (var i = blobs.length - 1; i >= 0; i--) {
+        var id = blobs[i].id;
+        if (id !== socket.id) {
+          if (blob.eats(blobs[i])) {
+            blobs.splice(i, 1);
+          }
+        }
+      }
+
+      // Loop through all foods checking if blob eats food:
+      for (var i = foods.length - 1; i >= 0; i--) {
+        if (blob.eats(foods[i])) {
+          foods.splice(i, 1);
+          foods.push(
+            new Food(
+              Math.random() * width * 2 - width,
+              Math.random() * height * 2 - height,
+              10
+            )
+          );
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // On close connection
   socket.on('disconnect', function () {
+    // Remove Blob
+    var elementPos = blobs
+      .map(function (x) {
+        return x.id;
+      })
+      .indexOf(socket.id);
+    if (elementPos > -1) {
+      blobs.splice(elementPos, 1);
+    }
+    console.log(blobs);
     console.log(socket.id + ' disconnected');
   });
 }
