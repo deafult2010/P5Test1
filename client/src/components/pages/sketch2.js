@@ -89,6 +89,9 @@ export default function sketch2(p) {
       e.preventDefault();
     };
     p.frameRate(20);
+    p.canvas.onselectstart = function () {
+      return false;
+    };
   };
 
   function startGame() {
