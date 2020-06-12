@@ -19,6 +19,10 @@ const Blobs = () => {
   let [socketID, setsocketID] = useState();
 
   useEffect(() => {
+    // prevent touchscroll
+    function handleTouchMove(e) {
+      e.preventDefault();
+    }
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       socket = io('http://localhost:5000');
     } else {
@@ -26,6 +30,10 @@ const Blobs = () => {
     }
     return () => {
       socket.disconnect();
+      // enable touchscroll
+      document.removeEventListener('touchmove', handleTouchMove, {
+        passive: true,
+      });
     };
   }, []);
 
@@ -41,7 +49,7 @@ const Blobs = () => {
     <div className='container'>
       <MenuBar />
       <Navbar />
-      <h1>Blobs</h1>
+      <h1 style={{ margin: 0 }}>Blobs</h1>
       <P5Wrapper
         sketch={sketch2}
         blobsSub={blobsSub}

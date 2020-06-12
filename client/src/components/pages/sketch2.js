@@ -17,22 +17,8 @@ export default function sketch2(p) {
   var scale;
 
   p.setScale = function () {
-    if (window.innerWidth < 400 || window.innerHeight < 480) {
-      p.resizeCanvas(100, 100);
-      scale = 1 / 4;
-    } else if (window.innerWidth < 550 || window.innerHeight < 640) {
-      p.resizeCanvas(200, 200);
-      scale = 1 / 2;
-    } else if (window.innerWidth < 700 || window.innerHeight < 800) {
-      p.resizeCanvas(300, 300);
-      scale = 3 / 4;
-    } else if (window.innerWidth < 850 || window.innerHeight < 950) {
-      p.resizeCanvas(400, 400);
-      scale = 1;
-    } else {
-      p.resizeCanvas(500, 500);
-      scale = 5 / 4;
-    }
+    scale = Math.min(window.innerWidth / 600, (window.innerHeight - 130) / 600);
+    p.resizeCanvas(scale * 580, scale * 580);
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
@@ -102,6 +88,7 @@ export default function sketch2(p) {
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
     };
+    p.frameRate(20);
   };
 
   function startGame() {
@@ -138,7 +125,7 @@ export default function sketch2(p) {
         p.push();
 
         p.translate(p.width / scale / 2, p.height / scale / 2);
-        let newzoom = 64 / blobs[blobIndex].r;
+        let newzoom = 20 / blobs[blobIndex].r ** 0.7;
         zoom = p.lerp(zoom, newzoom, 0.05);
         p.scale(zoom);
         p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
