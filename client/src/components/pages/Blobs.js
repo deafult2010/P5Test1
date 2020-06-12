@@ -22,6 +22,9 @@ const Blobs = () => {
     // prevent touchscroll
     function handleTouchMove(e) {
       e.preventDefault();
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
     }
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       socket = io('http://localhost:5000');
