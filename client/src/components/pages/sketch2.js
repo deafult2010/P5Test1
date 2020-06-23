@@ -12,6 +12,7 @@ export default function sketch2(p) {
   var Cid;
   var foods = [];
   var blobs = [];
+  var clientBlob;
   var gameHist = [];
   var blobIndex;
   var zoom = 1;
@@ -27,9 +28,9 @@ export default function sketch2(p) {
     if (newProps.dataEmit) {
       p.dataEmit = newProps.dataEmit;
     }
-    // if (newProps.blobsSub) {
-    blobs = newProps.blobsSub;
-    // }
+    if (newProps.blobsSub) {
+      blobs = newProps.blobsSub;
+    }
     if (newProps.foodsSub) {
       foods = newProps.foodsSub;
     }
@@ -131,19 +132,20 @@ export default function sketch2(p) {
         p.push();
 
         if (gameHist.length > 1) {
-          console.log(blobs[blobIndex]);
+          clientBlob = blobs[blobIndex];
+          console.log(clientBlob);
           for (var i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
-            blobs[blobIndex].x += gameHist[i].x;
-            blobs[blobIndex].y += gameHist[i].y;
+            clientBlob.x += gameHist[i].x;
+            clientBlob.y += gameHist[i].y;
           }
-          console.log(blobs[blobIndex]);
+          console.log(clientBlob);
         }
 
         p.translate(p.width / scale / 2, p.height / scale / 2);
-        let newzoom = 20 / blobs[blobIndex].r ** 0.7;
+        let newzoom = 20 / clientBlob.r ** 0.7;
         zoom = p.lerp(zoom, newzoom, 0.05);
         p.scale(zoom);
-        p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
+        p.translate(-clientBlob.x, -clientBlob.y);
 
         // Show foods
         for (i = foods.length - 1; i >= 0; i--) {
@@ -155,7 +157,7 @@ export default function sketch2(p) {
         for (i = blobs.length - 1; i >= 0; i--) {
           var id = blobs[i].id;
           if (id !== socketID) {
-            if (blobs[i].r > blobs[blobIndex].r) {
+            if (blobs[i].r > clientBlob.r) {
               p.fill(255, 0, 0);
             } else {
               p.fill(0, 0, 255);
@@ -174,13 +176,13 @@ export default function sketch2(p) {
 
             p.fill(255);
             console.log(Cid - 1);
-            console.log(blobs[blobIndex].Sid);
+            console.log(clientBlob.Sid);
 
             p.ellipse(
-              blobs[blobIndex].x,
-              blobs[blobIndex].y,
-              blobs[blobIndex].r * 2,
-              blobs[blobIndex].r * 2
+              clientBlob.x,
+              clientBlob.y,
+              clientBlob.r * 2,
+              clientBlob.r * 2
             );
 
             // Compute Velocity
@@ -191,8 +193,8 @@ export default function sketch2(p) {
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
               vely = (vely * mag) / hypot;
-              // blobs[blobIndex].x += velx;
-              // blobs[blobIndex].y += vely;
+              // clientBlob.x += velx;
+              // clientBlob.y += vely;
 
               // var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
               // // vel.sub(this.pos);
@@ -205,13 +207,13 @@ export default function sketch2(p) {
             }
 
             // Constrain to map
-            blobs[blobIndex].x = p.constrain(
-              blobs[blobIndex].x,
+            clientBlob.x = p.constrain(
+              clientBlob.x,
               -p.width / scale,
               p.width / scale
             );
-            blobs[blobIndex].y = p.constrain(
-              blobs[blobIndex].y,
+            clientBlob.y = p.constrain(
+              clientBlob.y,
               -p.height / scale,
               p.height / scale
             );
@@ -238,7 +240,7 @@ export default function sketch2(p) {
         p.textSize(18);
         p.fill(255);
         p.text('score', 50, 30);
-        p.text(Math.round(blobs[blobIndex].r), 50, 70);
+        p.text(Math.round(clientBlob.r), 50, 70);
       }
     } else {
       startBtn.show();
