@@ -27,9 +27,9 @@ export default function sketch2(p) {
     if (newProps.dataEmit) {
       p.dataEmit = newProps.dataEmit;
     }
-    if (newProps.blobsSub) {
-      blobs = newProps.blobsSub;
-    }
+    // if (newProps.blobsSub) {
+    blobs = newProps.blobsSub;
+    // }
     if (newProps.foodsSub) {
       foods = newProps.foodsSub;
     }
