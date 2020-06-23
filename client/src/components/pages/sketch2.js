@@ -132,7 +132,7 @@ export default function sketch2(p) {
 
         if (gameHist.length > 1) {
           console.log(blobs[blobIndex]);
-          for (var i = blobs[blobIndex].Sid; i < Cid; i++) {
+          for (var i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
             blobs[blobIndex].x += gameHist[i].x;
             blobs[blobIndex].y += gameHist[i].y;
           }
