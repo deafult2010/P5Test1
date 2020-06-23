@@ -191,8 +191,8 @@ export default function sketch2(p) {
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
               vely = (vely * mag) / hypot;
-              blobs[blobIndex].x += velx;
-              blobs[blobIndex].y += vely;
+              // blobs[blobIndex].x += velx;
+              // blobs[blobIndex].y += vely;
 
               // var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
               // // vel.sub(this.pos);
