@@ -9,8 +9,10 @@ export default function sketch2(p) {
 
   var velx;
   var vely;
+  var Cid;
   var foods = [];
   var blobs = [];
+  var gameHist = [];
   var blobIndex;
   var zoom = 1;
 
@@ -96,6 +98,7 @@ export default function sketch2(p) {
 
   function startGame() {
     p.dataEmit('start');
+    Cid = 0;
     initClick = false;
   }
 
@@ -155,8 +158,20 @@ export default function sketch2(p) {
             p.textSize(4);
             p.text(blobs[i].id, blobs[i].x, blobs[i].y + blobs[i].r * 1.5);
           } else if (id === socketID) {
-            // Show client's blob
+            // --------Do nothing for client blob from server---------------------------
+            // --------Client blob logic should be done locally to reduce latency--------
+
+            // Reconcile client's blob vs client's blob from server
+
             p.fill(255);
+            console.log(Cid - 1);
+            console.log(blobs[blobIndex].Sid);
+            if (gameHist.length > 1) {
+              for (let j = Cid; j < blobs[blobIndex].Sid; j++) {
+                blobs[blobIndex].x += gameHist[j].x;
+                blobs[blobIndex].y += gameHist[j].y;
+              }
+            }
             p.ellipse(
               blobs[blobIndex].x,
               blobs[blobIndex].y,
@@ -167,12 +182,10 @@ export default function sketch2(p) {
             // Compute Velocity
             if (p.mouseIsPressed) {
               velx = p.mouseX - p.width / 2;
-              console.log(velx);
               vely = p.mouseY - p.height / 2;
               let mag = 4;
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
-              console.log(velx);
               vely = (vely * mag) / hypot;
               blobs[blobIndex].x += velx;
               blobs[blobIndex].y += vely;
@@ -206,8 +219,13 @@ export default function sketch2(p) {
         dataPub1 = {
           x: velx,
           y: vely,
+          Cid: Cid,
         };
-        p.dataEmit('update', dataPub1);
+        if (dataPub1.x !== 0 || dataPub1.y !== 0) {
+          p.dataEmit('update', dataPub1);
+          gameHist = [...gameHist, dataPub1];
+          Cid = Cid + 1;
+        }
 
         //score
         p.fill(0);

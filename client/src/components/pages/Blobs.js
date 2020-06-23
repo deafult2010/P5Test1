@@ -9,8 +9,8 @@ import MenuBar from './blog/MenuBar';
 //local vs prod
 var socket;
 
-function dataEmit(name, data1, data2) {
-  socket.emit(name, data1, data2);
+function dataEmit(name, data1) {
+  socket.emit(name, data1);
 }
 
 const Blobs = () => {
@@ -47,7 +47,7 @@ const Blobs = () => {
       setFoodsSub(newFoodsSub);
       setsocketID(socket.id);
     });
-  });
+  }, []);
 
   return (
     <div className='container'>

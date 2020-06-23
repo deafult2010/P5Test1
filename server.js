@@ -107,19 +107,25 @@ for (var i = 0; i < 50; i++) {
     )
   );
 }
-console.log(foods);
 let blobs = [];
+let Sid = 0;
 
 function Blob(id, x, y, r) {
+  // SocketID
   this.id = id;
+  // X & Y pos
   this.x = x;
   this.y = y;
+  // Radius
   this.r = r;
+  // ServerID
+  this.Sid = 0;
   this.velx = 0;
   this.vely = 0;
   this.update = function (blobData) {
     this.x += blobData.x;
     this.y += blobData.y;
+    this.Sid = blobData.Cid;
   };
   this.eats = function (other) {
     let d = Math.sqrt(
@@ -254,7 +260,6 @@ function newConnection(socket) {
       .indexOf(socket.id);
 
     blob = blobs[blobIndex];
-    console.log(blob);
     // // -------- Alternate code for same purpose ------------------
     // for (var i = blobs.length - 1; i >= 0; i--) {
     //   if (socket.id == blobs[i].id) {
@@ -266,7 +271,6 @@ function newConnection(socket) {
     try {
       blob.update(blobData);
       blob.constrain();
-      console.log(blobData);
 
       // Loop through all blobs checking if blob eats another blob:
       for (var i = blobs.length - 1; i >= 0; i--) {
