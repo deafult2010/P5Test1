@@ -130,6 +130,15 @@ export default function sketch2(p) {
       } else if (blobIndex !== -1 && inGame) {
         p.push();
 
+        if (gameHist.length > 1) {
+          console.log(blobs[blobIndex]);
+          for (var i = blobs[blobIndex].Sid; i < Cid; i++) {
+            blobs[blobIndex].x += gameHist[i].x;
+            blobs[blobIndex].y += gameHist[i].y;
+          }
+          console.log(blobs[blobIndex]);
+        }
+
         p.translate(p.width / scale / 2, p.height / scale / 2);
         let newzoom = 20 / blobs[blobIndex].r ** 0.7;
         zoom = p.lerp(zoom, newzoom, 0.05);
@@ -137,7 +146,7 @@ export default function sketch2(p) {
         p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
 
         // Show foods
-        for (var i = foods.length - 1; i >= 0; i--) {
+        for (i = foods.length - 1; i >= 0; i--) {
           p.fill(255, 255, 0);
           p.ellipse(foods[i].x, foods[i].y, foods[i].r);
         }
@@ -166,12 +175,7 @@ export default function sketch2(p) {
             p.fill(255);
             console.log(Cid - 1);
             console.log(blobs[blobIndex].Sid);
-            if (gameHist.length > 1) {
-              for (let j = Cid; j < blobs[blobIndex].Sid; j++) {
-                blobs[blobIndex].x += gameHist[j].x;
-                blobs[blobIndex].y += gameHist[j].y;
-              }
-            }
+
             p.ellipse(
               blobs[blobIndex].x,
               blobs[blobIndex].y,
