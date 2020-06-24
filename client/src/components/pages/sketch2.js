@@ -137,15 +137,20 @@ export default function sketch2(p) {
           for (var i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
             clientBlob.x += gameHist[i].x;
             clientBlob.y += gameHist[i].y;
+            console.log(gameHist[i].x);
           }
           console.log(clientBlob);
         }
 
         p.translate(p.width / scale / 2, p.height / scale / 2);
-        let newzoom = 20 / clientBlob.r ** 0.7;
+        let newzoom = 20 / blobs[blobIndex].r ** 0.7;
         zoom = p.lerp(zoom, newzoom, 0.05);
         p.scale(zoom);
-        p.translate(-clientBlob.x, -clientBlob.y);
+        if (gameHist.length < 2) {
+          p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
+        } else if (gameHist.length > 1) {
+          p.translate(-clientBlob.x, -clientBlob.y);
+        }
 
         // Show foods
         for (i = foods.length - 1; i >= 0; i--) {
@@ -176,14 +181,23 @@ export default function sketch2(p) {
 
             p.fill(255);
             console.log(Cid - 1);
-            console.log(clientBlob.Sid);
+            console.log(blobs[blobIndex].Sid);
 
-            p.ellipse(
-              clientBlob.x,
-              clientBlob.y,
-              clientBlob.r * 2,
-              clientBlob.r * 2
-            );
+            if (gameHist.length < 2) {
+              p.ellipse(
+                blobs[blobIndex].x,
+                blobs[blobIndex].y,
+                blobs[blobIndex].r * 2,
+                blobs[blobIndex].r * 2
+              );
+            } else if (gameHist.length > 1) {
+              p.ellipse(
+                clientBlob.x,
+                clientBlob.y,
+                clientBlob.r * 2,
+                clientBlob.r * 2
+              );
+            }
 
             // Compute Velocity
             if (p.mouseIsPressed) {
@@ -193,8 +207,8 @@ export default function sketch2(p) {
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
               vely = (vely * mag) / hypot;
-              // clientBlob.x += velx;
-              // clientBlob.y += vely;
+              // blobs[blobIndex].x += velx;
+              // blobs[blobIndex].y += vely;
 
               // var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
               // // vel.sub(this.pos);
@@ -207,16 +221,29 @@ export default function sketch2(p) {
             }
 
             // Constrain to map
-            clientBlob.x = p.constrain(
-              clientBlob.x,
-              -p.width / scale,
-              p.width / scale
-            );
-            clientBlob.y = p.constrain(
-              clientBlob.y,
-              -p.height / scale,
-              p.height / scale
-            );
+            if (gameHist.length < 2) {
+              blobs[blobIndex].x = p.constrain(
+                blobs[blobIndex].x,
+                -p.width / scale,
+                p.width / scale
+              );
+              blobs[blobIndex].y = p.constrain(
+                blobs[blobIndex].y,
+                -p.height / scale,
+                p.height / scale
+              );
+            } else if (gameHist.length > 1) {
+              clientBlob.x = p.constrain(
+                clientBlob.x,
+                -p.width / scale,
+                p.width / scale
+              );
+              clientBlob.y = p.constrain(
+                clientBlob.y,
+                -p.height / scale,
+                p.height / scale
+              );
+            }
           }
         }
 
@@ -240,7 +267,7 @@ export default function sketch2(p) {
         p.textSize(18);
         p.fill(255);
         p.text('score', 50, 30);
-        p.text(Math.round(clientBlob.r), 50, 70);
+        p.text(Math.round(blobs[blobIndex].r), 50, 70);
       }
     } else {
       startBtn.show();
