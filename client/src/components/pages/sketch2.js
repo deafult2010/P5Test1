@@ -103,7 +103,7 @@ export default function sketch2(p) {
     initClick = false;
   }
 
-  p.draw = () => {
+  p.draw = async () => {
     p.scale(scale);
     if (p.mouseIsPressed) {
       startBtn.clicked();
@@ -132,7 +132,7 @@ export default function sketch2(p) {
         p.push();
 
         if (gameHist.length > 1) {
-          clientBlob = blobs[blobIndex];
+          clientBlob = await blobs[blobIndex];
           console.log(clientBlob);
           for (var i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
             clientBlob.x += gameHist[i].x;
