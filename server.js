@@ -162,7 +162,7 @@ function Food(x, y, r) {
   this.r = r;
 }
 
-setInterval(gameTick, 50);
+setInterval(gameTick, 500);
 function gameTick() {
   io.emit('gameTick', blobs, foods);
 }

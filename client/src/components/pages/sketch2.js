@@ -10,9 +10,10 @@ export default function sketch2(p) {
   var velx;
   var vely;
   var Cid;
+  var timer;
   var foods = [];
+  var blobsOld = [];
   var blobs = [];
-  var clientBlob;
   var gameHist = [];
   var blobIndex;
   var zoom = 1;
@@ -20,8 +21,8 @@ export default function sketch2(p) {
   var scale;
 
   p.setScale = function () {
-    scale = Math.min(window.innerWidth / 600, (window.innerHeight - 130) / 600);
-    p.resizeCanvas(scale * 580, scale * 580);
+    scale = Math.min(window.innerWidth / 440, (window.innerHeight - 130) / 440);
+    p.resizeCanvas(scale * 400, scale * 400);
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
@@ -29,7 +30,13 @@ export default function sketch2(p) {
       p.dataEmit = newProps.dataEmit;
     }
     if (newProps.blobsSub) {
+      // store previous two blobs data arrays from server in another array to allow for interpolation between the two for enemy blobs.
+      blobsOld = [...blobsOld, blobs];
+      if (blobsOld.length > 2) {
+        blobsOld.shift();
+      }
       blobs = newProps.blobsSub;
+      timer = 0;
     }
     if (newProps.foodsSub) {
       foods = newProps.foodsSub;
@@ -38,6 +45,10 @@ export default function sketch2(p) {
       socketID = newProps.socketID;
     }
   };
+
+  setInterval(function () {
+    timer += 1;
+  }, 50);
 
   function StartBtn(x, y, w, h) {
     this.x = x;
@@ -84,7 +95,7 @@ export default function sketch2(p) {
   }
 
   p.setup = () => {
-    p.createCanvas(600, 600);
+    p.createCanvas(400, 400);
     p.setScale();
     startBtn = new StartBtn(15, 30, 70, 20);
     //disables "context menu" on right click for the canvas
@@ -101,9 +112,10 @@ export default function sketch2(p) {
     p.dataEmit('start');
     Cid = 0;
     initClick = false;
+    gameHist = [];
   }
 
-  p.draw = async () => {
+  p.draw = () => {
     p.scale(scale);
     if (p.mouseIsPressed) {
       startBtn.clicked();
@@ -132,47 +144,70 @@ export default function sketch2(p) {
         p.push();
 
         if (gameHist.length > 1) {
-          clientBlob = await blobs[blobIndex];
-          console.log(clientBlob);
-          for (var i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
-            clientBlob.x += gameHist[i].x;
-            clientBlob.y += gameHist[i].y;
-            console.log(gameHist[i].x);
+          for (let i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
+            // Constrain if by edge
+            if (
+              blobs[blobIndex].x + gameHist[i].x <= 400 &&
+              blobs[blobIndex].x + gameHist[i].x >= -400
+            ) {
+              blobs[blobIndex].x += gameHist[i].x;
+            }
+            if (
+              blobs[blobIndex].y + gameHist[i].y <= 400 &&
+              blobs[blobIndex].y + gameHist[i].y >= -400
+            ) {
+              blobs[blobIndex].y += gameHist[i].y;
+            }
+            blobs[blobIndex].Sid += 1;
           }
-          console.log(clientBlob);
         }
 
         p.translate(p.width / scale / 2, p.height / scale / 2);
-        let newzoom = 20 / blobs[blobIndex].r ** 0.7;
+        let newzoom = 20 / blobs[blobIndex].r ** 0.9;
         zoom = p.lerp(zoom, newzoom, 0.05);
         p.scale(zoom);
-        if (gameHist.length < 2) {
-          p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
-        } else if (gameHist.length > 1) {
-          p.translate(-clientBlob.x, -clientBlob.y);
-        }
+        p.translate(-blobs[blobIndex].x, -blobs[blobIndex].y);
 
         // Show foods
-        for (i = foods.length - 1; i >= 0; i--) {
+        for (let i = foods.length - 1; i >= 0; i--) {
           p.fill(255, 255, 0);
           p.ellipse(foods[i].x, foods[i].y, foods[i].r);
         }
 
         // Show blobs
-        for (i = blobs.length - 1; i >= 0; i--) {
-          var id = blobs[i].id;
+        for (let i = blobs.length - 1; i >= 0; i--) {
+          let id = blobs[i].id;
           if (id !== socketID) {
-            if (blobs[i].r > clientBlob.r) {
+            if (blobs[i].r > blobs[blobIndex].r) {
               p.fill(255, 0, 0);
             } else {
               p.fill(0, 0, 255);
             }
-            p.ellipse(blobs[i].x, blobs[i].y, blobs[i].r * 2, blobs[i].r * 2);
-
-            p.fill(255);
-            p.textAlign(p.CENTER);
-            p.textSize(4);
-            p.text(blobs[i].id, blobs[i].x, blobs[i].y + blobs[i].r * 1.5);
+            for (let j = blobsOld[0].length - 1; j >= 0; j--) {
+              let id2 = blobsOld[0][j].id;
+              if (id === id2) {
+                let enemyBlobX = p.lerp(
+                  blobsOld[0][j].x,
+                  blobs[i].x,
+                  timer / 10
+                );
+                let enemyBlobY = p.lerp(
+                  blobsOld[0][j].y,
+                  blobs[i].y,
+                  timer / 10
+                );
+                p.ellipse(
+                  enemyBlobX,
+                  enemyBlobY,
+                  blobs[i].r * 2,
+                  blobs[i].r * 2
+                );
+                p.fill(255);
+                p.textAlign(p.CENTER);
+                p.textSize(4);
+                p.text(blobs[i].id, enemyBlobX, enemyBlobY + blobs[i].r * 1.5);
+              }
+            }
           } else if (id === socketID) {
             // --------Do nothing for client blob from server---------------------------
             // --------Client blob logic should be done locally to reduce latency--------
@@ -180,24 +215,13 @@ export default function sketch2(p) {
             // Reconcile client's blob vs client's blob from server
 
             p.fill(255);
-            console.log(Cid - 1);
-            console.log(blobs[blobIndex].Sid);
 
-            if (gameHist.length < 2) {
-              p.ellipse(
-                blobs[blobIndex].x,
-                blobs[blobIndex].y,
-                blobs[blobIndex].r * 2,
-                blobs[blobIndex].r * 2
-              );
-            } else if (gameHist.length > 1) {
-              p.ellipse(
-                clientBlob.x,
-                clientBlob.y,
-                clientBlob.r * 2,
-                clientBlob.r * 2
-              );
-            }
+            p.ellipse(
+              blobs[blobIndex].x,
+              blobs[blobIndex].y,
+              blobs[blobIndex].r * 2,
+              blobs[blobIndex].r * 2
+            );
 
             // Compute Velocity
             if (p.mouseIsPressed) {
@@ -207,42 +231,9 @@ export default function sketch2(p) {
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
               vely = (vely * mag) / hypot;
-              // blobs[blobIndex].x += velx;
-              // blobs[blobIndex].y += vely;
-
-              // var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
-              // // vel.sub(this.pos);
-              // newvel.setMag((abs(mouseX - width / 2) + abs(mouseY - height / 2)) / 100);
-              // this.vel.lerp(newvel, 0.05);
-              // this.pos.add(this.vel);
             } else if (!p.mouseIsPressed) {
               velx = 0;
               vely = 0;
-            }
-
-            // Constrain to map
-            if (gameHist.length < 2) {
-              blobs[blobIndex].x = p.constrain(
-                blobs[blobIndex].x,
-                -p.width / scale,
-                p.width / scale
-              );
-              blobs[blobIndex].y = p.constrain(
-                blobs[blobIndex].y,
-                -p.height / scale,
-                p.height / scale
-              );
-            } else if (gameHist.length > 1) {
-              clientBlob.x = p.constrain(
-                clientBlob.x,
-                -p.width / scale,
-                p.width / scale
-              );
-              clientBlob.y = p.constrain(
-                clientBlob.y,
-                -p.height / scale,
-                p.height / scale
-              );
             }
           }
         }
