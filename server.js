@@ -162,7 +162,7 @@ function Food(x, y, r) {
   this.r = r;
 }
 
-setInterval(gameTick, 500);
+setInterval(gameTick, 100);
 function gameTick() {
   io.emit('gameTick', blobs, foods);
 }
@@ -238,8 +238,20 @@ function newConnection(socket) {
 
   socket.on('start', startGame);
   socket.on('update', updateGame);
+  socket.on('exit', exitGame);
 
   function startGame() {
+    // Check socket.id does not already exist:
+    let blobIndex = blobs
+      .map(function (x) {
+        return x.id;
+      })
+      .indexOf(socket.id);
+    console.log(blobIndex);
+    if (blobIndex != -1) {
+      return;
+    }
+
     // width and height defined above. Blob radius between 15 and 24
     let blob = new Blob(
       socket.id,
@@ -248,6 +260,19 @@ function newConnection(socket) {
       Math.floor(Math.random() * (24 - 15 + 1)) + 15
     );
     blobs.push(blob);
+  }
+
+  function exitGame() {
+    // Check socket.id does not already exist:
+    let blobIndex = blobs
+      .map(function (x) {
+        return x.id;
+      })
+      .indexOf(socket.id);
+    if (blobIndex > -1) {
+      blobs.splice(blobIndex, 1);
+    }
+    console.log(blobs);
   }
 
   function updateGame(blobData) {
