@@ -28,7 +28,7 @@ module.exports = {
         context.pubsub.publish('NEW_COMMENT', {
           newComment: post,
         });
-        // Update comment count on Home Page in real time
+        // Update comment count on Community Page in real time
         context.pubsub.publish('COUNT_COMMENT', {
           countComment: post,
         });
@@ -52,7 +52,7 @@ module.exports = {
           context.pubsub.publish('DEL_COMMENT', {
             delComment: post,
           });
-          // Update comment count on Home Page in real time
+          // Update comment count on Community Page in real time
           context.pubsub.publish('COUNT_COMMENT', {
             countComment: post,
           });

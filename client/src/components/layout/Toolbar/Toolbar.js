@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import '../SideDrawer/DrawerToggleButton';
 import './Toolbar.css';
@@ -55,94 +55,89 @@ if (!isIE11) {
   Links = (
     <ul>
       <li>
-        <Link to='/'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            Home
-          </Button>
-        </Link>
+        <UncontrolledDropdown>
+          <DropdownToggle caret className='toolbar-btn' style={{
+            backgroundColor: 'purple',
+            color: 'white',
+            border: '2px solid black',
+          }}>
+            Games
+      </DropdownToggle>
+          <DropdownMenu style={{
+            backgroundColor: '#6e1e6d',
+            color: 'white',
+            border: '2px solid black',
+            padding: '0px'
+          }}>
+            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Games</strong></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+              All Games</p>
+            </Link></DropdownItem>
+            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/Blobs'><p style={{ color: 'white' }}>
+              Blobs</p>
+            </Link></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/Draw'><p style={{ color: 'white' }}>
+              Draw</p>
+            </Link></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/game1'><p style={{ color: 'white' }}>
+              Stickmen</p>
+            </Link></DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </li>
       <li>
-        <Link to='/draw'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            Draw
-          </Button>
-        </Link>
+        <UncontrolledDropdown>
+          <DropdownToggle caret className='toolbar-btn' style={{
+            backgroundColor: 'purple',
+            color: 'white',
+            border: '2px solid black',
+          }}>
+            PoC
+      </DropdownToggle>
+          <DropdownMenu style={{
+            backgroundColor: '#6e1e6d',
+            color: 'white',
+            border: '2px solid black',
+            padding: '0px'
+          }}>
+            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Proof of Concept</strong></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+              All PoCs</p>
+            </Link></DropdownItem>
+            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/gol'><p style={{ color: 'white' }}>
+              GoL</p>
+            </Link></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/covid'><p style={{ color: 'white' }}>
+              COVID Curve</p>
+            </Link></DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </li>
       <li>
-        <Link to='/blobs'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            Blobs
-          </Button>
-        </Link>
-      </li>
-      <li>
-        <Link to='/gol'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            GoL
-          </Button>
-        </Link>
-      </li>
-      <li>
-        <Link to='/covid'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            COVID
-          </Button>
-        </Link>
-      </li>
-      <li>
-        <Link to='/game1'>
-          <Button
-            className='toolbar-btn'
-            style={{
-              backgroundColor: 'purple',
-              color: 'white',
-              border: '2px solid black',
-            }}
-            size='lg'
-          >
-            Game 1
-          </Button>
-        </Link>
+        <UncontrolledDropdown>
+          <DropdownToggle caret className='toolbar-btn' style={{
+            backgroundColor: 'purple',
+            color: 'white',
+            border: '2px solid black',
+          }}>
+            Community
+      </DropdownToggle>
+          <DropdownMenu style={{
+            backgroundColor: '#6e1e6d',
+            color: 'white',
+            border: '2px solid black',
+            padding: '0px'
+          }}>
+            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Community</strong></DropdownItem>
+            <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+              Forum</p>
+            </Link></DropdownItem>
+
+            <DropdownItem disabled>Highscores</DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </li>
       <li>
         <Link to='/about'>
@@ -179,9 +174,6 @@ if (!isIE11) {
   Links = (
     <ul>
       <li>
-        <a href='/'>Home</a>
-      </li>
-      <li>
         <a href='/draw'>Draw</a>
       </li>
       <li>
@@ -195,6 +187,9 @@ if (!isIE11) {
       </li>
       <li>
         <a href='/game1'>Game 1</a>
+      </li>
+      <li>
+        <a href='/Community'>Community</a>
       </li>
       <li>
         <a href='/about'>About</a>

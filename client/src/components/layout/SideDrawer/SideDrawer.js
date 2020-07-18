@@ -12,11 +12,6 @@ const SideDrawer = (props) => {
     <nav className={drawerClasses}>
       <ul>
         <li>
-          <Link to='/' onClick={props.click}>
-            <Card style={{ margin: '0px' }}>Home</Card>
-          </Link>
-        </li>
-        <li>
           <Link to='/draw' onClick={props.click}>
             <Card style={{ margin: '0px' }}>Draw</Card>
           </Link>
@@ -34,6 +29,11 @@ const SideDrawer = (props) => {
         <li>
           <Link to='/covid' onClick={props.click}>
             <Card style={{ margin: '0px' }}>COVID</Card>
+          </Link>
+        </li>
+        <li>
+          <Link to='/community' onClick={props.click}>
+            <Card style={{ margin: '0px' }}>Community</Card>
           </Link>
         </li>
         <li>

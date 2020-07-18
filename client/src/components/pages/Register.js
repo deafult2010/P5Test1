@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Form, Button, Input, Label, FormGroup } from 'reactstrap';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -12,6 +12,14 @@ import MenuBar from './blog/MenuBar';
 export default function Register(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
+
+  // On ComponentDidMount
+  useEffect(() => {
+
+    // Scroll to top.
+    window.scrollTo(0, 1);
+
+  }, []);
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
     username: '',

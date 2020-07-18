@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../layout/Navbar';
 import MenuBar from './blog/MenuBar';
 
 const About = () => {
+
+  // On ComponentDidMount
+  useEffect(() => {
+
+    // Scroll to top.
+    window.scrollTo(0, 1);
+
+  }, []);
+
   return (
     <div className='container'>
       <MenuBar />

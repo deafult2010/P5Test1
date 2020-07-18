@@ -1,110 +1,303 @@
-import React, { useContext, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Col, Row } from 'reactstrap';
-
-import { AuthContext } from '../../context/auth';
-import PostCard from './blog/PostCard';
-import PostForm from './blog/PostForm';
-import {
-  FETCH_POSTS_QUERY,
-  SUB_POST_ADDED,
-  SUB_POST_DEL,
-  SUB_POST_LIKE,
-  SUB_COUNT_COMMENT,
-} from '../../util/graphql';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import MenuBar from './blog/MenuBar';
+import {
+    Row,
+    Col,
+    Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    TabContent, TabPane, Nav, NavItem, NavLink, Button, Form, FormGroup, Label, Input
+} from 'reactstrap';
 
-export default function Home() {
-  let posts = '';
+import classnames from 'classnames';
 
-  const { subscribeToMore, ...result } = useQuery(FETCH_POSTS_QUERY);
-  const { user } = useContext(AuthContext);
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-  useEffect(() => {
-    // Update prev getPosts array by adding the subscriptionData to front of array
-    subscribeToMore({
-      document: SUB_POST_ADDED,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newFeed = subscriptionData.data.newPost;
-        if (user == null || newFeed.user.id !== user.id) {
-          return Object.assign({}, prev, {
-            getPosts: [newFeed, ...prev.getPosts],
-          });
-        }
-        return Object.assign({}, prev, {
-          getPosts: [...prev.getPosts],
-        });
-      },
+
+const GameOfWeekImg = require('./images/BlobsPic.PNG');
+const Pic1 = require('./images/Pic1.png');
+const Pic2 = require('./images/Pic2.png');
+const Pic3 = require('./images/Pic3.png');
+
+
+// Carousel Items
+const items = [
+    {
+        src: Pic1,
+    },
+    {
+        src: Pic2,
+    },
+    {
+        src: Pic3,
+    }
+];
+
+const Home = (props) => {
+    const [activeTab, setActiveTab] = useState('1');
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [animating, setAnimating] = useState(false);
+
+    // On ComponentDidMount
+    useEffect(() => {
+
+        // Scroll to top.
+        window.scrollTo(0, 1);
+
+    }, []);
+
+    const toggle = tab => {
+        if (activeTab !== tab) setActiveTab(tab);
+    }
+
+    const next = () => {
+        if (animating) return;
+        const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+        setActiveIndex(nextIndex);
+    }
+
+    const previous = () => {
+        if (animating) return;
+        const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+        setActiveIndex(nextIndex);
+    }
+
+    const goToIndex = (newIndex) => {
+        if (animating) return;
+        setActiveIndex(newIndex);
+    }
+
+    const slides = items.map((item) => {
+        return (
+            <CarouselItem
+                onExiting={() => setAnimating(true)}
+                onExited={() => setAnimating(false)}
+                key={item.src}
+            >
+                <img src={item.src} alt='Carousel pic' />
+            </CarouselItem>
+        );
     });
 
-    // Update prev getPosts array by filtering out the subscriptionData
-    subscribeToMore({
-      document: SUB_POST_DEL,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        const newFeed = subscriptionData.data.delPost;
-        if (user == null || newFeed.user.id !== user.id) {
-          return Object.assign({}, prev, {
-            getPosts: [
-              ...prev.getPosts.filter((post) => post.id !== newFeed.id),
-            ],
-          });
-        }
-        return Object.assign({}, prev, {
-          getPosts: [...prev.getPosts],
-        });
-      },
-    });
+    return (
+        <div className='container' >
+            <MenuBar />
+            <Navbar />
+            <Row xs="1" md='1' lg='1' style={{
+                margin: '10px',
+            }}>
+                <Carousel
+                    activeIndex={activeIndex}
+                    next={next}
+                    previous={previous}
+                >
+                    <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
+                    {slides}
+                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
+                    <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+                </Carousel>
+            </Row>
+            <br />
+            <Row xs="1" style={{
+                margin: '10px',
+            }}>
+                <Col className='HomeCard' md="12" lg='7' style={{
+                    backgroundColor: '#ffd494',
+                    border: '2px solid black',
+                    borderRadius: '12px', padding: '12px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                }}>
+                    <Row xs="2" style={{
+                        margin: '0px',
+                    }}>
+                        <Col xs='4' style={{ padding: '0px' }}>
+                            <strong>Featured Game of the Week:</strong>
+                        </Col >
+                        <Col xs='8' style={{ padding: '0px' }}>
+                            <Link to='/Blobs' style={{ backgroundColor: 'purple', color: 'white', float: 'right', height: '200px' }}>
+                                <Row>
 
-    // Simply update prev getPosts array with subscriptionData
-    subscribeToMore({
-      document: SUB_POST_LIKE,
-      // Store updated automatically -  no need for an updateQuery
-    });
+                                    <Col xs='6'>
+                                        <img src={GameOfWeekImg} alt="Pic of week" style={{ margin: '10px' }}></img>
+                                    </Col>
+                                    <Col xs='6'>
+                                        <div >
+                                            <h1>
+                                                Blobs</h1>
+                                            <p>
+                                                Eat all the other blobs to win!!!
+                                                </p>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Link>
+                        </Col >
+                    </Row>
+                </Col >
+                <br />
+                <Col md='12' lg='5'>
+                    <Row xs="1">
+                        <Col md='0' lg='1'></Col>
+                        <br />
+                        <Col className='HomeCard' md='12' lg='11' style={{
+                            backgroundColor: '#ffd494',
+                            border: '2px solid black',
+                            borderRadius: '12px', padding: '12px',
+                            marginLeft: 'auto',
+                            marginRight: 'auto'
+                        }}>
+                            <Form>
+                                <FormGroup tag="fieldset" row style={{ padding: '0px', marginTop: '0px' }}>
+                                    <legend className="col-form-label" style={{ fontSize: '20px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell', }}>Quick Poll</legend>
+                                    <hr style={{ marginTop: '0px' }} />
+                                    <Col style={{ padding: '0px' }}>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio2" />{' '}
+                                        &nbsp; &nbsp; &nbsp; &nbsp;Create More Games
+                                    </Label>
+                                        </FormGroup>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio2" />{' '}
+                                            &nbsp; &nbsp; &nbsp; &nbsp;Further Develop Existing Games
 
-    // Simply update prev getPosts array with subscriptionData
-    subscribeToMore({
-      document: SUB_COUNT_COMMENT,
-      // Store updated automatically -  no need for an updateQuery
-    });
-    // eslint-disable-next-line
-  }, []);
+                                    </Label>
+                                        </FormGroup>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio2" />{' '}
+                                        &nbsp; &nbsp; &nbsp; &nbsp;More Proof of Concepts
+                                    </Label>
+                                        </FormGroup>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio2" />{' '}
+                                        &nbsp; &nbsp; &nbsp; &nbsp;Improve UI/UX
+                                    </Label>
+                                        </FormGroup>
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio2" />{' '}
+                                        &nbsp; &nbsp; &nbsp; &nbsp;More User Features
+                                    </Label>
+                                        </FormGroup>
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup check row>
+                                    <Col >
+                                        <Button className='toolbar-btn' style={{ backgroundColor: 'purple', color: 'white' }}>Submit</Button>
+                                    </Col>
+                                </FormGroup>
+                            </Form>
+                        </Col>
 
-  if (result.data) {
-    posts = { data: result.data.getPosts };
-  }
-
-  return (
-    <div className='container'>
-      <MenuBar />
-      <Navbar />
-      <Row>
-        <Row className='page-title'>
-          {' '}
-          <h1>Recent Posts</h1>{' '}
-        </Row>
-        <Row xs='3'>
-          {user && (
-            <Col>
-              <PostForm />
-            </Col>
-          )}
-          {result.loading ? (
-            <h1>Loading Posts...</h1>
-          ) : (
-            <>
-              {posts.data &&
-                posts.data.map((post) => (
-                  <Col key={post.id} style={{ marginBottom: 20 }}>
-                    <PostCard post={post} />
-                  </Col>
-                ))}
-            </>
-          )}
-        </Row>
-      </Row>
-    </div>
-  );
+                    </Row>
+                </Col>
+            </Row>
+            <br />
+            <Row xs="1" style={{ margin: '10px' }}>
+                <Col className='HomeCard' md="12" lg='7' style={{
+                    backgroundColor: '#ffd494',
+                    border: '2px solid black',
+                    borderRadius: '12px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                }}>
+                    <div>
+                        <Nav tabs>
+                            <NavItem>
+                                <NavLink href="#"
+                                    className={classnames({ active: activeTab === '1' })}
+                                    onClick={() => { toggle('1'); }}
+                                    style={{
+                                        backgroundColor: 'purple',
+                                        color: 'white',
+                                        border: '2px solid black',
+                                    }}
+                                >
+                                    News
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="#"
+                                    style={{
+                                        backgroundColor: 'purple',
+                                        color: 'white',
+                                        border: '2px solid black',
+                                    }}
+                                    className={classnames({ active: activeTab === '2' })}
+                                    onClick={() => { toggle('2'); }}
+                                >
+                                    Media
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                        <TabContent activeTab={activeTab}>
+                            <TabPane tabId="1">
+                                <Row>
+                                    <Col md="12" style={{ backgroundColor: '#ffd494' }}>
+                                        <h4>Tab 1 Contents</h4>
+                                    </Col>
+                                </Row>
+                            </TabPane>
+                            <TabPane tabId="2">
+                                <Row>
+                                    <Col md="12" style={{ backgroundColor: '#ffd494' }}>
+                                        <h4>Tab 2 Contents</h4>
+                                    </Col>
+                                </Row>
+                            </TabPane>
+                        </TabContent>
+                    </div></Col>
+                <br />
+                <Col md='12' lg='5'>
+                    <Row xs='1'>
+                        <Col md='0' lg='1'></Col>
+                        <br />
+                        <Col md='12' lg='11'>
+                            <Row xs="1">
+                                <Col className='HomeCard' style={{
+                                    backgroundColor: '#ffd494',
+                                    border: '2px solid black',
+                                    borderRadius: '12px',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto'
+                                }}>
+                                    <p style={{ fontSize: '30px', color: '#00b3b3', fontWeight: 'bold', fontFamily: 'Rockwell', marginBottom: '0px' }}>
+                                        32
+                            </p>
+                                    <p style={{ fontSize: '18px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell' }}>
+                                        Chat Games Accounts Created
+                            </p>
+                                </Col>
+                                <Col style={{
+                                    margin: '5px'
+                                }}></Col>
+                                <Col className='HomeCard' style={{
+                                    backgroundColor: '#ffd494',
+                                    border: '2px solid black',
+                                    borderRadius: '12px',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto'
+                                }}>
+                                    <p style={{ fontSize: '24px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell', marginBottom: '0px' }}>Follow Us</p>
+                                    <i className='fa fa-reddit-square' style={{ fontSize: '30px', color: '#99ccff' }} />&nbsp;&nbsp;&nbsp;
+                            <i className='fa fa-facebook-official' style={{ fontSize: '30px', color: '	#4267B2' }} />&nbsp;&nbsp;&nbsp;
+                            <i className='fa fa-twitter-square' style={{ fontSize: '30px', color: '	#1DA1F2' }} />&nbsp;&nbsp;&nbsp;
+                            <i className='fa fa-youtube-square' style={{ fontSize: '30px', color: '	#FF0000' }} />
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row >
+        </div >
+    );
 }
+
+export default Home;

@@ -6,6 +6,7 @@ import { AuthProvider } from './context/auth';
 import AuthRoute from './util/AuthRoute';
 
 import Home from './components/pages/Home';
+import Community from './components/pages/Community';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import SinglePost from './components/pages/SinglePost';
@@ -31,6 +32,7 @@ const App = () => {
               <main>
                 <Switch>
                   <Route exact path='/' component={Home} />
+                  <Route exact path='/community' component={Community} />
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/register' component={Register} />
                   <Route exact path='/posts/:postId' component={SinglePost} />

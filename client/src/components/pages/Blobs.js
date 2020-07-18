@@ -27,6 +27,9 @@ const Blobs = () => {
       passive: false,
     });
 
+    // Scroll to top.
+    window.scrollTo(0, 1);
+
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       socket = io('http://localhost:5000');
     } else {
