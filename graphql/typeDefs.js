@@ -38,12 +38,19 @@ module.exports = gql`
     email: String!
   }
 
-  # Blobs type defs
-  type Tick {
+  # Poll type defs
+  type Poll {
     id: ID!
-    blobs: String!
-    foods: String!
-    tickTime: String!
+    choice: String!
+    ip: String!
+  }
+
+  type PollCounts{
+    C1: Int!
+    C2: Int!
+    C3: Int!
+    C4: Int!
+    C5: Int!
   }
 
   type Query {
@@ -52,6 +59,9 @@ module.exports = gql`
     getPost(postId: ID!): Post
     getUsers: [User]
     getUser(userId: ID!): User
+
+    # Poll Queries
+    getPolls: PollCounts
   }
   type Mutation {
     # Blog Muts
@@ -63,8 +73,8 @@ module.exports = gql`
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
 
-    # Blobs Muts
-    blobsTick(blobsPos: String!, foodsPos: String!): Tick!
+    # Poll Muts
+    pollChoice(choice: String!): PollCounts
   }
   type Subscription {
     # Blog Subs
@@ -74,8 +84,5 @@ module.exports = gql`
     newComment: Post!
     delComment: Post!
     countComment: Post!
-
-    # Blobs Subs
-    gameTick: Tick!
   }
 `;

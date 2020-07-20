@@ -11,8 +11,8 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
 const httpLink = createHttpLink({
-  // uri: 'http://localhost:5000/graphql',
-  uri: 'https://p5test.herokuapp.com/graphql',
+  uri: 'http://localhost:5000/graphql',
+  // uri: 'https://p5test.herokuapp.com/graphql',
 });
 
 // Create a WebSocket link:

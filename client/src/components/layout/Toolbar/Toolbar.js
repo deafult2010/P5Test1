@@ -73,7 +73,7 @@ if (!isIE11) {
             <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
               All Games</p>
             </Link></DropdownItem>
-            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
+            <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
             <DropdownItem className='toolbar-btn'><Link to='/Blobs'><p style={{ color: 'white' }}>
               Blobs</p>
             </Link></DropdownItem>
@@ -105,7 +105,7 @@ if (!isIE11) {
             <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
               All PoCs</p>
             </Link></DropdownItem>
-            <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
+            <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
             <DropdownItem className='toolbar-btn'><Link to='/gol'><p style={{ color: 'white' }}>
               GoL</p>
             </Link></DropdownItem>
@@ -200,16 +200,28 @@ if (!isIE11) {
 
 const Toolbar = (props) => (
   <header className='toolbar'>
-    <nav className='toolbar__navigation'>
-      <div className='toolbar__toggle-button'>
-        <DrawerToggleButton click={props.drawerClickHandler} />
-      </div>
-      <div className='toolbar__logo'>{Logo1}</div>
-      <div className='toolbar__logo-min'>{Logo2}</div>
-      <div className='toolbar__logo-min2'>{Logo3}</div>
-      <div className='spacer' />
-      <div className='toolbar_navigation-items'>{Links}</div>
-    </nav>
+    <div>
+      <nav className='toolbar__navigation'>
+        <div className='toolbar__toggle-button'>
+          <div style={{ marginTop: '15px' }}></div>
+          <DrawerToggleButton click={props.drawerClickHandler} />
+        </div>
+        <div className='toolbar__logo'>{Logo1}</div>
+        <div className='toolbar__logo-min'>{Logo2}</div>
+        <div className='toolbar__logo-min2'>{Logo3}</div>
+        <div className='spacer' />
+        <div className='toolbar_navigation-items'>{Links}</div>
+      </nav>
+    </div>
+    <div style={{
+      position: 'fixed',
+      top: '86px',
+      left: '0px',
+      width: '100%',
+      backgroundImage: 'linear-gradient(rgba(0,0,0,1), rgba(82,23,81,0))',
+      height: '10px',
+      zIndex: '10'
+    }}></div>
   </header>
 );
 

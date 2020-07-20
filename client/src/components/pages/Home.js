@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../layout/Navbar';
-import MenuBar from './blog/MenuBar';
 import {
     Row,
     Col,
@@ -9,10 +7,15 @@ import {
     CarouselItem,
     CarouselControl,
     CarouselIndicators,
-    TabContent, TabPane, Nav, NavItem, NavLink, Button, Form, FormGroup, Label, Input
+    TabContent, TabPane, Nav, NavItem, NavLink
 } from 'reactstrap';
-
 import classnames from 'classnames';
+
+import Navbar from '../layout/Navbar';
+import MenuBar from './blog/MenuBar';
+import QuickPoll from './HomeQuickPoll';
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -48,6 +51,8 @@ const Home = (props) => {
         window.scrollTo(0, 1);
 
     }, []);
+
+
 
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
@@ -114,7 +119,7 @@ const Home = (props) => {
                     <Row xs="2" style={{
                         margin: '0px',
                     }}>
-                        <Col xs='4' style={{ padding: '0px' }}>
+                        <Col xs='4' style={{ padding: '0px', fontSize: '20px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell', }}>
                             <strong>Featured Game of the Week:</strong>
                         </Col >
                         <Col xs='8' style={{ padding: '0px' }}>
@@ -150,52 +155,8 @@ const Home = (props) => {
                             marginLeft: 'auto',
                             marginRight: 'auto'
                         }}>
-                            <Form>
-                                <FormGroup tag="fieldset" row style={{ padding: '0px', marginTop: '0px' }}>
-                                    <legend className="col-form-label" style={{ fontSize: '20px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell', }}>Quick Poll</legend>
-                                    <hr style={{ marginTop: '0px' }} />
-                                    <Col style={{ padding: '0px' }}>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input type="radio" name="radio2" />{' '}
-                                        &nbsp; &nbsp; &nbsp; &nbsp;Create More Games
-                                    </Label>
-                                        </FormGroup>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input type="radio" name="radio2" />{' '}
-                                            &nbsp; &nbsp; &nbsp; &nbsp;Further Develop Existing Games
-
-                                    </Label>
-                                        </FormGroup>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input type="radio" name="radio2" />{' '}
-                                        &nbsp; &nbsp; &nbsp; &nbsp;More Proof of Concepts
-                                    </Label>
-                                        </FormGroup>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input type="radio" name="radio2" />{' '}
-                                        &nbsp; &nbsp; &nbsp; &nbsp;Improve UI/UX
-                                    </Label>
-                                        </FormGroup>
-                                        <FormGroup check>
-                                            <Label check>
-                                                <Input type="radio" name="radio2" />{' '}
-                                        &nbsp; &nbsp; &nbsp; &nbsp;More User Features
-                                    </Label>
-                                        </FormGroup>
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup check row>
-                                    <Col >
-                                        <Button className='toolbar-btn' style={{ backgroundColor: 'purple', color: 'white' }}>Submit</Button>
-                                    </Col>
-                                </FormGroup>
-                            </Form>
+                            <QuickPoll />
                         </Col>
-
                     </Row>
                 </Col>
             </Row>
@@ -299,5 +260,7 @@ const Home = (props) => {
         </div >
     );
 }
+
+
 
 export default Home;

@@ -2,7 +2,7 @@ const postsResolvers = require('./blog/posts');
 const usersResolvers = require('./blog/users');
 const commentsResolvers = require('./blog/comments');
 
-const blobsResolvers = require('./blobs/blobs');
+const pollResolvers = require('./poll/poll');
 
 const User = require('../../models/User');
 
@@ -15,16 +15,15 @@ module.exports = {
       return user;
     },
   },
-  Query: { ...postsResolvers.Query, ...usersResolvers.Query },
+  Query: { ...postsResolvers.Query, ...usersResolvers.Query, ...pollResolvers.Query, },
   Mutation: {
     ...usersResolvers.Mutation,
     ...postsResolvers.Mutation,
     ...commentsResolvers.Mutation,
-    ...blobsResolvers.Mutation,
+    ...pollResolvers.Mutation,
   },
   Subscription: {
     ...postsResolvers.Subscription,
     ...commentsResolvers.Subscription,
-    ...blobsResolvers.Subscription,
   },
 };
