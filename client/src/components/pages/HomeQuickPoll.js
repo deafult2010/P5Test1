@@ -145,7 +145,7 @@ export default function QuickPoll(props) {
                     </ul>
                 </div>
         )
-    } else { return (<div></div>) }
+    } else { return (<div>{Title}</div>) }
 }
 
 const GET_POLLS = gql`

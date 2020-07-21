@@ -7,6 +7,8 @@ import AuthRoute from './util/AuthRoute';
 
 import Home from './components/pages/Home';
 import Community from './components/pages/Community';
+import Games from './components/pages/Games';
+import PoCs from './components/pages/PoCs';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import SinglePost from './components/pages/SinglePost';
@@ -15,6 +17,7 @@ import About from './components/pages/About';
 import Blobs from './components/pages/Blobs';
 import GoL from './components/pages/GoL';
 import COVID from './components/pages/COVID';
+import COVIDTableau from './components/pages/COVIDTableau';
 import Game1 from './components/pages/Game1';
 import testSub from './components/pages/testSub';
 import './App.css';
@@ -33,6 +36,8 @@ const App = () => {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/community' component={Community} />
+                  <Route exact path='/games' component={Games} />
+                  <Route exact path='/pocs' component={PoCs} />
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/register' component={Register} />
                   <Route exact path='/posts/:postId' component={SinglePost} />
@@ -41,6 +46,7 @@ const App = () => {
                   <Route exact path='/blobs' component={Blobs} />
                   <Route exact path='/gol' component={GoL} />
                   <Route exact path='/covid' component={COVID} />
+                  <Route exact path='/covidtableau' component={COVIDTableau} />
                   <Route exact path='/game1' component={Game1} />
                   <Route exact path='/testsub' component={testSub} />
                 </Switch>

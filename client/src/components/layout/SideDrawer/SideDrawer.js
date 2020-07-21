@@ -35,7 +35,7 @@ const SideDrawer = (props) => {
               padding: '0px'
             }}>
               <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Games</strong></DropdownItem>
-              <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+              <DropdownItem className='toolbar-btn'><Link to='/Games'><p style={{ color: 'white' }}>
                 All Games</p>
               </Link></DropdownItem>
               <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
@@ -68,7 +68,7 @@ const SideDrawer = (props) => {
               padding: '0px'
             }}>
               <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Proof of Concept</strong></DropdownItem>
-              <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+              <DropdownItem className='toolbar-btn'><Link to='/Pocs'><p style={{ color: 'white' }}>
                 All PoCs</p>
               </Link></DropdownItem>
               <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
@@ -77,6 +77,9 @@ const SideDrawer = (props) => {
               </Link></DropdownItem>
               <DropdownItem className='toolbar-btn'><Link to='/covid'><p style={{ color: 'white' }}>
                 COVID Curve</p>
+              </Link></DropdownItem>
+              <DropdownItem className='toolbar-btn'><Link to='/covidtableau'><p style={{ color: 'white' }}>
+                COVID Tableau</p>
               </Link></DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
