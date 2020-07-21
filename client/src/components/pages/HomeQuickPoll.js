@@ -1,26 +1,47 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Input, Label, FormGroup, Col, Progress } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import axios from 'axios';
 import { useForm } from '../../util/hooks';
 
 export default function QuickPoll(props) {
+    const [ip, setIp] = useState('');
+
+    // On ComponentDidMount
+    useEffect(() => {
+
+
+        const fetchData = async () => {
+            const clientDetails = await axios.get('https://www.cloudflare.com/cdn-cgi/trace').then((res) => res.data);
+            const ipStart = clientDetails.search('ip') + 3
+            const ipEnd = clientDetails.search('ts') - 1
+            setIp(clientDetails.substr(ipStart, ipEnd - ipStart))
+        };
+
+        fetchData();
+        // eslint-disable-next-line
+    }, []);
 
     const { onChange, onSubmit, values } = useForm(QuickPollCallback, {
     });
 
     const data = useQuery(
-        GET_POLLS
+        GET_POLLS,
+        {
+            variables: {
+                ip: ip,
+            },
+        }
     );
+    console.log(data);
 
     const [submitPoll, { loading }] = useMutation(SUBMIT_POLL, {
         update(proxy, result) {
             try {
-                const data = proxy.readQuery({
-                    query: GET_POLLS,
-                });
                 proxy.writeQuery({
                     query: GET_POLLS,
+                    variables: { ip: ip },
                     data: {
                         getPolls: result.data.pollChoice,
                     },
@@ -36,6 +57,7 @@ export default function QuickPoll(props) {
     });
 
     function QuickPollCallback() {
+        values.ip = ip
         submitPoll();
     }
     const Title = (<div>
@@ -127,8 +149,8 @@ export default function QuickPoll(props) {
 }
 
 const GET_POLLS = gql`
-query getPolls{
-  getPolls {
+query getPolls($ip: String!){
+  getPolls(ip: $ip) {
     C1
     C2
     C3
@@ -139,8 +161,8 @@ query getPolls{
 `;
 
 const SUBMIT_POLL = gql`
-  mutation pollChoice($choice: String!) {
-    pollChoice(choice: $choice) {
+  mutation pollChoice($choice: String!, $ip: String!) {
+    pollChoice(choice: $choice, ip: $ip) {
         C1
         C2
         C3

@@ -4,18 +4,12 @@ const Poll = require('../../../models/Poll');
 
 module.exports = {
   Query: {
-    async getPolls() {
-
-      const clientDetails = await axios.get('https://www.cloudflare.com/cdn-cgi/trace').then((res) => res.data)
-      const ipStart = clientDetails.search('ip') + 3
-      const ipEnd = clientDetails.search('ts') - 1
-      const ip = clientDetails.substr(ipStart, ipEnd - ipStart);
+    async getPolls(parent, { ip }, context) {
 
       // Check if already voted
       const userIp = await Poll.findOne({ ip });
       if (userIp) {
         try {
-          // const polls = await Poll.find()
           const polls = {
             C1: Math.round(100 * (await Poll.find({ 'choice': '1' }).countDocuments() / await Poll.find().countDocuments())),
             C2: Math.round(100 * (await Poll.find({ 'choice': '2' }).countDocuments() / await Poll.find().countDocuments())),
@@ -33,19 +27,15 @@ module.exports = {
     },
   },
   Mutation: {
-    async pollChoice(parent, { choice }, context) {
-      if (!choice) {
-        throw new Error('Poll choice required');
+    async pollChoice(parent, { choice, ip }, context) {
+      if (!choice || !ip) {
+        throw new Error('Poll choice and ip required');
       }
-
-      const clientDetails = await axios.get('https://www.cloudflare.com/cdn-cgi/trace').then((res) => res.data)
-      const ipStart = clientDetails.search('ip') + 3
-      const ipEnd = clientDetails.search('ts') - 1
-      const ip = clientDetails.substr(ipStart, ipEnd - ipStart);
 
       const newPoll = new Poll({
         choice,
-        ip
+        ip,
+        createdAt: new Date().toISOString(),
       });
 
       const poll = await newPoll.save();

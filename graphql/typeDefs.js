@@ -43,6 +43,7 @@ module.exports = gql`
     id: ID!
     choice: String!
     ip: String!
+    createdAt: String!
   }
 
   type PollCounts{
@@ -61,7 +62,7 @@ module.exports = gql`
     getUser(userId: ID!): User
 
     # Poll Queries
-    getPolls: PollCounts
+    getPolls(ip: String!): PollCounts
   }
   type Mutation {
     # Blog Muts
@@ -74,7 +75,7 @@ module.exports = gql`
     likePost(postId: ID!): Post!
 
     # Poll Muts
-    pollChoice(choice: String!): PollCounts
+    pollChoice(choice: String!, ip: String!): PollCounts
   }
   type Subscription {
     # Blog Subs

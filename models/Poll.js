@@ -8,7 +8,11 @@ const pollSchema = new Schema({
   ip: {
     type: String,
     required: true,
-  }
+  },
+  createdAt: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = model('Poll', pollSchema);
