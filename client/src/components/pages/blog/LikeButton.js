@@ -21,19 +21,19 @@ export default function LikeButton({ user, post: { id, likeCount, likes } }) {
 
   const likeButton = user ? (
     liked ? (
-      <Button color='teal'>
+      <Button style={{ backgroundColor: '#008080', color: '#ffffff', border: '1px solid #008080' }}>
         <Icon name='heart' />
       </Button>
     ) : (
-      <Button color='teal' basic>
+        <Button style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }}>
+          <Icon name='heart' />
+        </Button>
+      )
+  ) : (
+      <Button as={Link} to='/login' style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }}>
         <Icon name='heart' />
       </Button>
-    )
-  ) : (
-    <Button as={Link} to='/login' color='teal' basic>
-      <Icon name='heart' />
-    </Button>
-  );
+    );
 
   return (
     <Popup
@@ -42,7 +42,7 @@ export default function LikeButton({ user, post: { id, likeCount, likes } }) {
       trigger={
         <Button as='div' labelPosition='right' onClick={likePost}>
           {likeButton}
-          <Label basic color='teal' pointing='left'>
+          <Label style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }} pointing='left'>
             {likeCount}
           </Label>
         </Button>

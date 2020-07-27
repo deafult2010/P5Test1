@@ -16,7 +16,7 @@ function dataEmit(name, data1) {
 const Blobs = () => {
   let [blobsSub, setBlobsSub] = useState();
   let [foodsSub, setFoodsSub] = useState();
-  let [socketID, setsocketID] = useState();
+  let [socketId, setSocketId] = useState();
 
   useEffect(() => {
     // prevent touchscroll
@@ -48,7 +48,7 @@ const Blobs = () => {
     socket.on('gameTick', function (newBlobsSub, newFoodsSub) {
       setBlobsSub(newBlobsSub);
       setFoodsSub(newFoodsSub);
-      setsocketID(socket.id);
+      setSocketId(socket.id);
     });
   }, []);
 
@@ -61,7 +61,7 @@ const Blobs = () => {
         sketch={sketch2}
         blobsSub={blobsSub}
         foodsSub={foodsSub}
-        socketID={socketID}
+        socketId={socketId}
         dataEmit={dataEmit}
       />
     </div>

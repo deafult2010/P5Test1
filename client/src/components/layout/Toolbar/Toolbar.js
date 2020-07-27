@@ -70,19 +70,19 @@ if (!isIE11) {
             padding: '0px'
           }}>
             <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Games</strong></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/Games'><p style={{ color: 'white' }}>
+            <Link to='/Games'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               All Games</p>
-            </Link></DropdownItem>
+            </DropdownItem></Link>
             <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/Blobs'><p style={{ color: 'white' }}>
+            <Link to='/Blobs'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               Blobs</p>
-            </Link></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/Draw'><p style={{ color: 'white' }}>
+            </DropdownItem></Link>
+            <Link to='/Draw'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               Draw</p>
-            </Link></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/game1'><p style={{ color: 'white' }}>
+            </DropdownItem></Link>
+            <Link to='/game1'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               Stickmen</p>
-            </Link></DropdownItem>
+            </DropdownItem></Link>
           </DropdownMenu>
         </UncontrolledDropdown>
       </li>
@@ -102,19 +102,19 @@ if (!isIE11) {
             padding: '0px'
           }}>
             <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Proof of Concept</strong></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/Pocs'><p style={{ color: 'white' }}>
+            <Link to='/Pocs'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               All PoCs</p>
-            </Link></DropdownItem>
+            </DropdownItem></Link>
             <DropdownItem disabled style={{ backgroundColor: '#381138', paddingTop: '7px', paddingLeft: '10px', border: '1px solid black' }}><strong style={{ color: 'white' }}>Most Popular</strong></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/gol'><p style={{ color: 'white' }}>
+            <Link to='/gol'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               GoL</p>
-            </Link></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/covid'><p style={{ color: 'white' }}>
+            </DropdownItem></Link>
+            <Link to='/covid'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               COVID Curve</p>
-            </Link></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/covidtableau'><p style={{ color: 'white' }}>
+            </DropdownItem></Link>
+            <Link to='/covidtableau'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               COVID Tableau</p>
-            </Link></DropdownItem>
+            </DropdownItem></Link>
           </DropdownMenu>
         </UncontrolledDropdown>
       </li>

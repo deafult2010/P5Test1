@@ -68,7 +68,7 @@ const PoCs = (props) => {
                             </Link>
                         </Col>
                         <Col style={{ backgroundColor: '#ffd494' }}>
-                            <Link to='/covid'>
+                            <Link to='/covidtableau'>
                                 <Card style={{ backgroundColor: '#ffc062', border: '2px solid black', borderRadius: '6px', color: 'black' }}>
                                     <h4>COVID Tableau</h4>
                                     <img src={COVIDTabPic} alt="COVIDTab Pic" ></img>

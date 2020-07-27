@@ -4,6 +4,7 @@ const path = require('path');
 const http = require('http');
 const socket = require('socket.io');
 const cors = require('cors');
+const moment = require('moment');
 
 const app = express();
 
@@ -324,6 +325,27 @@ function newConnection(socket) {
       console.log(err);
     }
   }
+
+
+  // -------------------------------------------------------------------
+  // Stick Game
+
+  function formatMessage(username, text) {
+    return {
+      username,
+      userColor: ['0', '0', '0'],
+      text,
+      textColor: ['0', '0', '255'],
+      time: moment().format('HH:mm:ss'),
+      timeUnix: Date.now()
+    }
+  }
+
+  // Listen for chatMessage
+  socket.on('chatMessage', (msg) => {
+    io.emit('message', formatMessage(socket.id, msg))
+  })
+
 
   // -------------------------------------------------------------------
   // On close connection

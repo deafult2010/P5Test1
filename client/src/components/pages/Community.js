@@ -85,7 +85,7 @@ export default function Community() {
     <div className='container'>
       <MenuBar />
       <Navbar />
-      <Row>
+      <Row style={{ margin: '0px' }}>
         <Row className='page-title'>
           {' '}
           <h1>Recent Posts</h1>{' '}

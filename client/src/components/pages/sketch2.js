@@ -1,6 +1,6 @@
 export let dataPub1 = [];
 export default function sketch2(p) {
-  var socketID;
+  var socketId;
   var inGame = false;
   var countDwn = 0;
 
@@ -86,8 +86,8 @@ export default function sketch2(p) {
     if (newProps.foodsSub) {
       foods = newProps.foodsSub;
     }
-    if (newProps.socketID) {
-      socketID = newProps.socketID;
+    if (newProps.socketId) {
+      socketId = newProps.socketId;
     }
   };
 
@@ -302,7 +302,7 @@ export default function sketch2(p) {
         .map(function (x) {
           return x.id;
         })
-        .indexOf(socketID);
+        .indexOf(socketId);
       if (blobIndex === -1 && inGame) {
         countDwn++;
         if (countDwn > 10) {
@@ -346,7 +346,7 @@ export default function sketch2(p) {
         // Show blobs
         for (let i = blobs.length - 1; i >= 0; i--) {
           let id = blobs[i].id;
-          if (id !== socketID) {
+          if (id !== socketId) {
             if (blobs[i].r > blobs[blobIndex].r) {
               p.fill(255, 0, 0);
             } else {
@@ -377,7 +377,7 @@ export default function sketch2(p) {
                 p.text(blobs[i].id, enemyBlobX, enemyBlobY + blobs[i].r * 1.5);
               }
             }
-          } else if (id === socketID) {
+          } else if (id === socketId) {
             // --------Do nothing for client blob from server---------------------------
             // --------Client blob logic should be done locally to reduce latency--------
 

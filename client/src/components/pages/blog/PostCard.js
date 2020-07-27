@@ -22,7 +22,10 @@ export default function PostCard({
   const { user } = useContext(AuthContext);
 
   return (
-    <Card fluid>
+    <Card fluid
+      //  style={{ backgroundColor: '#ffc062' }}
+      style={{ backgroundColor: '#ffd494', border: '2px solid black', borderRadius: '6px', color: 'black' }}
+    >
       <Card.Content>
         <Popup
           content={
@@ -55,11 +58,11 @@ export default function PostCard({
           content='View Comments'
           inverted
           trigger={
-            <Button labelPosition='right' as={Link} to={`/posts/${id}`}>
-              <Button color='blue' basic>
+            <Button labelPosition='right' as={Link} to={`/posts/${id}`} >
+              <Button style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }}>
                 <Icon name='comments' />
               </Button>
-              <Label basic color='blue' pointing='left'>
+              <Label pointing='left' style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }}>
                 {commentCount}
               </Label>
             </Button>

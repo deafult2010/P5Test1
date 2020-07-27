@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import P5Wrapper from 'react-p5-wrapper';
+import io from 'socket.io-client';
 import Navbar from '../layout/Navbar';
 import MenuBar from './blog/MenuBar';
+import { useForm } from '../../util/hooks';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,6 +13,23 @@ import stickmenChat from './stickmenChat';
 import stickmenUI from './stickmenUI';
 
 import OpenMenu from './OpenMenu';
+
+var socket;
+var initialChats = [{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'newest post', 'textColor': ['0', '0', '255'], 'time': '00:00:10', 'timeUnix': 10 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'next newest post', 'textColor': ['0', '0', '255'], 'time': '00:00:09', 'timeUnix': 9 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'so much typing going on here', 'textColor': ['0', '0', '255'], 'time': '00:00:08', 'timeUnix': 8 },
+{ 'username': '', 'userColor': ['0', '0', '0'], 'text': 'It heals some health.', 'textColor': ['150', '150', '150'], 'time': '00:00:07', 'timeUnix': 7 },
+{ 'username': '', 'userColor': ['0', '0', '0'], 'text': 'You eat the swordfish.', 'textColor': ['150', '150', '150'], 'time': '00:00:06', 'timeUnix': 6 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'so much typing going on here', 'textColor': ['0', '0', '255'], 'time': '00:00:05', 'timeUnix': 5 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'blah blah blah', 'textColor': ['0', '0', '255'], 'time': '00:00:04', 'timeUnix': 4 },
+{ 'username': '', 'userColor': ['0', '0', '0'], 'text': 'You have 2 doses of potion left.', 'textColor': ['150', '150', '150'], 'time': '00:00:03', 'timeUnix': 3 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'next oldest post', 'textColor': ['0', '0', '255'], 'time': '00:00:02', 'timeUnix': 2 },
+{ 'username': 'Tom', 'userColor': ['0', '0', '0'], 'text': 'oldest post', 'textColor': ['0', '0', '255'], 'time': '00:00:01', 'timeUnix': 1 },
+]
+
+function dataEmit(name, data) {
+  socket.emit(name, data);
+}
 
 const myImage = require('./sprites/Stick.png');
 const myImage2 = require('./sprites/StickHeadShot.png');
@@ -27,7 +46,26 @@ const Game1 = () => {
 
   const [openToggle, setOpenToggle] = useState(false);
   const [windowSize, setWindowSize] = useState(getSize);
-  const [chat, setChat] = useState('');
+  const [chats, setChats] = useState([]);
+  const [socketId, setSocketId] = useState();
+
+  const { onChange, onSubmit, values } = useForm(ChatCallback, {
+    chatbox: '',
+  });
+
+
+  function ChatCallback() {
+    dataEmit('chatMessage', values.chatbox);
+    values.chatbox = '';
+    let postTimes = chats
+      .map(function (msg) {
+        return msg.timeUnix;
+      })
+    let oldestPostTime = Math.min(...postTimes)
+    if (chats.length > 37) {
+      setChats(chats.filter((msg) => (msg.timeUnix !== oldestPostTime)))
+    }
+  }
 
   function getSize() {
     return {
@@ -35,13 +73,6 @@ const Game1 = () => {
       height: isClient ? window.innerHeight : undefined,
     };
   }
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(chat);
-    setChat('');
-  };
 
   useEffect(() => {
     if (!isClient) {
@@ -86,7 +117,14 @@ const Game1 = () => {
       )
     );
 
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      socket = io('http://localhost:5000');
+    } else {
+      socket = io();
+    }
+
     return () => {
+      socket.disconnect();
       // enable touchscroll
       document.removeEventListener('touchmove', handleTouchMove, {
         passive: true,
@@ -94,6 +132,14 @@ const Game1 = () => {
     };
     // eslint-disable-next-line
   }, [windowSize]);
+
+  useEffect(() => {
+    setChats(initialChats)
+    socket.on('message', function (newChatsSub) {
+      setSocketId(socket.id);
+      setChats((prevState) => [newChatsSub, ...prevState])
+    });
+  }, []);
 
   // prompt landscape
   if (windowSize.width / windowSize.height > 1.0) {
@@ -193,7 +239,7 @@ const Game1 = () => {
             ),
           }}
         >
-          <P5Wrapper sketch={stickmenChat} />
+          <P5Wrapper sketch={stickmenChat} chats={chats} socketId={socketId} />
         </div>
         <div
           style={{
@@ -237,7 +283,7 @@ const Game1 = () => {
             <input
               type='text'
               name='chatbox'
-              value={chat}
+              value={values.chatbox}
               style={{
                 position: 'absolute',
                 left: 0,
@@ -253,7 +299,7 @@ const Game1 = () => {
                   (windowSize.height * 16) / 720
                 ),
               }}
-              onChange={(e) => setChat(e.target.value)}
+              onChange={onChange}
             ></input>
           </form>
         </div>

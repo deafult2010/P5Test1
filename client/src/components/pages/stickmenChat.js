@@ -10,9 +10,11 @@ export default function sketch5(p) {
   let cb1;
   // let hs1;
   let vs1;
-  // Mouse Wheel Delta
+  // Mouse Wheel Delta (150 to Start at bottom/right)
   let mwdH = 0;
-  let mwdV = 0;
+  let mwdV = 150;
+
+  let chats = [];
 
   // functions
 
@@ -68,7 +70,11 @@ export default function sketch5(p) {
   };
 
   // props
-  p.myCustomRedrawAccordingToNewPropsHandler = function (props) {};
+  p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
+    if (newProps.chats) {
+      chats = newProps.chats;
+    }
+  };
 
   p.setup = function () {
     p.createCanvas(680, 200);
@@ -150,43 +156,14 @@ export default function sketch5(p) {
     p.textSize(14);
     p.textStyle(p.BOLD);
     // map through chats, friends, system, etc.
-    p.drawText(17, 203, [
-      ['Tom: ', [0, 0, 0]],
-      ['Oldest Post', [0, 0, 255]],
-    ]);
-    p.drawText(17, 223, [
-      ['Tom: ', [0, 0, 0]],
-      ['Next oldest', [0, 0, 255]],
-    ]);
-    p.drawText(17, 243, [
-      ['Tom: ', [0, 0, 0]],
-      ['blah blah blah', [0, 0, 255]],
-    ]);
-    p.drawText(17, 263, [
-      ['Tom: ', [0, 0, 0]],
-      ['so much typing going on here', [0, 0, 255]],
-    ]);
-    p.drawText(17, 283, [
-      ['You have 2 doses of potion left.', [150, 150, 150]],
-    ]);
-    p.drawText(17, 303, [
-      ['Tom: ', [0, 0, 0]],
-      ['so much typing going on here', [0, 0, 255]],
-    ]);
-    p.drawText(17, 323, [
-      ['Tom: ', [0, 0, 0]],
-      ['so much typing going on here', [0, 0, 255]],
-    ]);
-    p.drawText(17, 343, [
-      ['Tom: ', [0, 0, 0]],
-      ['Comment abc   e       rtyuf   whewe  sad', [0, 0, 255]],
-    ]);
-    p.drawText(17, 363, [['You eat the swordfish.', [150, 150, 150]]]);
-    p.drawText(17, 383, [['It heals some health.', [150, 150, 150]]]);
-    p.drawText(17, 943, [
-      ['Tom: ', [0, 0, 0]],
-      ['Newest post', [0, 0, 255]],
-    ]);
+    for (let i = 0; i < chats.length; i++) {
+      p.drawText(17, 943 - i * 20, chats[i].username ? [
+        [`${chats[i].username}: `, chats[i].userColor],
+        [`${chats[i].text}`, chats[i].textColor],
+      ] : [
+          [`${chats[i].text}`, chats[i].textColor],
+        ]);
+    }
     p.pop();
 
     vs1.update();
@@ -211,6 +188,17 @@ export default function sketch5(p) {
       (p.height * 0.82) / scale,
       (p.width * 0.98) / scale,
       (p.height * 0.18) / scale
+    );
+
+    //Border of chatbox
+    p.noFill();
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.rect(
+      (p.width * 0.02) / scale,
+      (p.height * 0.075) / scale,
+      (p.width * 0.85) / scale,
+      (p.height * 0.85) / scale
     );
 
     // ChatBox
@@ -294,14 +282,18 @@ export default function sketch5(p) {
     this.display = function () {
       p.stroke(0);
       p.fill(30);
+      // Range BG
       p.rect(this.xpos, this.ypos, this.swidth, this.sheight);
       if (this.over || this.locked) {
         p.fill(150);
       } else {
         p.fill(85);
       }
+      // Slider
       p.rect(this.xpos, this.spos, this.swidth, this.swidth / 2);
+      // Top Arrow Rect
       p.rect(this.xpos, this.ypos, this.swidth, this.swidth);
+      // Bottom Arrow Rect
       p.rect(
         this.xpos,
         this.ypos + this.sheight - this.swidth,
@@ -309,6 +301,7 @@ export default function sketch5(p) {
         this.swidth
       );
       p.fill(0);
+      // Top Arrow
       p.triangle(
         this.xpos + this.swidth / 2,
         this.ypos + (this.swidth * 2) / 6,
@@ -317,6 +310,7 @@ export default function sketch5(p) {
         this.xpos + (this.swidth * 1) / 6,
         this.ypos + (this.swidth * 4) / 6
       );
+      // Bottom Arrow
       p.triangle(
         this.xpos + (this.swidth * 1) / 6,
         this.ypos + this.sheight - (this.swidth * 4) / 6,
