@@ -116,15 +116,7 @@ const Game1 = () => {
         (windowSize.width * 9 * (1 - 33 / 720)) / 16
       )
     );
-
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-      socket = io('http://localhost:5000');
-    } else {
-      socket = io();
-    }
-
     return () => {
-      socket.disconnect();
       // enable touchscroll
       document.removeEventListener('touchmove', handleTouchMove, {
         passive: true,
@@ -134,12 +126,25 @@ const Game1 = () => {
   }, [windowSize]);
 
   useEffect(() => {
+
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      socket = io('http://localhost:5000');
+    } else {
+      socket = io();
+    }
+
     setChats(initialChats)
     socket.on('message', function (newChatsSub) {
       setSocketId(socket.id);
       setChats((prevState) => [newChatsSub, ...prevState])
     });
+
+    return () => {
+      socket.disconnect();
+    }
   }, []);
+
+  console.log(socketId)
 
   // prompt landscape
   if (windowSize.width / windowSize.height > 1.0) {

@@ -52,6 +52,8 @@ const Blobs = () => {
     });
   }, []);
 
+  console.log(socketId)
+
   return (
     <div className='container'>
       <MenuBar />

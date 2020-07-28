@@ -247,10 +247,18 @@ const Home = (props) => {
                                     marginRight: 'auto'
                                 }}>
                                     <p style={{ fontSize: '24px', color: '#fa923f', fontWeight: 'bold', fontFamily: 'Rockwell', marginBottom: '0px' }}>Follow Us</p>
-                                    <i className='fa fa-reddit-square' style={{ fontSize: '30px', color: '#99ccff' }} />&nbsp;&nbsp;&nbsp;
-                            <i className='fa fa-facebook-official' style={{ fontSize: '30px', color: '	#4267B2' }} />&nbsp;&nbsp;&nbsp;
-                            <i className='fa fa-twitter-square' style={{ fontSize: '30px', color: '	#1DA1F2' }} />&nbsp;&nbsp;&nbsp;
-                            <i className='fa fa-youtube-square' style={{ fontSize: '30px', color: '	#FF0000' }} />
+                                    <a href='https://www.reddit.com/'>
+                                        <i className='fa fa-reddit-square' style={{ fontSize: '30px', color: '#99ccff' }} />&nbsp;&nbsp;&nbsp;
+                                    </a>
+                                    <a href='https://www.facebook.com/'>
+                                        <i className='fa fa-facebook-official' style={{ fontSize: '30px', color: '	#4267B2' }} />&nbsp;&nbsp;&nbsp;
+                                    </a>
+                                    <a href='https://twitter.com/'>
+                                        <i className='fa fa-twitter-square' style={{ fontSize: '30px', color: '	#1DA1F2' }} />&nbsp;&nbsp;&nbsp;
+                                    </a>
+                                    <a href='https://www.youtube.com/'>
+                                        <i className='fa fa-youtube-square' style={{ fontSize: '30px', color: '	#FF0000' }} />
+                                    </a>
                                 </Col>
                             </Row>
                         </Col>

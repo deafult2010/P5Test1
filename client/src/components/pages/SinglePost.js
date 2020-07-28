@@ -102,14 +102,13 @@ export default function SinglePost(props) {
             />
           </Col>
           <Col>
-            <Card fluid>
+            <Card fluid style={{ backgroundColor: '#ffd494', border: '2px solid black', borderRadius: '6px', color: 'black' }}>
               <Card.Content>
                 <Card.Header>{username}</Card.Header>
                 <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
                 <Card.Description>{body}</Card.Description>
               </Card.Content>
-              <hr />
-              <Card.Content extra>
+              <Card.Content extra style={{ borderTopWidth: '0px' }}>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
                 <Popup
                   content='Comment on Post'
@@ -121,23 +120,23 @@ export default function SinglePost(props) {
                         labelPosition='right'
                         onClick={() => commentInputRef.current.focus()}
                       >
-                        <Button basic color='blue'>
+                        <Button style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }}>
                           <Icon name='comments' />
                         </Button>
-                        <Label basic color='blue' pointing='left'>
+                        <Label style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }} pointing='left'>
                           {commentCount}
                         </Label>
                       </Button>
                     ) : (
-                      <Button as={Link} to='/login' labelPosition='right'>
-                        <Button basic color='blue'>
-                          <Icon name='comments' />
+                        <Button as={Link} to='/login' labelPosition='right'>
+                          <Button style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }}>
+                            <Icon name='comments' />
+                          </Button>
+                          <Label style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }} pointing='left'>
+                            {commentCount}
+                          </Label>
                         </Button>
-                        <Label basic color='blue' pointing='left'>
-                          {commentCount}
-                        </Label>
-                      </Button>
-                    )
+                      )
                   }
                 />
                 {user && user.username === username && (
@@ -146,12 +145,12 @@ export default function SinglePost(props) {
               </Card.Content>
             </Card>
             {user && (
-              <Card fluid>
+              <Card fluid style={{ backgroundColor: '#ffd494', border: '2px solid black', borderRadius: '6px', color: 'black' }}>
                 <Card.Content>
                   <p>Post a Comment</p>
                   <Form>
                     <div className='ui action input fluid'>
-                      <input
+                      <input style={{ backgroundColor: '#FFEED6' }}
                         type='text'
                         placeholder='Comment..'
                         name='comment'
@@ -174,7 +173,7 @@ export default function SinglePost(props) {
             )}
             <>
               {comments.map((comment) => (
-                <Card fluid key={comment.id}>
+                <Card fluid key={comment.id} style={{ backgroundColor: '#ffd494', border: '2px solid black', borderRadius: '6px', color: 'black' }}>
                   <Card.Content>
                     {user && user.username === comment.username && (
                       <DeleteButton postId={id} commentId={comment.id} />

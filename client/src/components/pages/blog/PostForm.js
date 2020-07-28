@@ -43,7 +43,8 @@ export default function PostForm() {
       <Form onSubmit={onSubmit}>
         <h2>Create a Post:</h2>
         <Form.Field>
-          <Form.Input
+          <input
+            style={{ backgroundColor: '#FFEED6', marginBottom: '14px' }}
             placeholder='Hi World!'
             name='body'
             onChange={onChange}
