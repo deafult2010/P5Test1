@@ -22,6 +22,8 @@ export default function Login(props) {
 
   }, []);
 
+  const toPath = props.history.location.state.fromPath
+
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     username: '',
     password: '',
@@ -30,7 +32,7 @@ export default function Login(props) {
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(proxy, { data: { login: userData } }) {
       context.login(userData);
-      props.history.push('/');
+      props.history.push(toPath);
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);

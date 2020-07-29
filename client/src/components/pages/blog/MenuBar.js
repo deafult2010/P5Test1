@@ -8,6 +8,11 @@ import { AuthContext } from '../../../context/auth';
 export default function MenuBar() {
   const { user, logout } = useContext(AuthContext);
 
+  const location = {
+    pathname: '/login',
+    state: { fromPath: window.location.pathname }
+  }
+
   const menuBar = user ? (
     <Row>
       <Col
@@ -101,40 +106,41 @@ export default function MenuBar() {
       </Col>
     </Row>
   ) : (
-    <div style={{ float: 'right', color: '#FFFFFF' }}>
-      <>5 Online</>{' '}
-      <Link to='/'>
-        <Button
-          style={{
-            margin: '3px',
-            backgroundColor: 'purple',
-            color: '#FFFFFF',
-            border: '2px solid black',
-            padding: '10px',
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          }}
-        >
-          Support
+      <div style={{ float: 'right', color: '#FFFFFF' }}>
+        <>5 Online</>{' '}
+        <Link to='/'>
+          <Button
+            style={{
+              margin: '3px',
+              backgroundColor: 'purple',
+              color: '#FFFFFF',
+              border: '2px solid black',
+              padding: '10px',
+              paddingTop: '0px',
+              paddingBottom: '0px',
+            }}
+          >
+            Support
         </Button>
-      </Link>
-      <Link to='/login'>
-        <Button
-          style={{
-            margin: '3px',
-            backgroundColor: 'purple',
-            color: '#FFFFFF',
-            border: '2px solid black',
-            padding: '10px',
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          }}
-        >
-          Sign in / Join
+        </Link>
+        {/* <Link to='/login'> */}
+        <Link to={location}>
+          <Button
+            style={{
+              margin: '3px',
+              backgroundColor: 'purple',
+              color: '#FFFFFF',
+              border: '2px solid black',
+              padding: '10px',
+              paddingTop: '0px',
+              paddingBottom: '0px',
+            }}
+          >
+            Sign in / Join
         </Button>
-      </Link>
-    </div>
-  );
+        </Link>
+      </div>
+    );
 
   return <header className='menubar'>{menuBar}</header>;
 }
