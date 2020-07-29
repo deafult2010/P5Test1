@@ -123,13 +123,6 @@ const Game1 = () => {
         passive: true,
       });
     }
-    // console.log(windowSize.height);
-    // console.log(
-    //   Math.min(
-    //     windowSize.height * (1 - 33 / 720),
-    //     (windowSize.width * 9 * (1 - 33 / 720)) / 16
-    //   )
-    // );
 
     // Scroll to top.
     window.scrollTo(0, 1);
@@ -141,7 +134,7 @@ const Game1 = () => {
       });
     };
     // eslint-disable-next-line
-  }, [windowSize]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('orientationchange', handleOrientation)
@@ -155,7 +148,9 @@ const Game1 = () => {
       document.removeEventListener('orientationchange', handleOrientation);
     };
     // eslint-disable-next-line
-  }, [orientation]);
+  }, []);
+
+  window.scrollTo(0, 1);
 
   useEffect(() => {
 
