@@ -49,6 +49,7 @@ const Game1 = () => {
 
   const [openToggle, setOpenToggle] = useState(false);
   const [windowSize, setWindowSize] = useState(getSize);
+  const [orientation, setOrientation] = useState(0);
   const [inGame, setInGame] = useState(false);
   const [chats, setChats] = useState([]);
   const [socketId, setSocketId] = useState();
@@ -122,13 +123,13 @@ const Game1 = () => {
         passive: true,
       });
     }
-    console.log(windowSize.height);
-    console.log(
-      Math.min(
-        windowSize.height * (1 - 33 / 720),
-        (windowSize.width * 9 * (1 - 33 / 720)) / 16
-      )
-    );
+    // console.log(windowSize.height);
+    // console.log(
+    //   Math.min(
+    //     windowSize.height * (1 - 33 / 720),
+    //     (windowSize.width * 9 * (1 - 33 / 720)) / 16
+    //   )
+    // );
 
     // Scroll to top.
     window.scrollTo(0, 1);
@@ -143,15 +144,18 @@ const Game1 = () => {
   }, [windowSize]);
 
   useEffect(() => {
-    window.addEventListener('orientationchange', function () {
+    window.addEventListener('orientationchange', handleOrientation)
+
+    function handleOrientation() {
+      setOrientation(window.screen.orientation.angle)
       // Scroll to top.
       window.scrollTo(0, 1);
-    });
+    };
     return () => {
-      document.removeEventListener('orientationchange');
+      document.removeEventListener('orientationchange', handleOrientation);
     };
     // eslint-disable-next-line
-  }, []);
+  }, [orientation]);
 
   useEffect(() => {
 
@@ -171,8 +175,6 @@ const Game1 = () => {
       socket.disconnect();
     }
   }, []);
-
-  console.log(socketId)
 
   // prompt landscape
   if (windowSize.width / windowSize.height > 1.0) {
