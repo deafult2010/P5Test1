@@ -143,6 +143,17 @@ const Game1 = () => {
   }, [windowSize]);
 
   useEffect(() => {
+    window.addEventListener('orientationchange', function () {
+      // Scroll to top.
+      window.scrollTo(0, 1);
+    });
+    return () => {
+      document.removeEventListener('orientationchange');
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
 
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
       socket = io('http://localhost:5000');
