@@ -56,11 +56,12 @@ const Game1 = () => {
   const { user } = useContext(AuthContext);
   const { onChange, onSubmit, values } = useForm(ChatCallback, {
     chatbox: '',
+    username: user ? user.username : '',
   });
 
 
   function ChatCallback() {
-    dataEmit('chatMessage', values.chatbox);
+    dataEmit('chatMessage', values);
     values.chatbox = '';
     let postTimes = chats
       .map(function (msg) {
@@ -91,6 +92,9 @@ const Game1 = () => {
     function handleResize() {
       setWindowSize(getSize());
     }
+
+    // Scroll to top.
+    window.scrollTo(0, 1);
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -275,7 +279,7 @@ const Game1 = () => {
               ),
             }}
           >
-            <P5Wrapper sketch={stickmenChat} chats={chats} socketId={socketId} />
+            <P5Wrapper sketch={stickmenChat} chats={chats} socketId={socketId} user={user} />
           </div>
           <div
             style={{

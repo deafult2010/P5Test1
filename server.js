@@ -342,8 +342,9 @@ function newConnection(socket) {
   }
 
   // Listen for chatMessage
-  socket.on('chatMessage', (msg) => {
-    io.emit('message', formatMessage(socket.id, msg))
+  socket.on('chatMessage', (values) => {
+    console.log(values)
+    io.emit('message', formatMessage(values.username ? values.username : socket.id, values.chatbox))
   })
 
 
