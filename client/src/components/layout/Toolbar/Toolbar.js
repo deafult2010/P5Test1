@@ -134,9 +134,9 @@ if (!isIE11) {
             padding: '0px'
           }}>
             <DropdownItem disabled style={{ backgroundColor: 'black', paddingTop: '7px', paddingLeft: '10px', }}><strong style={{ color: 'white' }}>Community</strong></DropdownItem>
-            <DropdownItem className='toolbar-btn'><Link to='/Community'><p style={{ color: 'white' }}>
+            <Link to='/Community'><DropdownItem className='toolbar-btn'><p style={{ color: 'white' }}>
               Forum</p>
-            </Link></DropdownItem>
+            </DropdownItem></Link>
 
             <DropdownItem disabled>Highscores</DropdownItem>
           </DropdownMenu>

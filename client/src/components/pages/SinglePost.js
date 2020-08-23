@@ -42,6 +42,11 @@ export default function SinglePost(props) {
     }
   );
 
+  const location = {
+    pathname: '/login',
+    state: { fromPath: window.location.pathname }
+  }
+
   useEffect(() => {
     // Update prev getPosts array by adding the subscriptionData to front of array
     // Store updated automatically in all cases -  no need for an updateQuery
@@ -128,7 +133,7 @@ export default function SinglePost(props) {
                         </Label>
                       </Button>
                     ) : (
-                        <Button as={Link} to='/login' labelPosition='right'>
+                        <Button as={Link} to={location} labelPosition='right'>
                           <Button style={{ backgroundColor: '#ffc062', color: '#0E6EB8', border: '1px solid #0E6EB8' }}>
                             <Icon name='comments' />
                           </Button>

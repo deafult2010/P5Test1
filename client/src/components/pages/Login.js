@@ -13,6 +13,7 @@ import MenuBar from './blog/MenuBar';
 export default function Login(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
+  let toPath
 
   // On ComponentDidMount
   useEffect(() => {
@@ -22,7 +23,12 @@ export default function Login(props) {
 
   }, []);
 
-  const toPath = props.history.location.state.fromPath
+  props.history.location.state === undefined ?
+    toPath = '/'
+    :
+    toPath = props.history.location.state.fromPath
+
+
 
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     username: '',

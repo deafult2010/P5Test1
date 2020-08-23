@@ -5,7 +5,13 @@ import gql from 'graphql-tag';
 import { Button, Icon, Label, Popup } from 'semantic-ui-react';
 
 export default function LikeButton({ user, post: { id, likeCount, likes } }) {
+
   const [liked, setLiked] = useState(false);
+  const location = {
+    pathname: '/login',
+    state: { fromPath: window.location.pathname }
+  }
+
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
@@ -30,14 +36,14 @@ export default function LikeButton({ user, post: { id, likeCount, likes } }) {
         </Button>
       )
   ) : (
-      <Button as={Link} to='/login' style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }}>
+      <Button as={Link} to={location} style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }}>
         <Icon name='heart' />
       </Button>
     );
 
   return (
     <Popup
-      content={liked ? 'Unlike' : 'Like'}
+      content={liked ? 'Unlike' : likeCount === 0 ? <strong>Like</strong> : <ul style={{ marginBottom: '0px' }}><li><strong>Like</strong></li><hr style={{ margin: '5px' }} />{likes.map((like) => <li>{like.username}</li>)}</ul>}
       inverted
       trigger={
         <Button as='div' labelPosition='right' onClick={likePost}>
