@@ -96,14 +96,14 @@ const io = socket(server);
 let drawing = { lines: [], name: '', date: '' };
 
 // Blobs Game
-let width = 400;
-let height = 400;
+let width = 1280;
+let height = 720;
 let foods = [];
-for (var i = 0; i < 50; i++) {
+for (var i = 0; i < 300; i++) {
   foods.push(
     new Food(
-      Math.random() * width * 2 - width,
-      Math.random() * height * 2 - height,
+      Math.random() * width * 4 - width * 2,
+      Math.random() * height * 4 - height * 2,
       10
     )
   );
@@ -141,15 +141,15 @@ function Blob(id, x, y, r) {
     }
   };
   this.constrain = function () {
-    if (this.x > width) {
-      this.x = width;
-    } else if (this.x < -width) {
-      this.x = -width;
+    if (this.x > width * 2) {
+      this.x = width * 2;
+    } else if (this.x < -width * 2) {
+      this.x = -width * 2;
     }
-    if (this.y > height) {
-      this.y = height;
-    } else if (this.y < -height) {
-      this.y = -height;
+    if (this.y > height * 2) {
+      this.y = height * 2;
+    } else if (this.y < -height * 2) {
+      this.y = -height * 2;
     }
   };
   this.counter = function () {
@@ -256,8 +256,8 @@ function newConnection(socket) {
     // width and height defined above. Blob radius between 15 and 24
     let blob = new Blob(
       socket.id,
-      Math.floor(Math.random() * width * 2 - width),
-      Math.floor(Math.random() * height * 2 - height),
+      Math.floor(Math.random() * width * 4 - width * 2),
+      Math.floor(Math.random() * height * 4 - height * 2),
       Math.floor(Math.random() * (24 - 15 + 1)) + 15
     );
     blobs.push(blob);
@@ -314,8 +314,8 @@ function newConnection(socket) {
           foods.splice(i, 1);
           foods.push(
             new Food(
-              Math.random() * width * 2 - width,
-              Math.random() * height * 2 - height,
+              Math.random() * width * 4 - width * 2,
+              Math.random() * height * 4 - height * 2,
               10
             )
           );

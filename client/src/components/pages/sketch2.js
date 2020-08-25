@@ -28,6 +28,8 @@ export default function sketch2(p) {
   var gameHist = [];
   var blobIndex;
   var zoom = 1;
+  let menuBtn;
+  let openToggle;
 
   var scale;
 
@@ -66,8 +68,8 @@ export default function sketch2(p) {
   };
 
   p.setScale = function () {
-    scale = Math.min(window.innerWidth / 440, (window.innerHeight - 130) / 440);
-    p.resizeCanvas(scale * 400, scale * 400);
+    scale = Math.min(window.innerWidth / 1280, (window.innerHeight) / 720);
+    p.resizeCanvas(scale * 1280, scale * 720);
   };
 
   p.myCustomRedrawAccordingToNewPropsHandler = function (newProps) {
@@ -89,7 +91,14 @@ export default function sketch2(p) {
     if (newProps.socketId) {
       socketId = newProps.socketId;
     }
+    p.menu = newProps.menu;
+    openToggle = newProps.openToggle;
   };
+
+  // Menu
+  function openMenu() {
+    p.menu();
+  }
 
   setInterval(function () {
     timer += 1;
@@ -208,7 +217,7 @@ export default function sketch2(p) {
   // }
 
   p.setup = () => {
-    p.createCanvas(400, 400);
+    p.createCanvas(1280, 720);
     p.setScale();
     startBtn = new Btn(
       15,
@@ -221,14 +230,24 @@ export default function sketch2(p) {
       startGame
     );
     exitBtn = new Btn(
-      330,
-      0,
-      70,
-      20,
+      0.85 * (p.width / scale),
+      0.0 * (p.height / scale),
+      0.15 * (p.width / scale),
+      0.05 * (p.height / scale),
       function () {
         return 'Exit Game';
       },
       exitGame
+    );
+    menuBtn = new Btn(
+      0.7 * (p.width / scale),
+      0.0 * (p.height / scale),
+      0.15 * (p.width / scale),
+      0.05 * (p.height / scale),
+      function () {
+        return 'Menu (ESC)';
+      },
+      openMenu
     );
     //disables "context menu" on right click for the canvas
     p.canvas.oncontextmenu = function (e) {
@@ -293,6 +312,7 @@ export default function sketch2(p) {
     // btns
     startBtn.clicked();
     exitBtn.clicked();
+    menuBtn.clicked();
 
     p.background(51);
 
@@ -316,18 +336,20 @@ export default function sketch2(p) {
           for (let i = blobs[blobIndex].Sid + 1; i < Cid; i++) {
             // Constrain if by edge
             if (
-              blobs[blobIndex].x + gameHist[i].x <= 400 &&
-              blobs[blobIndex].x + gameHist[i].x >= -400
+              blobs[blobIndex].x + gameHist[i].x <= p.width * 2 / scale &&
+              blobs[blobIndex].x + gameHist[i].x >= -p.width * 2 / scale
             ) {
               blobs[blobIndex].x += gameHist[i].x;
             }
             if (
-              blobs[blobIndex].y + gameHist[i].y <= 400 &&
-              blobs[blobIndex].y + gameHist[i].y >= -400
+              blobs[blobIndex].y + gameHist[i].y <= p.height * 2 / scale &&
+              blobs[blobIndex].y + gameHist[i].y >= -p.height * 2 / scale
             ) {
               blobs[blobIndex].y += gameHist[i].y;
             }
             blobs[blobIndex].Sid += 1;
+            console.log(blobs[blobIndex].x + gameHist[i].x)
+            console.log(p.width / scale)
           }
         }
 
@@ -393,13 +415,18 @@ export default function sketch2(p) {
             );
 
             // Compute Velocity
-            if (p.mouseIsPressed) {
+            if (p.mouseIsPressed && !openToggle && p.mouseX > 0 &&
+              p.mouseX < p.width &&
+              p.mouseY > 0 &&
+              p.mouseY < p.height) {
               velx = p.mouseX - p.width / 2;
               vely = p.mouseY - p.height / 2;
-              let mag = 4;
+              let mag = 8;
               let hypot = (velx ** 2 + vely ** 2) ** 0.5;
               velx = (velx * mag) / hypot;
               vely = (vely * mag) / hypot;
+              console.log(p.mouseX)
+              console.log(p.width)
             } else if (!p.mouseIsPressed) {
               velx = 0;
               vely = 0;
@@ -429,6 +456,7 @@ export default function sketch2(p) {
         p.text('score', 10, 20);
         p.text(Math.round(blobs[blobIndex].r), 65, 20);
         exitBtn.show();
+        menuBtn.show();
       }
     } else {
       startBtn.show();

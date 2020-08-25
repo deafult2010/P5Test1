@@ -33,6 +33,7 @@ function dataEmit(name, data) {
   socket.emit(name, data);
 }
 
+const StickBGPic = require('./images/StickBGImage.PNG');
 const myImage = require('./sprites/Stick.png');
 const myImage2 = require('./sprites/StickHeadShot.png');
 const keysImage = require('./sprites/Keys.png');
@@ -49,7 +50,7 @@ const Game1 = () => {
 
   const [openToggle, setOpenToggle] = useState(false);
   const [windowSize, setWindowSize] = useState(getSize);
-  const [orientation, setOrientation] = useState(0);
+  // const [orientation, setOrientation] = useState(0);
   const [inGame, setInGame] = useState(false);
   const [chats, setChats] = useState([]);
   const [socketId, setSocketId] = useState();
@@ -140,7 +141,7 @@ const Game1 = () => {
     window.addEventListener('orientationchange', handleOrientation)
 
     function handleOrientation() {
-      setOrientation(window.screen.orientation.angle)
+      // setOrientation(window.screen.orientation.angle)
       // Scroll to top.
       window.scrollTo(0, 1);
     };
@@ -177,7 +178,7 @@ const Game1 = () => {
       game = (<div className='container'>
         <MenuBar />
         <Navbar />
-        <GameLogin windowSize={windowSize} onGameLogin={onGameLogin} />
+        <GameLogin windowSize={windowSize} onGameLogin={onGameLogin} BGPic={StickBGPic} />
       </div>)
     } else {
       game = (

@@ -6,9 +6,6 @@ import {
 
 import { AuthContext } from '../../context/auth';
 
-
-const StickBGPic = require('./images/StickBGImage.PNG');
-
 const GameLogin = (props) => {
   const [loginPopoverOpen, setLoginPopoverOpen] = useState();
   const [guestPopoverOpen, setGuestPopoverOpen] = useState();
@@ -143,7 +140,7 @@ const GameLogin = (props) => {
         ),
         width: '660px', marginLeft: 'auto', marginRight: 'auto'
       }}>
-        <img src={StickBGPic} alt="Stickmen BG Pic"></img>
+        <img src={props.BGPic} alt="BG Pic"></img>
       </div>
 
     </div >

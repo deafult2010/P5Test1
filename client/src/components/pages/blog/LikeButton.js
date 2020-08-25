@@ -43,14 +43,20 @@ export default function LikeButton({ user, post: { id, likeCount, likes } }) {
 
   return (
     <Popup
-      content={liked ? 'Unlike' : likeCount === 0 ? <strong>Like</strong> : <ul style={{ marginBottom: '0px' }}><li><strong>Like</strong></li><hr style={{ margin: '5px' }} />{likes.map((like) => <li>{like.username}</li>)}</ul>}
+      content={liked ? <strong>Unlike</strong> : <strong>Like</strong>}
       inverted
       trigger={
         <Button as='div' labelPosition='right' onClick={likePost}>
           {likeButton}
-          <Label style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }} pointing='left'>
-            {likeCount}
-          </Label>
+          <Popup
+            content={likeCount === 0 ? 'be the first to like this post' : <ul style={{ marginBottom: '0px' }}>{likes.map((like) => <li>{like.username}</li>)}</ul>}
+            inverted
+            trigger={
+              <Label style={{ backgroundColor: '#ffc062', color: '#008080', border: '1px solid #008080' }} pointing='left'>
+                {likeCount}
+              </Label>
+            }
+          />
         </Button>
       }
     />
