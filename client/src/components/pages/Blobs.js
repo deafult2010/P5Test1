@@ -42,11 +42,15 @@ const Blobs = () => {
   const [inGame, setInGame] = useState(false);
   const [windowSize, setWindowSize] = useState(getSize);
   const [openToggle, setOpenToggle] = useState(false);
+  const [showChat, setShowChat] = useState(true);
   const [chats, setChats] = useState([]);
 
   let game
   const menu = () => {
     setOpenToggle(!openToggle);
+  };
+  const toggleChat = () => {
+    setShowChat(!showChat);
   };
 
   const { user } = useContext(AuthContext);
@@ -189,70 +193,53 @@ const Blobs = () => {
               dataEmit={dataEmit}
               menu={menu}
               openToggle={openToggle}
+              toggleChat={toggleChat}
+              showChat={showChat}
+              user={user}
             />
           </div>
 
           {/* Chat */}
-          <div
-            style={{
-              position: 'absolute',
-              opacity: '0.5',
-              left: Math.min(
-                windowSize.width * (1 - 600 / 1280),
-                (windowSize.height * 16 * (1 - 600 / 1280)) / 9
-              ),
-              top: Math.min(
-                windowSize.height * (1 - 200 / 720),
-                (windowSize.width * 9 * (1 - 200 / 720)) / 16
-              ),
-            }}
-          >
-            <P5Wrapper sketch={stickmenChat} chats={chats} socketId={socketId} user={user} />
-          </div>
-          <div
-            style={{
-              position: 'absolute',
-              left: Math.min(
-                windowSize.width * (1 - 586 / 1280),
-                (windowSize.height * 16 * (1 - 586 / 1280)) / 9
-              ),
-              top: Math.min(
-                windowSize.height * (1 - 34 / 720),
-                (windowSize.width * 9 * (1 - 34 / 720)) / 16
-              ),
-              fontSize: Math.min(
-                (windowSize.width * 16) / 1280,
-                (windowSize.height * 16) / 720
-              ),
-              width: Math.min(
-                windowSize.width * (1 - 702 / 1280),
-                (windowSize.height * 16 * (1 - 702 / 1280)) / 9
-              ),
-            }}
-          >
-            <form
-              onSubmit={onSubmit}
+          <div style={{ display: showChat ? 'none' : 'inline' }}>
+            <div
               style={{
                 position: 'absolute',
-                left: 0,
-                top: 0,
-                fontWeight: 'bold',
-                color: '#0000FF',
-                backgroundColor: '#FFE4B2',
-                borderStyle: 'none',
-                width: '100%',
-                margin: '0px',
+                opacity: '0.5',
+                left: Math.min(
+                  windowSize.width * (1 - 600 / 1280),
+                  (windowSize.height * 16 * (1 - 600 / 1280)) / 9
+                ),
+                top: Math.min(
+                  windowSize.height * (1 - 200 / 720),
+                  (windowSize.width * 9 * (1 - 200 / 720)) / 16
+                ),
+              }}
+            >
+              <P5Wrapper sketch={stickmenChat} chats={chats} socketId={socketId} user={user} />
+            </div>
+            <div
+              style={{
+                position: 'absolute',
+                left: Math.min(
+                  windowSize.width * (1 - 586 / 1280),
+                  (windowSize.height * 16 * (1 - 586 / 1280)) / 9
+                ),
+                top: Math.min(
+                  windowSize.height * (1 - 34 / 720),
+                  (windowSize.width * 9 * (1 - 34 / 720)) / 16
+                ),
                 fontSize: Math.min(
                   (windowSize.width * 16) / 1280,
                   (windowSize.height * 16) / 720
                 ),
-                opacity: '1'
+                width: Math.min(
+                  windowSize.width * (1 - 702 / 1280),
+                  (windowSize.height * 16 * (1 - 702 / 1280)) / 9
+                ),
               }}
             >
-              <input
-                type='text'
-                name='chatbox'
-                value={values.chatbox}
+              <form
+                onSubmit={onSubmit}
                 style={{
                   position: 'absolute',
                   left: 0,
@@ -267,10 +254,32 @@ const Blobs = () => {
                     (windowSize.width * 16) / 1280,
                     (windowSize.height * 16) / 720
                   ),
+                  opacity: '1'
                 }}
-                onChange={onChange}
-              ></input>
-            </form>
+              >
+                <input
+                  type='text'
+                  name='chatbox'
+                  value={values.chatbox}
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    fontWeight: 'bold',
+                    color: '#0000FF',
+                    backgroundColor: '#FFE4B2',
+                    borderStyle: 'none',
+                    width: '100%',
+                    margin: '0px',
+                    fontSize: Math.min(
+                      (windowSize.width * 16) / 1280,
+                      (windowSize.height * 16) / 720
+                    ),
+                  }}
+                  onChange={onChange}
+                ></input>
+              </form>
+            </div>
           </div>
         </div>
       );

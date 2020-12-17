@@ -232,39 +232,61 @@ export default function sketch5(p) {
     this.ratio = sh / heighttowidth;
     this.xpos = xp; // x and y position of bar
     this.ypos = yp;
-    this.spos = this.ypos + this.sheight / 2 - this.swidth / 2; // x position of slider
+    this.spos = this.ypos + this.sheight - this.swidth - this.swidth / 2; // x position of slider
     this.newspos = this.spos;
     this.sposMin = this.ypos + this.swidth; // max and min values of slider //this.width for upbtn
     this.sposMax = this.ypos + this.sheight - this.swidth - this.swidth / 2; // 1.5 this.width for down btn + slider
     this.loose = l; // how loose/heavy
     this.over = false; // is the mouse over the slider?
     this.locked = false;
+    this.pressed = true;
 
     this.update = function () {
-      this.newspos = p.constrain(mwdV, this.sposMin, this.sposMax);
+      this.newspos = p.constrain(mwdV, this.sposMin, this.sposMax + 1);
       if (this.overEvent()) {
         this.over = true;
       } else {
         this.over = false;
       }
-      if (p.mouseIsPressed && this.over) {
+      if (p.mouseIsPressed && this.over && this.pressed !== p.mouseIsPressed) {
         this.locked = true;
       }
-      if (!p.mouseIsPressed) {
+      if (!p.mouseIsPressed || !this.over) {
         this.locked = false;
       }
       if (this.locked) {
-        this.newspos = p.constrain(
-          p.mouseY / scale - this.swidth / 2,
-          this.sposMin,
-          this.sposMax
-        );
+        if (this.spos < p.mouseY / scale - this.swidth / 2) {
+          this.newspos = p.constrain(
+            this.spos + 9,
+            this.sposMin,
+            this.sposMax + 1
+          );
+        } else {
+          this.newspos = p.constrain(
+            this.spos - 9,
+            this.sposMin,
+            this.sposMax + 1
+          )
+        }
         mwdV = this.newspos;
       }
       if (p.abs(this.newspos - this.spos) > 1) {
-        this.spos = this.spos + (this.newspos - this.spos) / this.loose;
+        if (this.spos < this.newspos) {
+          this.spos = this.spos + 3
+        } else {
+          this.spos = this.spos - 3
+        }
+        // this.spos = this.spos + (this.newspos - this.spos) / this.loose;
+      }
+
+      if (!p.mouseIsPressed) {
+        this.pressed = false;
+      } else if (p.mouseIsPressed) {
+        this.pressed = true;
       }
     };
+
+    this.newspos = this.spos
 
     this.overEvent = function () {
       if (

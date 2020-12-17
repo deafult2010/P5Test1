@@ -29,7 +29,12 @@ export default function sketch2(p) {
   var blobIndex;
   var zoom = 1;
   let menuBtn;
+  let chatBtnHide;
+  let chatBtnShow;
   let openToggle;
+  let onChat;
+  let showChat;
+  let user;
 
   var scale;
 
@@ -93,11 +98,21 @@ export default function sketch2(p) {
     }
     p.menu = newProps.menu;
     openToggle = newProps.openToggle;
+    p.toggleChat = newProps.toggleChat;
+    showChat = newProps.showChat;
+    if (newProps.user) {
+      user = newProps.user;
+    }
   };
 
   // Menu
   function openMenu() {
     p.menu();
+  }
+
+  // Chat
+  function toggleChat() {
+    p.toggleChat();
   }
 
   setInterval(function () {
@@ -249,6 +264,27 @@ export default function sketch2(p) {
       },
       openMenu
     );
+    // Toggle Chat
+    chatBtnHide = new Btn(
+      0.9 * (p.width / scale),
+      0.675 * (p.height / scale),
+      0.1 * (p.width / scale),
+      0.05 * (p.height / scale),
+      function () {
+        return 'Hide Chat';
+      },
+      toggleChat
+    );
+    chatBtnShow = new Btn(
+      0.9 * (p.width / scale),
+      0.95 * (p.height / scale),
+      0.1 * (p.width / scale),
+      0.05 * (p.height / scale),
+      function () {
+        return 'Show Chat';
+      },
+      toggleChat
+    );
     //disables "context menu" on right click for the canvas
     p.canvas.oncontextmenu = function (e) {
       e.preventDefault();
@@ -260,7 +296,7 @@ export default function sketch2(p) {
   };
 
   function startGame() {
-    p.dataEmit('start');
+    p.dataEmit('start', user ? user.username : `Guest ${socketId.slice(-2)}`);
     inGame = true;
     Cid = 0;
     gameHist = [];
@@ -313,6 +349,16 @@ export default function sketch2(p) {
     startBtn.clicked();
     exitBtn.clicked();
     menuBtn.clicked();
+    showChat ? chatBtnShow.clicked() : chatBtnHide.clicked();
+
+    // Check if mouse on chat section
+    if ((p.mouseX > 0.98 * p.width &&
+      p.mouseX < p.width &&
+      p.mouseY > 0.7 * p.height &&
+      p.mouseY < p.height) || (p.mouseX > 0.7 * p.width &&
+        p.mouseX < p.width &&
+        p.mouseY > 0.95 * p.height &&
+        p.mouseY < p.height)) { onChat = true } else { onChat = false };
 
     p.background(51);
 
@@ -395,8 +441,8 @@ export default function sketch2(p) {
                 );
                 p.fill(255);
                 p.textAlign(p.CENTER);
-                p.textSize(4);
-                p.text(blobs[i].id, enemyBlobX, enemyBlobY + blobs[i].r * 1.5);
+                p.textSize(10 / zoom);
+                p.text(blobs[i].name, enemyBlobX, enemyBlobY + blobs[i].r * 1.5);
               }
             }
           } else if (id === socketId) {
@@ -415,7 +461,8 @@ export default function sketch2(p) {
             );
 
             // Compute Velocity
-            if (p.mouseIsPressed && !openToggle && p.mouseX > 0 &&
+            if (p.mouseIsPressed && !openToggle && !onChat &&
+              p.mouseX > 0 &&
               p.mouseX < p.width &&
               p.mouseY > 0 &&
               p.mouseY < p.height) {
@@ -457,6 +504,7 @@ export default function sketch2(p) {
         p.text(Math.round(blobs[blobIndex].r), 65, 20);
         exitBtn.show();
         menuBtn.show();
+        showChat ? chatBtnShow.show() : chatBtnHide.show();
       }
     } else {
       startBtn.show();

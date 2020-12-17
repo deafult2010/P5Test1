@@ -111,9 +111,10 @@ for (var i = 0; i < 300; i++) {
 let blobs = [];
 let Sid = 0;
 
-function Blob(id, x, y, r) {
+function Blob(id, name, x, y, r) {
   // SocketID
   this.id = id;
+  this.name = name;
   // X & Y pos
   this.x = x;
   this.y = y;
@@ -241,7 +242,7 @@ function newConnection(socket) {
   socket.on('update', updateGame);
   socket.on('exit', exitGame);
 
-  function startGame() {
+  function startGame(name) {
     // Check socket.id does not already exist:
     let blobIndex = blobs
       .map(function (x) {
@@ -256,6 +257,7 @@ function newConnection(socket) {
     // width and height defined above. Blob radius between 15 and 24
     let blob = new Blob(
       socket.id,
+      name,
       Math.floor(Math.random() * width * 4 - width * 2),
       Math.floor(Math.random() * height * 4 - height * 2),
       Math.floor(Math.random() * (24 - 15 + 1)) + 15
@@ -344,7 +346,7 @@ function newConnection(socket) {
   // Listen for chatMessage
   socket.on('chatMessage', (values) => {
     console.log(values)
-    io.emit('message', formatMessage(values.username ? values.username : socket.id, values.chatbox))
+    io.emit('message', formatMessage(values.username ? values.username : `Guest ${socket.id.slice(-2)}`, values.chatbox))
   })
 
 
