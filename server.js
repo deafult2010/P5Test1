@@ -111,7 +111,7 @@ for (var i = 0; i < 300; i++) {
 let blobs = [];
 let Sid = 0;
 
-function Blob(id, name, x, y, r) {
+function Blob(id, name, x, y, r, rank) {
   // SocketID
   this.id = id;
   this.name = name;
@@ -122,6 +122,7 @@ function Blob(id, name, x, y, r) {
   this.r = r;
   // ServerID
   this.Sid = 0;
+  this.rank = rank;
   this.velx = 0;
   this.vely = 0;
   this.update = function (blobData) {
@@ -260,7 +261,8 @@ function newConnection(socket) {
       name,
       Math.floor(Math.random() * width * 4 - width * 2),
       Math.floor(Math.random() * height * 4 - height * 2),
-      Math.floor(Math.random() * (24 - 15 + 1)) + 15
+      Math.random() * (24 - 15 + 1) + 15,
+      blobs.length + 1
     );
     blobs.push(blob);
   }
@@ -322,6 +324,15 @@ function newConnection(socket) {
             )
           );
         }
+      }
+
+      // Loop through all blobs to rank them:
+      for (var i = blobs.length - 1; i >= 0; i--) {
+
+        var arr = blobs.map(x => x.r);
+        var sorted = arr.slice().sort(function (a, b) { return b - a })
+        var ranks = arr.map(function (v) { return sorted.indexOf(v) + 1 });
+        blobs[i].rank = ranks[i]
       }
     } catch (err) {
       console.log(err);

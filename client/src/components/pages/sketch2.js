@@ -505,6 +505,37 @@ export default function sketch2(p) {
         exitBtn.show();
         menuBtn.show();
         showChat ? chatBtnShow.show() : chatBtnHide.show();
+
+        console.log(blobs[0])
+
+        // Player leaderboard
+        let squareColor = p.color(0, 0, 0);
+        squareColor.setAlpha(64)
+        p.noStroke()
+        p.fill(squareColor)
+        p.rect(0, 30, 100, 120);
+        p.fill(0)
+        p.textSize(16);
+        p.text('Leaderboard', 5, 50);
+        p.textSize(10);
+        try {
+          for (let i = 0; i < blobs.length; i++) {
+            if (i + 1 === blobs[blobIndex].rank) {
+              p.fill(255, 255, 255)
+            } else {
+              p.fill(0)
+            };
+            console.log(blobs[blobIndex].rank)
+
+            p.text(`#${i + 1}`, 5, 70 + i * 10);
+            p.text(blobs[blobs.map(x => x.rank).indexOf(i + 1)].name, 20, 70 + i * 10);
+            p.text(Math.round(blobs[blobs.map(x => x.rank).indexOf(i + 1)].r), 75, 70 + i * 10);
+          }
+        } catch (err) {
+          // If both same rank
+          console.log(err);
+        }
+        console.log(blobs)
       }
     } else {
       startBtn.show();
